@@ -1,0 +1,27 @@
+.news {
+  height: 100%;
+  width: 100%;
+}
+.news_content {
+  display: flex;
+}
+.news_search {
+  margin-left: 20px;
+}
+.news_table {
+  margin-top: 20px;
+}
+.btnDlt {
+  border: none;
+  background: none;
+}
+.btnEdit {
+  border: none;
+  background: none;
+}
+
+.content {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+}
