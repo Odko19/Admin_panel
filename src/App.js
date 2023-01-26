@@ -10,7 +10,6 @@ function App() {
       setUser(JSON.parse(window.localStorage.getItem("user")));
     }
   }, []);
-  console.log(process.env.PORT);
   return <div>{user ? <Main /> : <Login />}</div>;
 }
 

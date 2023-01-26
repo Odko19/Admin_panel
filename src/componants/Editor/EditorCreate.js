@@ -1,15 +1,35 @@
-import React, { Component, useState, useRef, useEffect } from "react";
+import React, {  useState, useRef, useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { useLocation } from "react-router";
 import axios from "axios";
-import { notification } from "antd";
+import { useNavigate } from "react-router-dom";
+import { notification, Radio, Input, DatePicker} from "antd";
 import "../../styles/editor.css";
 
 function EditorCreate() {
+  let navigate = useNavigate();
+
+  const [user, setUser] = useState([]);
+  const [placement, SetPlacement] = useState();
+  const placementChange = (e) => { return SetPlacement(e.target.value);
+
+  };
+  const [userchoise, SetUserchoise] = useState();
+  const userchoiseChange = (e) => { return SetUserchoise(e.target.value);
+
+  };
+
+
+  useEffect(() => {
+    if(localStorage.getItem("user")){
+     setUser(JSON.parse(localStorage.getItem("user")))
+    }
+  }, [])
+
+
   const { state } = useLocation();
 
   const [body, setBody] = useState();
-  const [selectType, setSelectType] = useState();
   const editorRef = useRef(null);
   const log = () => {
     if (editorRef.current) {
@@ -20,32 +40,29 @@ function EditorCreate() {
   const openNotification = (type) => {
     if (type === "error") {
       notification[type]({
-        message: "error",
-        duration: 0,
+        message: "Амжилтгүй",
+        duration: 3,
       });
     } else {
       notification[type]({
-        message: "create",
-        duration: 0,
+        message: "Амжилттай нийтэллээ",
+        duration: 3,
       });
     }
   };
-
-  function handleSelect(e) {
-    e.preventDefault();
-    setSelectType(e.target.value);
-  }
-
+  // Post
   function handleBtnCreate(e) {
     e.preventDefault();
+
     var formdata = new FormData();
     formdata.append("title", e.target.title.value);
     formdata.append("cover_img", e.target.image.files[0]);
     formdata.append("body", body);
-    formdata.append("created_by", "1");
+    formdata.append("created_by", user?.id);
     if (state === "news") {
-      formdata.append("type", e.target.select.value);
-      if (selectType === "bonus") {
+      formdata.append("type", placement);
+      formdata.append("customer_type", userchoise);
+      if (placement === "bonus") {
         formdata.append("expires_at", e.target.expire.value);
       }
     }
@@ -54,11 +71,13 @@ function EditorCreate() {
       body: formdata,
       redirect: "follow",
     };
-    fetch(`http://localhost:3001/v1/${state}`, requestOptions)
+
+    fetch(`${process.env.REACT_APP_BASE_URL}/${state}`, requestOptions)
       .then((response) => response.json())
-      .then((result) => {
-        if (result.success === true) {
-          openNotification("success");
+      .then(async(result) => { 
+         if (result.success === true) {
+         await openNotification("success");
+         await navigate('/')
         } else {
           openNotification("error");
         }
@@ -69,11 +88,11 @@ function EditorCreate() {
     <div className="news">
       <form onSubmit={handleBtnCreate} className="content">
         <div>
-          <div>
+          <div >
             <div className="input_div">
               <div className="input_div_in">
-                <label className="input_label">Гарчиг</label>
-                <input type="text" name="title" className="input" />
+                <label>Гарчиг</label>
+                <Input style={{height:"32px", width: "70%", marginLeft:"15%"}} type="text" name="title" className="input" />
               </div>
               <div className="input_div_in">
                 <label className="input_label m_left">Нүүр зураг </label>
@@ -86,35 +105,49 @@ function EditorCreate() {
               </div>
             </div>
             {state === "news" ? (
+            <>
               <div className="input_div">
                 <div className="input_div_in">
-                  <label className="input_label">Төрөл</label>
-                  <select
-                    className="input"
-                    name="select"
-                    onChange={handleSelect}
-                  >
-                    <option value="news">Мэдээ</option>
-                    <option value="bonus">Урамшуулал</option>
-                  </select>
+                  <label >Төрөл</label>
+                  <Radio.Group value={placement} onChange={placementChange} style={{ width: "70%",marginLeft: "15%"}}>
+                    <Radio.Button value="news" style={{width:"50%", }}>Мэдээлэл</Radio.Button>
+                    <Radio.Button value="bonus" style={{width:"50%", }}>Урамшуулал</Radio.Button>
+                  </Radio.Group> 
+
                 </div>
-                {selectType === "bonus" ? (
+               
+          
+                {placement === "bonus" ? (
                   <div className="input_div_in">
                     <label className="input_label m_left">Дуусах хугацаа</label>
-                    <input type="date" name="expire" className="input" />
+                    {/* <input type="date" name="expire" className="input" /> */}
+                    <DatePicker className="input" type="date" name="expire"/>
                   </div>
                 ) : (
                   ""
                 )}
               </div>
+
+< label>Төрөл</label>
+<Radio.Group value={userchoise} onChange={userchoiseChange} style={{ width: "35%", marginLeft: "7.5%", marginBottom: 20}}>
+  <Radio.Button style={{width:"50%"}} value="business">Байгууллага</Radio.Button>
+  <Radio.Button style={{width:"50%"}} value="resident">Хувь хүн</Radio.Button>
+</Radio.Group> 
+            </>
             ) : (
               ""
             )}
           </div>
+
+         
+
           <Editor
+          
             onInit={(evt, editor) => (editorRef.current = editor)}
             init={{
+             height: "55vh",
               menubar: true,
+             
               plugins: [
                 "a11ychecker",
                 "advlist",
@@ -168,11 +201,14 @@ function EditorCreate() {
                       let data = new FormData();
                       data.append("file", blobInfo.blob());
                       axios
-                        .post("http://localhost:3001/v1/image/file", data)
+                        .post(
+                          `${process.env.REACT_APP_BASE_URL}/image/file`,
+                          data
+                        )
                         .then(function (res) {
                           res.data.file.map((file) => {
                             return cb(
-                              `http://localhost:3001/v1/uploads/${file}`
+                              `${process.env.REACT_APP_BASE_URL}/uploads/${file}`
                             );
                           });
                         })
@@ -204,11 +240,11 @@ function EditorCreate() {
                         blobInfo.filename()
                       );
                       axios
-                        .post("http://localhost:3001/v1/image", data)
+                        .post(`${process.env.REACT_APP_BASE_URL}/image`, data)
                         .then(function (res) {
                           res.data.images.map((image) => {
-                            return cb(
-                              `http://localhost:3001/v1/uploads/${image}`
+                            return  cb(
+                              ` ${process.env.REACT_APP_BASE_URL}/uploads/${image}`
                             );
                           });
                         })
@@ -224,9 +260,11 @@ function EditorCreate() {
             }}
           />
         </div>
-        <button onClick={log} className="btn_submit">
+        {/* <Button type="primary" onClick={log} className="btn_submit">
           submit
-        </button>
+        </Button> */}
+        <button type="submit" onClick={log} className="btn_submit">   Submit  </button>
+
       </form>
     </div>
   );

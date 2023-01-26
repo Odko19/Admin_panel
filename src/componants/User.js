@@ -10,7 +10,7 @@ function User() {
   const [select, setSelect] = useState();
 
   useEffect(() => {
-    fetch("http://localhost:3001/v1/users")
+    fetch(`${process.env.REACT_APP_BASE_URL}/users`)
       .then((response) => response.json())
       .then((result) => {
         setData(
@@ -39,13 +39,14 @@ function User() {
       title: "Нэр",
       dataIndex: "firstName",
       key: "key",
+      width: "50%",
     },
     {
       title: "Зөвшөөрөл",
       dataIndex: "permission",
       key: "key",
       render: (record) => {
-        return <Tag key={record}>{record}</Tag>;
+        return <Tag color="magenta" key={record}>{record}</Tag>;
       },
     },
     {
@@ -67,8 +68,21 @@ function User() {
       ) : (
         <div>
           <div className="news_content">
-            <Button onClick={handleBtnCreate}>Мэдээ нэмэх</Button>
+            <Button   type="primary" style={{width: "20%"}}  onClick={handleBtnCreate}>Админ нэмэх</Button>
             <Input
+                                    onChange={e => {
+                                      if(e.target.value.length > 0 ){
+                                        const filteredData = data.filter(entry =>
+                                          entry.firstName.toLowerCase().includes(e.target.value)
+                                        );
+                                        setData(filteredData);
+                                      
+                                      } else {
+                                        console.log(e.target.value.length)
+                                        window.location.reload(false);
+                                      }                    
+                                                  }}
+
               placeholder="Нэр"
               className="news_search"
               suffix={<SearchOutlined />}

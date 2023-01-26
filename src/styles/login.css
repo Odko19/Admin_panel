@@ -4,6 +4,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
 }
 .form{
     width: 350px;
@@ -13,10 +14,13 @@
     justify-content: center;
     padding: 10px;
 }
-.btnLogin{
-    background-color: #2957a4;
-    color: #fff;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-}
+.btnLogin
+{
+    background-color: #0066ff !important;
+    width: 350px;
+    border: 2px solid #00ff00;
+    height: 40px;
+    border-radius: 8px;
+    color: white;
+    font-size: 13px !important;
+  }

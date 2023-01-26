@@ -1,13 +1,18 @@
 import React, { useState, useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import axios from "axios";
-import { notification } from "antd";
+import { notification, Radio, Input, DatePicker } from "antd";
 import "../../styles/editor.css";
+import moment from "moment";
 
 function EditorUpdate({ data, type }) {
+  const [placement, SetPlacement] = useState(data.type);
+  const placementChange = (e) => { return SetPlacement(e.target.value);
+  };
+  const [userchoise, SetUserchoise] = useState(data.customer_type);
+  const userchoiseChange = (e) => { return SetUserchoise(e.target.value);
+  };
   const [body, setBody] = useState();
-  const [selectType, setSelectType] = useState();
-
   const editorRef = useRef(null);
   const log = () => {
     if (editorRef.current) {
@@ -19,50 +24,50 @@ function EditorUpdate({ data, type }) {
     if (type === "error") {
       notification[type]({
         message: "error",
-        duration: 0,
+        duration: 3,
       });
     } else {
       notification[type]({
-        message: "update",
-        duration: 0,
+        message: "updated",
+        duration: 3,
       });
     }
   };
 
-  function handleSelect(e) {
-    e.preventDefault();
-    setSelectType(e.target.value);
-  }
 
   function handleBtnEdit(e) {
-    e.preventDefault();
-    var formdata = new FormData();
-    formdata.append("id", data.id);
-    formdata.append("title", e.target.title.value);
-    formdata.append("body", body);
-    formdata.append("created_by", 1);
-    formdata.append("cover_img", e.target.image.files[0]);
-    if (type === "news") {
-      formdata.append("type", e.target.select.value);
-      if (selectType === "bonus") {
-        formdata.append("expires_at", e.target.expire.value);
+      e.preventDefault();
+      var formdata = new FormData();
+      formdata.append("id", data.id);
+      formdata.append("title", e.target.title.value);
+      formdata.append("body", body);
+      formdata.append("created_by", 1);
+      formdata.append("cover_img", e.target.image.files[0]);
+      console.log(e.target.image.files)
+      if (type === "news") {
+        formdata.append("type", placement);
+        formdata.append("customer_type", userchoise);
+        if (placement === "bonus") {
+          formdata.append("expires_at", e.target.expire.value);
+        }
       }
-    }
-    var requestOptions = {
-      method: "PUT",
-      body: formdata,
-      redirect: "follow",
-    };
-    fetch(`http://localhost:3001/v1/${type}`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        if (result.success === true) {
-          openNotification("success");
+      var requestOptions = {
+        method: "PUT",
+        body: formdata,
+        redirect: "follow",
+      };
+      fetch(`${process.env.REACT_APP_BASE_URL}/${type}`, requestOptions)
+        .then((response) => response.json())
+      .then(async(result) => { 
+         if (result.success === true) {
+
+          await openNotification("success");
+         await window.location.reload();
         } else {
           openNotification("error");
         }
       })
-      .catch((error) => console.log("error", error));
+        .catch((error) => console.log("error", error));
   }
   return (
     <div className="news">
@@ -72,7 +77,8 @@ function EditorUpdate({ data, type }) {
             <div className="input_div">
               <div className="input_div_in">
                 <label className="input_label">Гарчиг</label>
-                <input
+                <Input
+                style={{height:"32px", width: "70%", marginLeft:"15%"}}
                   type="text"
                   name="title"
                   className="input"
@@ -91,29 +97,32 @@ function EditorUpdate({ data, type }) {
               </div>
             </div>
             {type === "news" ? (
-              <div className="input_div">
+             <div>
+               <div className="input_div">
                 <div className="input_div_in">
-                  <label className="input_label">Төрөл</label>
-                  <select
-                    className="input"
-                    onChange={handleSelect}
-                    selected
-                    defaultValue={data.type}
-                    name="select"
-                  >
-                    <option value="news">Мэдээ</option>
-                    <option value="bonus">Урамшуулал</option>
-                  </select>
+                  <label>Төрөл</label>
+          <Radio.Group  value={placement} onChange={placementChange} style={{ width: "70%",marginLeft: "15%"}}>
+            <Radio.Button style={{width:"50%"}} value="news">Мэдээлэл</Radio.Button>
+            <Radio.Button style={{width:"50%"}}value="bonus">Урамшуулал</Radio.Button>
+          </Radio.Group>
                 </div>
-                {data.type === "bonus" ? (
+                {placement === "bonus" ? (
                   <div className="input_div_in">
                     <label className="input_label m_left">Дуусах хугацаа</label>
-                    <input type="date" name="expire" className="input" />
+                    <DatePicker  className="input" type="date" name="expire"  defaultValue={moment(data.expires_at)}/>
                   </div>
+                  
                 ) : (
                   ""
                 )}
+                
               </div>
+              <label> Төрөл</label>
+          <Radio.Group value={userchoise} onChange={userchoiseChange} style={{ width: "35%", marginLeft: "7.5%", marginBottom: 20}} >
+                <Radio.Button style={{width:"50%"}} value="business">Байгууллага</Radio.Button>
+                <Radio.Button style={{width:"50%"}} value="resident">Хувь хүн</Radio.Button>
+           </Radio.Group> 
+             </div>
             ) : (
               ""
             )}
@@ -176,11 +185,12 @@ function EditorUpdate({ data, type }) {
                       let data = new FormData();
                       data.append("file", blobInfo.blob());
                       axios
-                        .post("http://localhost:3001/v1/image/file", data)
+                        .post(`${process.env.REACT_APP_BASE_URL}/image/file`, data)
+                        
                         .then(function (res) {
                           res.data.file.map((file) => {
                             return cb(
-                              `http://localhost:3001/v1/uploads/${file}`
+                              `${process.env.REACT_APP_BASE_URL}/uploads/${file}`
                             );
                           });
                         })
@@ -212,11 +222,11 @@ function EditorUpdate({ data, type }) {
                         blobInfo.filename()
                       );
                       axios
-                        .post("http://localhost:3001/v1/image", data)
+                        .post(`${process.env.REACT_APP_BASE_URL}/image`, data)
                         .then(function (res) {
                           res.data.images.map((image) => {
                             return cb(
-                              `http://localhost:3001/v1/uploads/${image}`
+                              `${process.env.REACT_APP_BASE_URL}/uploads/${image}`
                             );
                           });
                         })
@@ -232,9 +242,7 @@ function EditorUpdate({ data, type }) {
             }}
           />
         </div>
-        <button onClick={log} className="btn_submit">
-          submit
-        </button>
+        <button type="submit" onClick={log} className="btn_submit">   Submit  </button>
       </form>
     </div>
   );

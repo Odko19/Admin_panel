@@ -16,17 +16,24 @@
   width: 50%;
   margin-bottom: 15px;
 }
-.input_label {
-  width: 150px;
-}
 .btn_submit {
+  margin: auto;  
   width: 100%;
-  background-color: gray;
   border: none;
   padding: 5px;
   margin-top: 10px;
   border-radius: 5px;
+  background-color: #40a9ff;
+  color: white;
+  height: 33px;
+  font-size: 14px;
 }
+.btn_submit:hover{
+  cursor: pointer;
+  box-shadow: 0 0 5px 7px rgba(230, 230, 230, 0.4);
+  font-size: 15px;
+}
+
 .m_left {
   margin-left: 10px;
 }
@@ -49,4 +56,14 @@ input[type="file"]::file-selector-button:hover {
   background-color: #eee;
   border: 0px;
   border-right: 1px solid #e5e5e5;
+}
+.ant-radio-button-checked,
+.ant-radio-button-inner,
+.ant-radio-button-inner,
+.ant-radio-button-wrapper-checked,
+.ant-radio-button-input:focus,
+.ant-radio-button-inner {
+  background-color: #ff9d5c !important;
+  border-color: #ff9d5c !important;
+  color: black !important;
 }

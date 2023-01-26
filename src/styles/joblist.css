@@ -1,0 +1,39 @@
+.pp {
+    display: flex;
+    flex: 10%;
+}
+
+.job_title {
+    width: 350px;
+    align-items: end;
+    text-align: end;
+  }
+  .input_job1 {
+    width: 100%;
+    display: flex;
+    padding: 10px 0px 10px 0;
+  }
+
+.textarea {
+    height: 100px;
+    width: 100%;
+  }
+  
+  .btn_submit_job {
+    margin: auto;  
+    width: 100%;
+    border: none;
+    padding: 5px;
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: #40a9ff;
+    color: white;
+    height: 33px;
+    font-size: 14px;
+  }
+  .btn_submit_job:hover{
+    cursor: pointer;
+    box-shadow: 0 0 5px 7px rgba(230, 230, 230, 0.4);
+    font-size: 15px;
+  }
+  

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Input, Table, Tag } from "antd";
+import { Button, Input, Table, } from "antd";
 import moment from "moment";
 import EditorUpdate from "./Editor/EditorUpdate";
 import {
@@ -15,7 +15,7 @@ function Account() {
   const [select, setSelect] = useState();
 
   useEffect(() => {
-    fetch("http://localhost:3001/v1/account")
+    fetch(`${process.env.REACT_APP_BASE_URL}/account`)
       .then((response) => response.json())
       .then((result) => {
         setData(
@@ -50,7 +50,7 @@ function Account() {
       redirect: "follow",
     };
 
-    fetch(`http://localhost:3001/v1/account/?id=${id}`, requestOptions)
+    fetch(`${process.env.REACT_APP_BASE_URL}/account/?id=${id}`, requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
@@ -66,11 +66,13 @@ function Account() {
       title: "Огноо",
       dataIndex: "created_at",
       key: "key",
+      width: "15%"
     },
     {
       title: "Засах",
       key: "key",
       dataIndex: "key",
+      width: "15%",
       render: (text, record) => (
         <button className="btnEdit" onClick={() => handleBtnEdit(record)}>
           <EditOutlined />
@@ -81,6 +83,7 @@ function Account() {
       title: "Устгах",
       key: "key",
       dataIndex: "key",
+      width: "15%",
       render: (text, record) => (
         <button className="btnDlt" onClick={() => handlerBtnDlt(record.id)}>
           <DeleteOutlined />
@@ -96,8 +99,21 @@ function Account() {
       ) : (
         <div>
           <div className="news_content">
-            <Button onClick={handleBtnCreate}>Мэдээ нэмэх</Button>
+            <Button  type="primary" style={{width: "20%"}} onClick={handleBtnCreate}>Мэдээ нэмэх</Button>
             <Input
+                 onChange={e => {
+                  if(e.target.value.length > 0 ){
+                    const filteredData = data.filter(entry =>
+                      entry.title.toLowerCase().includes(e.target.value)
+                    );
+                    setData(filteredData);
+                  
+                  } else {
+                    console.log(e.target.value.length)
+                    window.location.reload(false);
+                  }                    
+                              }}
+
               placeholder="Нэр"
               className="news_search"
               suffix={<SearchOutlined />}

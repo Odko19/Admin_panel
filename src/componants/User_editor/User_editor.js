@@ -1,135 +1,130 @@
-import React from "react";
-import { notification } from "antd";
-import "../../styles/product.css";
+import React, {useState} from 'react'
+import { Button, Input, Form, Checkbox, Divider, message} from 'antd';
+import { UserAddOutlined } from '@ant-design/icons';
+function User_editor() {
+//
 
-function User_editor({ data }) {
-  const openNotification = (type) => {
-    if (type === "error") {
-      notification[type]({
-        message: "error",
-        duration: 0,
-      });
-    } else {
-      notification[type]({
-        message: "create",
-        duration: 0,
-      });
-    }
+//
+  //Checkbox
+  const CheckboxGroup = Checkbox.Group;
+const plainOptions = ['Мэдээ / Урамшуулал', 'Ажлын зар', 'Шилэн данс', 'Шинэ захиалга'];
+const defaultCheckedList = ['Мэдээ / Урамшуулал'];
+
+  const [checkedList, setCheckedList] = useState(defaultCheckedList);
+  const [indeterminate, setIndeterminate] = useState(true);
+  const [checkAll, setCheckAll] = useState(false);
+  const onChange = (list) => {
+    setCheckedList(list);
+    setIndeterminate(!!list.length && list.length < plainOptions.length);
+    setCheckAll(list.length === plainOptions.length);
   };
+  const onCheckAllChange = (e) => {
+    setCheckedList(e.target.checked ? plainOptions : []);
+    setIndeterminate(false);
+    setCheckAll(e.target.checked);
+  };
+//Checkbox/>
 
-  function handleBtnUpdate(e) {
-    e.preventDefault();
-    var formdata = new FormData();
-    // formdata.append("product_id", data.product_id);
-    // formdata.append("product_name", e.target.name.value);
-    // formdata.append("product_img", e.target.image.files[0]);
-    // formdata.append("product_price", e.target.price.value);
-    // formdata.append("product_performance", e.target.performance.value);
-    // formdata.append("product_type", e.target.select.value);
-    // formdata.append("created_by", "1");
+    const [password,setPassword] = useState(null);
+    const [firstName, setFirstName] = useState(null);
+  
+    // Post Request
+    const handleSubmit  = () => {
+        
+        var myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
 
-    var requestOptions = {
-      method: "PUT",
-      body: formdata,
-      redirect: "follow",
-    };
+var raw = JSON.stringify({
+  "firstName": firstName,
+  "password": password,
+  "permission": checkedList
+});
 
-    fetch("http://localhost:3001/v1/product", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        if (result.success === true) {
-          openNotification("success");
-        } else {
-          openNotification("error");
-        }
-      })
-      .catch((error) => console.log("error", error));
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: raw,
+  redirect: 'follow'
+};
+
+fetch(`${process.env.REACT_APP_BASE_URL}/users`, requestOptions)
+  .then(response => response.text())
+  .then(result => { if(JSON.parse(result).success === true){
+
+    message.success('Амжилттай бүртгэгдлээ')
+  } else {
+    message.error('Бүртгэл амжилтгүй')
+  }
+    })
+    .catch(error => console.log('error', error));
   }
 
-  function handleBtnCreate(e) {
-    e.preventDefault();
-    var formdata = new FormData();
-    // formdata.append("product_name", e.target.name.value);
-    // formdata.append("product_img", e.target.image.files[0]);
-    // formdata.append("product_price", e.target.price.value);
-    // formdata.append("product_performance", e.target.performance.value);
-    // formdata.append("product_type", e.target.select.value);
-    // formdata.append("created_by", "1");
-
-    var requestOptions = {
-      method: "POST",
-      body: formdata,
-      redirect: "follow",
-    };
-
-    fetch("http://localhost:3001/v1/product", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        if (result.success === true) {
-          openNotification("success");
-        } else {
-          openNotification("error");
+    //
+    const handleInputChange = (e) => {
+        const {id , value} = e.target;
+        if(id === "firstName"){
+            setFirstName(value);
         }
-      })
-      .catch((error) => console.log("error", error));
-  }
+        if(id === "password"){
+            setPassword(value);
+        }
+    }
+    //Signup
+    const onFinish = (values) => {
+        console.log('Success:', values);
+      };
+      const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+      };
+    //
 
+      
   return (
-    <div className="product">
-      {data ? (
-        <form onSubmit={handleBtnUpdate} className="content">
-          <div>
-            <div className="input_div_in_pro">
-              <label className="input_label">Нэр</label>
-              <input
-                type="text"
-                name="name"
-                className="input_pro"
-                defaultValue={data.firstName}
-              />
-            </div>
+    <div className='Adduser_container'>
+  <>
+      <Checkbox indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll}>
+        Check all
+      </Checkbox>
+      <Divider />
+      <CheckboxGroup options={plainOptions} value={checkedList} onChange={onChange} />
+    </>
+    
+{/* Login  */}
 
-            <div className="input_div_in_pro">
-              <label className="input_label">Нууц үг</label>
-              <input
-                type="password"
-                name="password"
-                className="input_pro"
-                defaultValue={data.password}
-              />
-            </div>
-            <div className="input_div_in_pro">
-              <label className="input_label">Зөвшөөрөл</label>
-              <input className="input_pro" />
-            </div>
-          </div>
-          <button className="btn_submit" type="submit">
-            submit
-          </button>
-        </form>
-      ) : (
-        <form onSubmit={handleBtnCreate} className="content">
-          <div>
-            <div className="input_div_in_pro">
-              <label className="input_label">Нэр</label>
-              <input type="text" name="name" className="input_pro" />
-            </div>
+<div style={{marginTop: "20px"}}>
+<Form
+      name="basic" wrapperCol={{ span: 16}} initialValues={{ remember: true, }}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      autoComplete="off">
 
-            <div className="input_div_in_pro">
-              <label className="input_label">Нууц үг</label>
-              <input type="password" name="password" className="input_pro" />
-            </div>
-            <div className="input_div_in_pro">
-              <label className="input_label">Зөвшөөрөл</label>
-            </div>
-          </div>
-          <button className="btn_submit" type="submit">
-            submit
-          </button>
-        </form>
-      )}
+      <Form.Item  name="username"
+        rules={[
+          {
+            required: true,
+            message: 'Нэрээ оруулна уу!',
+          },
+        ]}
+      >
+  <Input  value={firstName} id="firstName" onChange = {(e) => handleInputChange(e)} placeholder="Name"  style={{width: 300}}/>
+      </Form.Item>
+      <Form.Item
+        name="password"
+        rules={[
+          {
+            required: true,
+            message: 'Нууц үгээ оруулна уу!',
+          },
+        ]}
+      >
+    <Input.Password  value={password} id="password" onChange = {(e) => handleInputChange(e)} placeholder="Password"  style={{width: 300}}/>
+      </Form.Item>
+    </Form>
+
+</div>
+<Button htmlType="submit" style={{marginTop: 10}} onClick={()=>handleSubmit()} type="primary" icon={<UserAddOutlined/>}  >  Create
+</Button>
     </div>
-  );
+  )
 }
-
-export default User_editor;
+export default User_editor

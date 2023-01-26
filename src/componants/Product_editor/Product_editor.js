@@ -1,22 +1,37 @@
-import React, { useState } from "react";
-import { notification } from "antd";
+import React, { useState , useEffect} from "react";
 import "../../styles/product.css";
+import {   notification} from 'antd';
+import { useNavigate } from "react-router-dom";
+// import { UploadOutlined } from '@ant-design/icons';
 
 function Product_editor({ data }) {
+  let navigate = useNavigate();
+    // Localstroage 
+    useEffect(() => {
+      if(localStorage.getItem("user")){
+       setUser(JSON.parse(localStorage.getItem("user")))
+      }
+    }, [])
+    //
+  
+// Notification
+    const [user, setUser] = useState([]);
   const openNotification = (type) => {
     if (type === "error") {
       notification[type]({
         message: "error",
-        duration: 0,
+        duration: 3,
       });
     } else {
       notification[type]({
         message: "create",
-        duration: 0,
+        duration: 3,
       });
     }
   };
+//
 
+// Update
   function handleBtnUpdate(e) {
     e.preventDefault();
     var formdata = new FormData();
@@ -26,7 +41,7 @@ function Product_editor({ data }) {
     formdata.append("product_price", e.target.price.value);
     formdata.append("product_performance", e.target.performance.value);
     formdata.append("product_type", e.target.select.value);
-    formdata.append("created_by", "1");
+    formdata.append("created_by", user.id);
 
     var requestOptions = {
       method: "PUT",
@@ -34,7 +49,7 @@ function Product_editor({ data }) {
       redirect: "follow",
     };
 
-    fetch("http://localhost:3001/v1/product", requestOptions)
+    fetch(`${process.env.REACT_APP_BASE_URL}/product`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.success === true) {
@@ -45,7 +60,9 @@ function Product_editor({ data }) {
       })
       .catch((error) => console.log("error", error));
   }
+//
 
+// Create (post)
   function handleBtnCreate(e) {
     e.preventDefault();
     var formdata = new FormData();
@@ -54,7 +71,7 @@ function Product_editor({ data }) {
     formdata.append("product_price", e.target.price.value);
     formdata.append("product_performance", e.target.performance.value);
     formdata.append("product_type", e.target.select.value);
-    formdata.append("created_by", "1");
+    formdata.append("created_by", user.id);
 
     var requestOptions = {
       method: "POST",
@@ -62,17 +79,19 @@ function Product_editor({ data }) {
       redirect: "follow",
     };
 
-    fetch("http://localhost:3001/v1/product", requestOptions)
+    fetch(`${process.env.REACT_APP_BASE_URL}/product`, requestOptions)
       .then((response) => response.json())
-      .then((result) => {
+      .then(async(result) => { 
         if (result.success === true) {
-          openNotification("success");
-        } else {
-          openNotification("error");
-        }
-      })
+        await openNotification("success");
+        await navigate('/product')
+       } else {
+         openNotification("error");
+       }
+     })
       .catch((error) => console.log("error", error));
   }
+//
 
   return (
     <div className="product">
@@ -114,9 +133,10 @@ function Product_editor({ data }) {
                 selected
                 defaultValue={data.product_type}
               >
-                <option value="news">Мэдээ</option>
-                <option value="bonus">Урамшуулал</option>
-                <option value="phone">phone</option>
+              <option value="Telephone">Суурин утас</option>
+                <option value="Modem">Модем</option>
+                <option value="Wife router">Wife router</option>
+                <option value="Grand stream">Grand stream</option>
               </select>
             </div>
             <div className="input_div_in_pro">
@@ -154,10 +174,12 @@ function Product_editor({ data }) {
             </div>
             <div className="input_div_in_pro">
               <label className="input_label_pro">Төрөл</label>
+
               <select className="input_pro" name="select" selected>
-                <option value="news">Мэдээ</option>
-                <option value="bonus">Урамшуулал</option>
-                <option value="phone">phone</option>
+              <option value="Telephone">Суурин утас</option>
+                <option value="Modem">Модем</option>
+                <option value="Wife router">Wife router</option>
+                <option value="Grand stream">Grand stream</option>
               </select>
             </div>
             <div className="input_div_in_pro">
@@ -168,9 +190,8 @@ function Product_editor({ data }) {
               ></textarea>
             </div>
           </div>
-          <button className="btn_submit" type="submit">
-            submit
-          </button>
+
+          <button type="submit"  className="btn_submit">   Submit  </button>
         </form>
       )}
     </div>

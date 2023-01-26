@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Input, Table } from "antd";
+import { Button, Input, Table, notification } from "antd";
 import EditorUpdate from "./Editor/EditorUpdate";
 import moment from "moment";
 import {
@@ -10,13 +10,37 @@ import {
 } from "@ant-design/icons";
 import "../styles/news.css";
 
+
+
 function Content() {
+
   const [data, setData] = useState();
   const [select, setSelect] = useState();
   const [page, setPage] = useState();
 
+// Notif
+
+  const openNotification = (type) => {
+    if (type === "success") {
+      notification[type]({
+        message: "Амжилттай устгагдлаа",
+        duration: 3,
+      });
+    } else {
+      notification[type]({
+        message: "Error",
+        duration: 3,
+      });
+    }
+  };
+
+  // Search
+
+
+//
+
   useEffect(() => {
-    fetch("http://localhost:3001/v1/news/?page=1&limit=6")
+    fetch(`${process.env.REACT_APP_BASE_URL}/news/?page=1&limit=6`)
       .then((response) => response.json())
       .then((result) => {
         setData(
@@ -25,7 +49,8 @@ function Content() {
             created_by: row.created_by,
             created_at: moment(row.created_at).format("L"),
             cover_img: row.cover_img,
-            expires_at: row.expires_at,
+            expires_at: moment(row.expires_at).format("L"),
+            customer_type: row.customer_type,
             type: row.type,
             id: row.id,
             body: row.body,
@@ -47,9 +72,9 @@ function Content() {
       state: "news",
     });
   }
-
+// Pagination
   function handlePageChange(page) {
-    fetch(`http://localhost:3001/v1/news/?page=${page}&limit=6`)
+    fetch(`${process.env.REACT_APP_BASE_URL}/news/?page=${page}&limit=6`)
       .then((response) => response.json())
       .then((result) => {
         setData(
@@ -58,7 +83,8 @@ function Content() {
             created_by: row.created_by,
             created_at: moment(row.created_at).format("L"),
             cover_img: row.cover_img,
-            expires_at: row.expires_at,
+            expires_at: moment(row.expires_at).format("L"),
+            customer_type: row.customer_type,
             type: row.type,
             id: row.id,
             body: row.body,
@@ -69,39 +95,68 @@ function Content() {
       })
       .catch((error) => console.log("error", error));
   }
-
+//
+// Delete
   function handlerBtnDlt(id) {
     var requestOptions = {
       method: "DELETE",
       redirect: "follow",
     };
 
-    fetch(`http://localhost:3001/v1/news/?id=${id}`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
+    fetch(`${process.env.REACT_APP_BASE_URL}/news/?id=${id}`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {console.log(result)
+        if (result.success === true) {
+          openNotification("success");
+        } else {
+          openNotification("error");
+        }
+      })
       .catch((error) => console.log("error", error));
   }
-
+//
   const columns = [
     {
       title: "Гарчиг",
       dataIndex: "title",
-      key: "key",
+      key: "title",
+      width: "60%",
+      render: (text, record) => (
+        <a href="#/" className="TitleLinkto"
+          onClick={() => window.location.href = `http://10.0.10.126:3000/bonus/${record.id}`}>
+         {record.title}
+      </a>),
+
+      onFilter:(text, record)=> { 
+        return record.title.toLowerCase().includes(text.toLowerCase())
+      }
+
     },
+
     {
-      title: "Огноо",
+      title: "Н / Огноо",
       dataIndex: "created_at",
       key: "key",
+
+    },
+    {
+      title: " Д / Огноо",
+      dataIndex: "expires_at",
+      key: "key",
+
     },
     {
       title: "Төрөл",
       dataIndex: "type",
       key: "key",
+      
+
     },
     {
       title: "Засах",
       key: "key",
       dataIndex: "key",
+
       render: (text, record) => (
         <button className="btnEdit" onClick={() => handleBtnEdit(record)}>
           <EditOutlined />
@@ -112,6 +167,7 @@ function Content() {
       title: "Устгах",
       key: "key",
       dataIndex: "key",
+
       render: (text, record) => (
         <button className="btnDlt" onClick={() => handlerBtnDlt(record.id)}>
           <DeleteOutlined />
@@ -127,11 +183,27 @@ function Content() {
       ) : (
         <div>
           <div className="news_content">
-            <Button onClick={handleBtnCreate}>Мэдээ нэмэх</Button>
+            <Button type="primary" style={{width: "20%"}} onClick={handleBtnCreate}>Мэдээ нэмэх</Button>
             <Input
-              placeholder="Нэр"
+           
+            onChange={e => {
+if(e.target.value.length > 0 ){
+  const filteredData = data.filter(entry =>
+    entry.title.toLowerCase().includes(e.target.value)
+  );
+  setData(filteredData);
+
+} else {
+  console.log(e.target.value.length)
+  window.location.reload(false);
+}
+          
+            }}
+          
+              placeholder="Нэрээ оруулна уу"
               className="news_search"
-              suffix={<SearchOutlined />}
+              suffix={
+              <SearchOutlined        />}
             />
           </div>
           <Table

@@ -1,0 +1,29 @@
+table {
+    border: none;
+     width: 100%;
+     border-collapse: collapse;
+   }
+   
+   td {
+     position: relative;
+     padding: 16px 16px;
+     border: none;
+     border-top: 1px solid rgba(5, 5, 5, 0.06);
+   }
+   th {
+     position: relative;
+     padding: 16px 0;
+     font-weight: 600;
+     text-align: start;
+     background: #fafafa;
+     transition-duration: 0.3s;
+     
+     transition-timing-function: ease;
+     transition-delay: 0s;
+     
+   }
+ .b1{
+   border-left: 0.5px solid #ebebeb;
+   padding: 0 0 0 16px;
+ 
+ }
