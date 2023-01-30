@@ -142,12 +142,17 @@ function Content() {
       key: "title",
       width: "60%",
       render: (text, record) => (
-        <a href="#/" className="TitleLinkto"
-          onClick={() => window.location.href = `http://10.0.10.126:3000/bonus/${record.id}`}>
+        (record.type === "bonus" ?         <a href="#" className="TitleLinkto"
+        onClick={() => window.location.href = `${process.env.REACT_APP_PUSH_URL}/bonus/${record.id}`}>
+       {record.title}
+    </a>:        <a href="#" className="TitleLinkto"
+          onClick={() => window.location.href = `${process.env.REACT_APP_PUSH_URL}/news/${record.id}`}>
          {record.title}
-      </a>),
+      </a>
+        )
+      ),
 
-      onFilter:(text, record)=> { 
+      onFilter:(text, record)=> {
         return record.title.toLowerCase().includes(text.toLowerCase())
       }
 
@@ -169,7 +174,7 @@ function Content() {
       title: "Төрөл",
       dataIndex: "type",
       key: "key",
-      render: (text,row) => <a  href="/news">{row["type"]==="news"?"Мэдээ":<li style={{color: "#ff9d5c"}}>Бонус</li>}</a>
+      render: (text,row) => <span style={{color: "#1890ff"}}>{row["type"]==="news"?"Мэдээ":<li style={{color: "#ff9d5c"}}>Бонус</li>}</span>
     },
     {
       title: "Засах",

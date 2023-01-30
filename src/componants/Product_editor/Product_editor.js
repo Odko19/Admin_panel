@@ -2,7 +2,6 @@ import React, { useState , useEffect} from "react";
 import "../../styles/product.css";
 import {   notification} from 'antd';
 import { useNavigate } from "react-router-dom";
-// import { UploadOutlined } from '@ant-design/icons';
 
 function Product_editor({ data }) {
   let navigate = useNavigate();
@@ -67,7 +66,7 @@ function Product_editor({ data }) {
       .then(async(result) => {
         if (result.success === true) {
           await openNotifUpdate("success");
-          await navigate('/')
+          
         } else {
           openNotifUpdate("error");
         }

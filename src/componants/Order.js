@@ -105,7 +105,7 @@ useEffect(() => {
            
           })
           .catch((error) => console.log("error", error));
-      }, []);
+      }, [modaldata]);
 
       //
 
@@ -184,16 +184,16 @@ const columns = [
         width: "32%",
         dataIndex: ['CITY', 'DISTRICT'],
         key: 'address',
-        render: (text,row) => <a href="/order" style={{color: "black"}}>{row["CITY"]} {row["DISTRICT"]} 
+        render: (text,row) => <span  style={{color: "black"}}>{row["CITY"]} {row["DISTRICT"]} 
         {/* {row["KHOROO"]} {row["APARTMENT"]} {row["ENTRANCE" ]} орц {row["DOOR"]} тоот */}
-         </a>,
+         </span>,
         },
         {
           title: 'Үзсэн',
           width: "13%",
           dataIndex: 'OPERATOR_STATUS' ,
           key: 'OPERATOR_STATUS',
-          render: (text,row) => <a  href="/order">{row["OPERATOR_STATUS"]===1?"Шивэгдсэн":<li style={{color: "#ff675f"}}>Шивэгдээгүй</li>}</a>
+          render: (text,row) => <span style={{color : "#1890ff"}}>{row["OPERATOR_STATUS"]===1?"Шивэгдсэн":<li style={{color: "#ff675f"}}>Шивэгдээгүй</li>}</span>
         },
         {
           title: 'Дэлгэрэнгүй',

@@ -58,11 +58,9 @@ function EditorUpdate({ data, type }) {
       };
       fetch(`${process.env.REACT_APP_BASE_URL}/${type}`, requestOptions)
         .then((response) => response.json())
-      .then(async(result) => { 
+      .then((result) => { 
          if (result.success === true) {
-
-          await openNotification("success");
-         await window.location.reload();
+           openNotification("success");
         } else {
           openNotification("error");
         }
@@ -170,11 +168,10 @@ function EditorUpdate({ data, type }) {
                 "bold italic alignleft aligncenter alignright alignjustify ",
               automatic_uploads: true,
               file_picker_callback: function (cb, value, meta) {
+                var input = document.createElement("input");
                 if (meta.filetype === "file") {
-                  var input = document.createElement("input");
                   input.setAttribute("type", "file");
                   input.onchange = function () {
-                    // console.log(this.files);
                     var file = this.files[0];
                     var reader = new FileReader();
                     reader.onload = function () {
@@ -203,10 +200,8 @@ function EditorUpdate({ data, type }) {
                   input.click();
                 }
                 if (meta.filetype === "image") {
-                  var input = document.createElement("input");
                   input.setAttribute("type", "file");
                   input.setAttribute("accept", "image/*");
-
                   input.onchange = function () {
                     var file = this.files[0];
                     var reader = new FileReader();

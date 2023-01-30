@@ -84,6 +84,7 @@ function EditorCreate() {
       })
       .catch((error) => console.log("error", error));
   }
+
   return (
     <div className="news">
       <form onSubmit={handleBtnCreate} className="content">
@@ -120,7 +121,6 @@ function EditorCreate() {
                 {placement === "bonus" ? (
                   <div className="input_div_in">
                     <label className="input_label m_left">Дуусах хугацаа</label>
-                    {/* <input type="date" name="expire" className="input" /> */}
                     <DatePicker className="input" type="date" name="expire"/>
                   </div>
                 ) : (
@@ -186,11 +186,11 @@ function EditorCreate() {
                 "bold italic alignleft aligncenter alignright alignjustify ",
               automatic_uploads: true,
               file_picker_callback: function (cb, value, meta) {
+                var input = document.createElement("input");
                 if (meta.filetype === "file") {
-                  var input = document.createElement("input");
+
                   input.setAttribute("type", "file");
                   input.onchange = function () {
-                    // console.log(this.files);
                     var file = this.files[0];
                     var reader = new FileReader();
                     reader.onload = function () {
@@ -221,10 +221,10 @@ function EditorCreate() {
                   input.click();
                 }
                 if (meta.filetype === "image") {
-                  var input = document.createElement("input");
+                  // var input = document.createElement("input");
                   input.setAttribute("type", "file");
                   input.setAttribute("accept", "image/*");
-
+                  
                   input.onchange = function () {
                     var file = this.files[0];
                     var reader = new FileReader();
@@ -260,9 +260,6 @@ function EditorCreate() {
             }}
           />
         </div>
-        {/* <Button type="primary" onClick={log} className="btn_submit">
-          submit
-        </Button> */}
         <button type="submit" onClick={log} className="btn_submit">   Submit  </button>
 
       </form>

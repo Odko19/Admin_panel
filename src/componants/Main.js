@@ -156,7 +156,7 @@ theme={{
             {
               key:"/Web",
               icon: <ChromeOutlined />,
-              label: <a  href="Telecom" onClick={() => openInNewTab('http://10.0.10.126:3000/')} >Вэб хуудас</a>
+              label: <a  href="Telecom" onClick={() => openInNewTab(`${process.env.REACT_APP_PUSH_URL}`)} >Вэб хуудас</a>
             },
           ]}
         />
