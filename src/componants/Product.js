@@ -9,7 +9,6 @@ import {
 } from "@ant-design/icons";
 import { notification } from "antd";
 import "../styles/news.css";
-// import Cards from "./Cards";
 
 function Product() {
   const [data, setData] = useState();
@@ -72,7 +71,6 @@ function Product() {
   function handleBtnCreate() {
     navigate("/product/create");
   }
-
 //
 
 // Pagination
@@ -114,6 +112,26 @@ function Product() {
         
           if (result.success === true) {
             openNotification("success");
+            fetch(`${process.env.REACT_APP_BASE_URL}/product/?page=1&limit=6`)
+            .then((response) => response.json())
+            .then((result) => {
+              setData(
+                result.data.map((row, i) => ({
+                  product_id: row.product_id,
+                  product_img: row.product_img,
+                  product_name: row.product_name,
+                  product_performance: row.product_performance,
+                  product_price: row.product_price,
+                  product_type: row.product_type,
+                  created_by: row.created_by,
+                  created_at: row.created_at,
+                  updated_at: row.updated_at,
+                  key: i,
+                }))
+              );
+              setPage(result);
+            })
+            .catch((error) => console.log("error", error));
           } else {
             openNotification("error");
           }
@@ -203,15 +221,7 @@ function Product() {
               onChange: (page) => handlePageChange(page),
             }}
           />
-        
-          {/* {data?.map((row, index) => 
-          
-               <div  key={index} className="CardGrids">
-
-                  <Cards  product_name={row.product_name} product_price={row.product_price} img={row.product_img}/>
-
-               </div>
-                )} */}
+      
         </div>
       )}
     </div>

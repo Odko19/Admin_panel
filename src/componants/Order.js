@@ -184,7 +184,9 @@ const columns = [
         width: "32%",
         dataIndex: ['CITY', 'DISTRICT'],
         key: 'address',
-        render: (text,row) => <a href="/order" style={{color: "black"}}>{row["CITY"]} {row["DISTRICT"]} {row["KHOROO"]} {row["APARTMENT"]} {row["ENTRANCE" ]} орц {row["DOOR"]} тоот </a>,
+        render: (text,row) => <a href="/order" style={{color: "black"}}>{row["CITY"]} {row["DISTRICT"]} 
+        {/* {row["KHOROO"]} {row["APARTMENT"]} {row["ENTRANCE" ]} орц {row["DOOR"]} тоот */}
+         </a>,
         },
         {
           title: 'Үзсэн',
@@ -216,7 +218,7 @@ const columns = [
        <Modal
        
         title="Дэлгэрэнгүй мэдээлэл"
-      
+        style={{top: 20}}
         open={isModalVisible} 
         onOk={()=>handleOk(modaldata.ID)}
         onCancel={handleCancel}
@@ -226,7 +228,7 @@ const columns = [
         <div className='p2'>Нэр : {modaldata.FIRST_NAME}</div>
         <div className='p1'>Утас : {modaldata.MOBILE}</div>
         <div className='p2'>Регистр : {modaldata.REGISTER}</div>
-        <div className='p1'>Хот/Аймаг: {modaldata.LAST_NAME}</div>
+        <div className='p1'>Хот/Аймаг: {modaldata.CITY}</div>
         <div className='p2'>Дүүрэг / Сум : {modaldata.DISTRICT}</div>
         <div className='p1'>Байр : {modaldata.APARTMENT}</div>
         <div className='p2'>Орц :  {modaldata.ENTRANCE}</div>
@@ -275,6 +277,7 @@ const columns = [
               suffix={<SearchOutlined />}
             />
         <Table 
+style={{ height: '450px' }}
         dataSource={data} columns={columns} 
         pagination={false} 
           />

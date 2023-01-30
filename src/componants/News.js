@@ -105,9 +105,29 @@ function Content() {
 
     fetch(`${process.env.REACT_APP_BASE_URL}/news/?id=${id}`, requestOptions)
       .then((response) => response.json())
-      .then((result) => {console.log(result)
+      .then((result) => {
         if (result.success === true) {
           openNotification("success");
+          fetch(`${process.env.REACT_APP_BASE_URL}/news/?page=1&limit=6`)
+          .then((response) => response.json())
+          .then((result) => {
+            setData(
+              result.data.map((row, i) => ({
+                title: row.title,
+                created_by: row.created_by,
+                created_at: moment(row.created_at).format("L"),
+                cover_img: row.cover_img,
+                expires_at: moment(row.expires_at).format("L"),
+                customer_type: row.customer_type,
+                type: row.type,
+                id: row.id,
+                body: row.body,
+                key: i,
+              }))
+            );
+            setPage(result);
+          })
+          .catch((error) => console.log("error", error));
         } else {
           openNotification("error");
         }
@@ -149,8 +169,7 @@ function Content() {
       title: "Төрөл",
       dataIndex: "type",
       key: "key",
-      
-
+      render: (text,row) => <a  href="/news">{row["type"]==="news"?"Мэдээ":<li style={{color: "#ff9d5c"}}>Бонус</li>}</a>
     },
     {
       title: "Засах",
@@ -207,6 +226,7 @@ if(e.target.value.length > 0 ){
             />
           </div>
           <Table
+style={{ height: '450px' }}
             columns={columns}
             dataSource={data}
             className="news_table"

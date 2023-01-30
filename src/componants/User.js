@@ -15,6 +15,7 @@ function User() {
       .then((result) => {
         setData(
           result.data.map((row, i) => ({
+            id:row.id,
             firstName: row.firstName,
             permission: row.permission,
             password: row.password,
@@ -39,12 +40,13 @@ function User() {
       title: "Нэр",
       dataIndex: "firstName",
       key: "key",
-      width: "50%",
+      width: "45%",
     },
     {
       title: "Зөвшөөрөл",
       dataIndex: "permission",
       key: "key",
+      width: "45%",
       render: (record) => {
         return <Tag color="magenta" key={record}>{record}</Tag>;
       },
@@ -53,6 +55,7 @@ function User() {
       title: "Засах",
       key: "key",
       dataIndex: "key",
+      width: "10%",
       render: (text, record) => (
         <button className="btnEdit" onClick={() => handleBtnEdit(record)}>
           <EditOutlined />
@@ -89,12 +92,11 @@ function User() {
             />
           </div>
           <Table
+          scroll={{ y: 400 }}
             columns={columns}
             dataSource={data}
             className="news_table"
-            pagination={{
-              position: ["bottomCenter"],
-            }}
+            pagination={false} 
           />
         </div>
       )}

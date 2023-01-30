@@ -81,6 +81,24 @@ function Shareholders() {
         
         if (result.success === true) {
           openNotification("success");
+          fetch(`${process.env.REACT_APP_BASE_URL}/shareholders/?page=1&limit=6`)
+          .then((response) => response.json())
+          .then((result) => {
+            setData(
+              result.data.map((row, i) => ({
+                title: row.title,
+                created_by: row.created_by,
+                created_at: moment(row.created_at).format("L"),
+                cover_img: row.cover_img,
+                id: row.id,
+                body: row.body,
+                key: i,
+              }))
+              
+            );
+            setPage(result)
+           })
+          .catch((error) => console.log("error", error));
         } else {
           openNotification("error");
         }

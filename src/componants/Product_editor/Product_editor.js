@@ -24,7 +24,20 @@ function Product_editor({ data }) {
       });
     } else {
       notification[type]({
-        message: "create",
+        message: "Created",
+        duration: 3,
+      });
+    }
+  };
+  const openNotifUpdate = (type) => {
+    if (type === "error") {
+      notification[type]({
+        message: "error",
+        duration: 3,
+      });
+    } else {
+      notification[type]({
+        message: "Updated",
         duration: 3,
       });
     }
@@ -51,11 +64,12 @@ function Product_editor({ data }) {
 
     fetch(`${process.env.REACT_APP_BASE_URL}/product`, requestOptions)
       .then((response) => response.json())
-      .then((result) => {
+      .then(async(result) => {
         if (result.success === true) {
-          openNotification("success");
+          await openNotifUpdate("success");
+          await navigate('/')
         } else {
-          openNotification("error");
+          openNotifUpdate("error");
         }
       })
       .catch((error) => console.log("error", error));

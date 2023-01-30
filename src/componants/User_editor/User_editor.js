@@ -1,9 +1,11 @@
 import React, {useState} from 'react'
 import { Button, Input, Form, Checkbox, Divider, message} from 'antd';
 import { UserAddOutlined } from '@ant-design/icons';
-function User_editor() {
-//
+import { useNavigate } from "react-router-dom";
+function User_editor({data}) {
 
+//
+let navigate = useNavigate();
 //
   //Checkbox
   const CheckboxGroup = Checkbox.Group;
@@ -26,9 +28,45 @@ const defaultCheckedList = ['Мэдээ / Урамшуулал'];
 //Checkbox/>
 
     const [password,setPassword] = useState(null);
-    const [firstName, setFirstName] = useState(null);
-  
-    // Post Request
+    const [firstName, setFirstName] = useState(data? data.firstName: null);
+
+    // UPDate
+  const handleEdit = ()=> {
+
+
+        
+    var myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+
+var raw = JSON.stringify({
+"firstName": firstName,
+"password": password,
+"permission": checkedList,
+"id":data.id,
+});
+
+var requestOptions = {
+method: 'PUT',
+headers: myHeaders,
+body: raw,
+redirect: 'follow'
+};
+
+fetch(`${process.env.REACT_APP_BASE_URL}/users`, requestOptions)
+.then(response => response.text())
+.then(async(result) => { 
+  if(JSON.parse(result).success === true){
+    await navigate('/')
+    await message.success('Амжилттай')
+
+} else {
+message.error('Амжилтгүй')
+}
+})
+.catch(error => console.log('error', error));
+}
+
+    // Post Request SUBMIT CREATE
     const handleSubmit  = () => {
         
         var myHeaders = new Headers();
@@ -49,9 +87,9 @@ var requestOptions = {
 
 fetch(`${process.env.REACT_APP_BASE_URL}/users`, requestOptions)
   .then(response => response.text())
-  .then(result => { if(JSON.parse(result).success === true){
-
-    message.success('Амжилттай бүртгэгдлээ')
+  .then(async(result) => { if(JSON.parse(result).success === true){
+    await navigate('/user')
+    await message.success('Амжилттай бүртгэгдлээ')
   } else {
     message.error('Бүртгэл амжилтгүй')
   }
@@ -80,51 +118,101 @@ fetch(`${process.env.REACT_APP_BASE_URL}/users`, requestOptions)
 
       
   return (
-    <div className='Adduser_container'>
-  <>
-      <Checkbox indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll}>
-        Check all
-      </Checkbox>
-      <Divider />
-      <CheckboxGroup options={plainOptions} value={checkedList} onChange={onChange} />
-    </>
+    data ?<div className='Adduser_container'>
+      
+    <>
+        <Checkbox indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll}>
+          Check all
+        </Checkbox>
+        <Divider />
+        <CheckboxGroup options={plainOptions} value={checkedList} onChange={onChange} />
+      </>
+      
+  {/* Login  */}
+  
+  <div style={{marginTop: "20px"}}>
+  <Form
+        name="basic" wrapperCol={{ span: 16}} initialValues={{ "firstName": data.firstName, }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off">
+  
+        <Form.Item  name="firstName"
+          rules={[
+            {
+              required: true,
+              message: 'Нэрээ оруулна уу!',
+            },
+          ]}
+        >
+    <Input value={firstName} id="firstName" onChange = {(e) => handleInputChange(e)} placeholder="Name"  style={{width: 300}}/>
+        </Form.Item>
+        <Form.Item
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: 'Нууц үгээ оруулна уу!',
+            },
+          ]}
+        >
+      <Input.Password value={password} id="password" onChange = {(e) => handleInputChange(e)} placeholder="Password"  style={{width: 300}}/>
+        </Form.Item>
+  
+  
+      </Form>
+  
+  </div>
+  <Button htmlType="submit" style={{marginTop: 10}} onClick={()=>handleEdit()} type="primary" icon={<UserAddOutlined/>}  >  Edit
+  </Button>
+      </div> : <div className='Adduser_container'>
+      
+      <>
+          <Checkbox indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll}>
+            Check all
+          </Checkbox>
+          <Divider />
+          <CheckboxGroup options={plainOptions} value={checkedList} onChange={onChange} />
+        </>
+        
+    {/* Login  */}
     
-{/* Login  */}
-
-<div style={{marginTop: "20px"}}>
-<Form
-      name="basic" wrapperCol={{ span: 16}} initialValues={{ remember: true, }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      autoComplete="off">
-
-      <Form.Item  name="username"
-        rules={[
-          {
-            required: true,
-            message: 'Нэрээ оруулна уу!',
-          },
-        ]}
-      >
-  <Input  value={firstName} id="firstName" onChange = {(e) => handleInputChange(e)} placeholder="Name"  style={{width: 300}}/>
-      </Form.Item>
-      <Form.Item
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: 'Нууц үгээ оруулна уу!',
-          },
-        ]}
-      >
-    <Input.Password  value={password} id="password" onChange = {(e) => handleInputChange(e)} placeholder="Password"  style={{width: 300}}/>
-      </Form.Item>
-    </Form>
-
-</div>
-<Button htmlType="submit" style={{marginTop: 10}} onClick={()=>handleSubmit()} type="primary" icon={<UserAddOutlined/>}  >  Create
-</Button>
+    <div style={{marginTop: "20px"}}>
+    <Form
+          name="basic" wrapperCol={{ span: 16}} initialValues={{ remember: true, }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off">
+    
+          <Form.Item  name="username"
+            rules={[
+              {
+                required: true,
+                message: 'Нэрээ оруулна уу!',
+              },
+            ]}
+          >
+      <Input  value={firstName} id="firstName" onChange = {(e) => handleInputChange(e)} placeholder="Name"  style={{width: 300}}/>
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: 'Нууц үгээ оруулна уу!',
+              },
+            ]}
+          >
+        <Input.Password  value={password} id="password" onChange = {(e) => handleInputChange(e)} placeholder="Password"  style={{width: 300}}/>
+          </Form.Item>
+    
+    
+        </Form>
+    
     </div>
+    <Button htmlType="submit" style={{marginTop: 10}} onClick={()=>handleSubmit()} type="primary" icon={<UserAddOutlined/>}  >  Create
+    </Button>
+        </div>
   )
 }
 export default User_editor

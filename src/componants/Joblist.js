@@ -21,11 +21,8 @@ function Joblist() {
      setIsModalOpen(true);
      camecv.map((e)=>{
       if(e.cv_workplace_id === record){
-        setCvdata(e.cv_name)
-       
-      }else{
-      console.log("alga")
-      }
+         setCvdata(e.cv_name)
+      } return   ""
      })
   };
   const handleOk = () => {
@@ -74,6 +71,30 @@ function handlerBtnDlt(id) {
 
         if (result.success === true) {
           openNotification("success");
+          fetch(`${process.env.REACT_APP_BASE_URL}/workplace/?page=1&limit=6`)
+    .then((response) => response.json())
+    .then((result) => { 
+      setCamecv(result.cv)
+    
+      setData(
+        result.data.map((row, i) => ({
+          workplace_id: row.workplace_id,
+          workplace_name: row.workplace_name,
+          workplace_role: row.workplace_role,
+          workplace_requirements: row.workplace_requirements,
+          workplace_type: row.workplace_type,
+          created_at: moment(row.created_at).format("L"),
+          expires_at: moment(row.expires_at).format("L"),
+          updated_at: row.updated_at,
+          cv:row,
+          key: i,
+          
+        }))
+      );
+      
+      setPage(result);
+    })
+    .catch((error) => console.log("error", error));
         } else {
           openNotification("error");
         }
@@ -200,9 +221,8 @@ function handlePageChange(page) {
                 <Button type="primary"  onClick={()=>showModal(record.workplace_id)}>
                 Ирсэн CV    
                </Button></Badge>
-              }
+              } return ""
              })
-
             )
           }, 
       ];
@@ -217,6 +237,8 @@ function handlePageChange(page) {
     <Button onClick={handleBtnCreate} type="primary" style={{width: "15%", marginBottom: 20}} >Ажлын зар нэмэх</Button>
  
     <Table dataSource={data} columns={columns} 
+
+style={{ height: '450px' }}
                 pagination={{
                   position: ["bottomCenter"],
                   pageSize: page?.currentPageSize,
@@ -227,7 +249,7 @@ function handlePageChange(page) {
                 )}
                     <Modal 
                   
-                    style={{top: 20}}
+                    style={{top: 20,}}
                     title="Ирсэн CV" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
 {
 

@@ -13,7 +13,7 @@ import News from "./News";
 import User from "./User";
 import "../styles/mainbody.css";
 import {  MenuFoldOutlined,  MenuUnfoldOutlined, FileTextOutlined, DollarCircleOutlined, StockOutlined,
- UserAddOutlined, FileAddOutlined, BoxPlotOutlined, PhoneOutlined} from "@ant-design/icons";
+ UserAddOutlined, FileAddOutlined, BoxPlotOutlined, PhoneOutlined, CheckCircleOutlined } from "@ant-design/icons";
 import ResNumber from "./ResNumber";
 import Addjob from "./Addjob";
 import Order from "./Order";
@@ -47,28 +47,12 @@ function Main() {
         colorPrimaryHover: "#40a9ff",
     }
 
-// const changeTheme = (value) => {
-//   if(!value) {
-//     setCurrentTheme("light")
-//   } else {
-//     setCurrentTheme("dark")
-//   }
-// }
-
-
   const [user, setUser] = useState([]);
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const onSelectMenu = (item) => {
     navigate(item.key);
   };
-
-//   if (window.innerWidth < 1200) {
-//     setCollapsed(true)
-// } else {
-//     setCollapsed(false)
-// }
-
 
 // LocalStroage
   useEffect(() => {
@@ -141,11 +125,7 @@ theme={{
               label: "Бүтээгдэхүүн",
             },
   
-            {
-              key: "/user",
-              icon: <UserAddOutlined />,
-              label: "Админ нэмэх",
-            },
+
             {
               key: "/shareholders",
               icon: <StockOutlined />,
@@ -159,7 +139,7 @@ theme={{
 
             {
               key: "/order",
-              icon: <FileAddOutlined />,
+              icon: <CheckCircleOutlined />,
               label: "Захиалга",
 
             },
@@ -169,9 +149,14 @@ theme={{
               label: "Ажлын зар",
             },
             {
+              key: "/user",
+              icon: <UserAddOutlined />,
+              label: "Админ нэмэх",
+            },
+            {
               key:"/Web",
               icon: <ChromeOutlined />,
-              label: <a  href="someLink" onClick={() => openInNewTab('http://10.0.10.126:3000/')} >Вэб хуудас</a>
+              label: <a  href="Telecom" onClick={() => openInNewTab('http://10.0.10.126:3000/')} >Вэб хуудас</a>
             },
           ]}
         />
