@@ -46,7 +46,7 @@ function Account() {
         );
       })
       .catch((error) => console.log("error", error));
-  }, [data]);
+  }, []);
 
   let navigate = useNavigate();
   function handleBtnEdit(record) {

@@ -19,7 +19,7 @@ function Content() {
   const [page, setPage] = useState();
 
 // Notif
-
+// let url=`http://localhost:3000/${}`;
   const openNotification = (type) => {
     if (type === "success") {
       notification[type]({
@@ -142,10 +142,10 @@ function Content() {
       key: "title",
       width: "60%",
       render: (text, record) => (
-        (record.type === "bonus" ?         <a href="#" className="TitleLinkto"
+        (record.type === "bonus" ?         <a href="/#" className="TitleLinkto"
         onClick={() => window.location.href = `${process.env.REACT_APP_PUSH_URL}/bonus/${record.id}`}>
        {record.title}
-    </a>:        <a href="#" className="TitleLinkto"
+    </a>:        <a href="/#" className="TitleLinkto"
           onClick={() => window.location.href = `${process.env.REACT_APP_PUSH_URL}/news/${record.id}`}>
          {record.title}
       </a>
@@ -182,9 +182,10 @@ function Content() {
       dataIndex: "key",
 
       render: (text, record) => (
+ 
         <button className="btnEdit" onClick={() => handleBtnEdit(record)}>
           <EditOutlined />
-        </button>
+        </button> 
       ),
     },
     {
