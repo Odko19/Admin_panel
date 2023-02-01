@@ -12,7 +12,7 @@ import Product from "./Product";
 import News from "./News";
 import User from "./User";
 import "../styles/mainbody.css";
-import {  MenuFoldOutlined,  MenuUnfoldOutlined, FileTextOutlined, DollarCircleOutlined, StockOutlined,
+import {  MenuFoldOutlined,  MenuUnfoldOutlined, FileTextOutlined, StockOutlined,
  UserAddOutlined, FileAddOutlined, BoxPlotOutlined, PhoneOutlined, CheckCircleOutlined } from "@ant-design/icons";
 import ResNumber from "./ResNumber";
 import Addjob from "./Addjob";
@@ -36,6 +36,7 @@ function Main() {
 
   // Dark Theme
   const [currentTheme, setCurrentTheme] = useState("light");
+  
   const lightTheme ={ 
 
     }
@@ -113,11 +114,11 @@ theme={{
               icon: <FileTextOutlined />,
               label: "Мэдээ / Урамшуулал",
             },
-            {
-              key: "/account",
-              icon: <DollarCircleOutlined />,
-              label: "Шилэн данс",
-            },
+            // {
+            //   key: "/account",
+            //   icon: <DollarCircleOutlined />,
+            //   label: "Шилэн данс",
+            // },
             
             {
               key: "/product",
@@ -156,7 +157,7 @@ theme={{
             {
               key:"/Web",
               icon: <ChromeOutlined />,
-              label: <a  href="Telecom" onClick={() => openInNewTab(`${process.env.REACT_APP_PUSH_URL}`)} >Вэб хуудас</a>
+              label: <a  href="/" onClick={() => openInNewTab(`${process.env.REACT_APP_PUSH_URL}`)} >Вэб хуудас</a>
             },
           ]}
         />

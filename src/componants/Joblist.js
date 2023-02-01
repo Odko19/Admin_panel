@@ -235,7 +235,7 @@ function handlePageChange(page) {
     ) : (
     <div>
     <Button onClick={handleBtnCreate} type="primary" style={{width: "15%", marginBottom: 20}} >Ажлын зар нэмэх</Button>
- 
+  <Button style={{marginLeft: 20, width: "15%"}} onClick={() => window.location.href = `${process.env.REACT_APP_PUSH_URL}/humanresources`} type="primary">Вэб дээр харах</Button>
     <Table dataSource={data} columns={columns} 
 
 style={{ height: '450px' }}

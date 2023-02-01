@@ -138,6 +138,12 @@ function Shareholders() {
       title: "Гарчиг",
       dataIndex: "title",
       key: "key",
+      render: (text, record) => ((
+        <a href="/shareholders#" className="TitleLinkto"
+        onClick={() => window.location.href = `${process.env.REACT_APP_PUSH_URL}/shareholders/holders/news/${record.id}`}>
+       {record.title}
+    </a>)
+      ),
     },
     {
       title: "Огноо",
