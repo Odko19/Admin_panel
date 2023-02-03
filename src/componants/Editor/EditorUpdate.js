@@ -43,7 +43,6 @@ function EditorUpdate({ data, type }) {
       formdata.append("body", body);
       formdata.append("created_by", 1);
       formdata.append("cover_img", e.target.image.files[0]);
-      console.log(e.target.image.files)
       if (type === "news") {
         formdata.append("type", placement);
         formdata.append("customer_type", userchoise);

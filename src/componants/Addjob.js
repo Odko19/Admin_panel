@@ -6,11 +6,10 @@ import moment from "moment";
 const { TextArea } = Input;
 
 function Addjob({select}) {
-  const [placement, SetPlacement] = useState();
+  const [placement, SetPlacement] = useState(select ? select.workplace_type : "");
   const placementChange = (e) => { 
     return SetPlacement(e.target.value);
     };
-
   // Local
   const [user, setUser] = useState([]);
   useEffect(() => {
@@ -19,7 +18,7 @@ function Addjob({select}) {
     }
   }, [])
   //
-
+// moment(new Date("27/04/2016")).format
   // Notification
   const openNotification = (type) => {
     if (type === "error") {
@@ -55,7 +54,6 @@ let navigate = useNavigate();
       e.preventDefault();
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-
 var raw = JSON.stringify({
   "workplace_name": e.target.profession_name.value,
   "workplace_role": e.target.role.value,
@@ -89,14 +87,10 @@ fetch(`${process.env.REACT_APP_BASE_URL}/workplace`, requestOptions)
 //Update 
  function handleBtnUpdate(e) {
   e.preventDefault();
-
-
-
 var myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
-
 var raw = JSON.stringify({
-  "workplace_id":select?.workplace_id,
+    "workplace_id":select?.workplace_id,
     "workplace_name": e.target.profession_name.value,
     "workplace_role": e.target.role.value,
     "workplace_requirements": [e.target.requirements.value],
@@ -104,7 +98,6 @@ var raw = JSON.stringify({
     "created_by": user.id,
     "expires_at": e.target.datecreate.value
 });
-
 var requestOptions = {
   method: 'PUT',
   headers: myHeaders,
@@ -124,20 +117,20 @@ fetch(`${process.env.REACT_APP_BASE_URL}/workplace`, requestOptions)
   })
   .catch(error => console.log('error', error));
 }
-//
+
   return (
 
     <div>
           {select ? (
              <form onSubmit={handleBtnUpdate}>
              <div>
-                    <Radio.Group   value={placement} onChange={placementChange}  style={{marginBottom: "20px"}}>
-                    <Radio.Button value="1" >Инновац бизнес хөгжлийн газар</Radio.Button>
-                        <Radio.Button value="2" >Техник технологийн ашиглалтын газар</Radio.Button>
-                        <Radio.Button value="3" >Санхүү бүртгэл, аж ахуйн газар</Radio.Button>
-                        <Radio.Button value="4" >Удирлага, хүний нөөцийн газар</Radio.Button>
-                        <Radio.Button value="5" >Мэдээлэл технологийн төв</Radio.Button>
-                        <Radio.Button value="6" >Маркетинг борлуулалтын газар</Radio.Button>
+                    <Radio.Group value={placement} onChange={placementChange}  style={{marginBottom: "20px"}}>
+                    <Radio.Button value="Инновац бизнес хөгжлийн газар" >Инновац бизнес хөгжлийн газар</Radio.Button>
+                        <Radio.Button value="Техник технологийн ашиглалтын газар" >Техник технологийн ашиглалтын газар</Radio.Button>
+                        <Radio.Button value="Санхүү бүртгэл, аж ахуйн газар" >Санхүү бүртгэл, аж ахуйн газар</Radio.Button>
+                        <Radio.Button value="Удирлага, хүний нөөцийн газар" >Удирлага, хүний нөөцийн газар</Radio.Button>
+                        <Radio.Button value="Мэдээлэл технологийн төв" >Мэдээлэл технологийн төв</Radio.Button>
+                        <Radio.Button value="Маркетинг борлуулалтын газар" >Маркетинг борлуулалтын газар</Radio.Button>
                            </Radio.Group>
                      
         
@@ -156,8 +149,8 @@ fetch(`${process.env.REACT_APP_BASE_URL}/workplace`, requestOptions)
              </div>
              <div className="input_job1">
           <label className="job_title" ><Tag color="cyan" style={{fontSize : 15}}>Дуусах хугацаа</Tag></label>
-          <DatePicker  name="datecreate" 
-          defaultValue={moment(select.expires_at)}
+          <DatePicker  name="datecreate"
+          defaultValue={moment(new Date(select.expires_at))}
           style={{width: "100%"}} />
         </div>
 
@@ -168,13 +161,13 @@ fetch(`${process.env.REACT_APP_BASE_URL}/workplace`, requestOptions)
       ):( <form onSubmit={handleBtnCreate}>
         <div>
                <Radio.Group   value={placement} onChange={placementChange}   style={{marginBottom: "20px"}}>
-                        <Radio.Button value="1" >Инновац бизнес хөгжлийн газар</Radio.Button>
-                        <Radio.Button value="2" >Техник технологийн ашиглалтын газар</Radio.Button>
-                        <Radio.Button value="3" >Санхүү бүртгэл, аж ахуйн газар</Radio.Button>
-                        <Radio.Button value="4" >Удирлага, хүний нөөцийн газар</Radio.Button>
-                        <Radio.Button value="5" >Мэдээлэл технологийн төв</Radio.Button>
-                        <Radio.Button value="6" >Маркетинг борлуулалтын газар</Radio.Button>
-                      </Radio.Group> 
+                        <Radio.Button value="Инновац бизнес хөгжлийн газар" >Инновац бизнес хөгжлийн газар</Radio.Button>
+                        <Radio.Button value="Техник технологийн ашиглалтын газар" >Техник технологийн ашиглалтын газар</Radio.Button>
+                        <Radio.Button value="Санхүү бүртгэл, аж ахуйн газар" >Санхүү бүртгэл, аж ахуйн газар</Radio.Button>
+                        <Radio.Button value="Удирлага, хүний нөөцийн газар" >Удирлага, хүний нөөцийн газар</Radio.Button>
+                        <Radio.Button value="Мэдээлэл технологийн төв" >Мэдээлэл технологийн төв</Radio.Button>
+                        <Radio.Button value="Маркетинг борлуулалтын газар" >Маркетинг борлуулалтын газар</Radio.Button>
+                      </Radio.Group>
                     
           <div className="input_job1">
           <label className="job_title" ><Tag color="cyan" style={{fontSize : 15,}}>Мэргэжил</Tag></label>

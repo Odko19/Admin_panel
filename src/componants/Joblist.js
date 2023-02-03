@@ -109,7 +109,7 @@ useEffect(() => {
     .then((response) => response.json())
     .then((result) => { 
       setCamecv(result.cv)
-    
+
       setData(
         result.data.map((row, i) => ({
           workplace_id: row.workplace_id,
@@ -117,12 +117,13 @@ useEffect(() => {
           workplace_role: row.workplace_role,
           workplace_requirements: row.workplace_requirements,
           workplace_type: row.workplace_type,
+          workplace_type_value :row.workplace_type_value,
           created_at: moment(row.created_at).format("L"),
           expires_at: moment(row.expires_at).format("L"),
           updated_at: row.updated_at,
           cv:row,
           key: i,
-          
+
         }))
       );
       
