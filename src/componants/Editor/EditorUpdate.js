@@ -199,8 +199,10 @@ function EditorUpdate({ data, type }) {
                   input.click();
                 }
                 if (meta.filetype === "image") {
+                  // var input = document.createElement("input");
                   input.setAttribute("type", "file");
                   input.setAttribute("accept", "image/*");
+                  
                   input.onchange = function () {
                     var file = this.files[0];
                     var reader = new FileReader();
@@ -219,8 +221,8 @@ function EditorUpdate({ data, type }) {
                         .post(`${process.env.REACT_APP_BASE_URL}/image`, data)
                         .then(function (res) {
                           res.data.images.map((image) => {
-                            return cb(
-                              `${process.env.REACT_APP_BASE_URL}/uploads/${image}`
+                            return  cb(
+                              ` ${process.env.REACT_APP_API_URL}/uploads/${image}`
                             );
                           });
                         })

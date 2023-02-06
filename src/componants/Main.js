@@ -13,11 +13,13 @@ import News from "./News";
 import User from "./User";
 import "../styles/mainbody.css";
 import {  MenuFoldOutlined,  MenuUnfoldOutlined, FileTextOutlined, StockOutlined,
- UserAddOutlined, FileAddOutlined, BoxPlotOutlined, PhoneOutlined, CheckCircleOutlined } from "@ant-design/icons";
+ UserAddOutlined, FileAddOutlined, BoxPlotOutlined, PhoneOutlined, CheckCircleOutlined, DollarCircleOutlined , IssuesCloseOutlined} from "@ant-design/icons";
 import ResNumber from "./ResNumber";
 import Addjob from "./Addjob";
 import Order from "./Order";
 import Joblist from "./Joblist";
+import Feedback from "./Feedback";
+import Payment from "./Payment";
 
 //  Logout
 const { Header, Sider, Content} = Layout;
@@ -150,6 +152,16 @@ theme={{
               label: "Ажлын зар",
             },
             {
+              key: "/Payment",
+              icon: <DollarCircleOutlined />,
+              label: "Төлбөр төлөлт",
+            },
+            {
+              key: "/feedback",
+              icon: <IssuesCloseOutlined />,
+              label: "Санал хүсэлт",
+            },
+            {
               key: "/user",
               icon: <UserAddOutlined />,
               label: "Админ нэмэх",
@@ -219,6 +231,8 @@ theme={{
             <Route path="/job" element={<Joblist />} />
             <Route path="/job/create" element={<Addjob />} />
             <Route path="/order" element={<Order />} />
+            <Route path="/feedback" element={<Feedback />} />
+            <Route path="/Payment" element={<Payment />} />
           </Routes>
           </div>
         </Content>

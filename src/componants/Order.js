@@ -77,7 +77,6 @@ useEffect(() => {
         .then((response) => response.json())
         .then((result) => 
         {
-
           setData ( 
             result.data.map((row, i) => ({
             FIRST_NAME: row.FIRST_NAME,
@@ -116,7 +115,7 @@ useEffect(() => {
       .then((response) => response.json())
       .then((result) => {
        
-      setData ( 
+      setData (
         result.data.map((row, i) => ({
         FIRST_NAME: row.FIRST_NAME,
         LAST_NAME: row.LAST_NAME,

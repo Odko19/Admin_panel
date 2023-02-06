@@ -244,7 +244,7 @@ function EditorCreate() {
                         .then(function (res) {
                           res.data.images.map((image) => {
                             return  cb(
-                              ` ${process.env.REACT_APP_BASE_URL}/uploads/${image}`
+                              ` ${process.env.REACT_APP_API_URL}/uploads/${image}`
                             );
                           });
                         })

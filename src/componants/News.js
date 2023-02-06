@@ -34,10 +34,10 @@ function Content() {
     }
   };
 
-  // Search
+  // 
 
 
-//
+// GET
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BASE_URL}/news/?page=1&limit=6`)
