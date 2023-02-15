@@ -241,7 +241,7 @@ style={{ height: '450px' }}
               pageSize: page?.currentPageSize,
               current: page?.currentPage,
               total: page?.totalDatas,
-              onChange: (page) => handlePageChange(page),
+              onChange: (page) => handlePageChange(page)
             }}
           />
         </div>

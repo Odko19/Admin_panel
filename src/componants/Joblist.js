@@ -48,7 +48,7 @@ function Joblist() {
   };
   //
 
-    //
+    //  Edit UPDATE
     let navigate = useNavigate();
     function handleBtnEdit(record) {
       setSelect(record);

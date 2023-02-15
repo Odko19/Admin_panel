@@ -13,12 +13,14 @@ function User() {
     fetch(`${process.env.REACT_APP_BASE_URL}/users`)
       .then((response) => response.json())
       .then((result) => {
+
         setData(
           result.data.map((row, i) => ({
             id:row.id,
             firstName: row.firstName,
             permission: row.permission,
             password: row.password,
+            location: row.location,
             key: i,
           }))
         );

@@ -4,8 +4,8 @@
     margin: 0px;
     padding: 5px;
     vertical-align: middle;
-
     line-height:35px;
+    display: flex;
 
 }
 .p2{
@@ -16,5 +16,6 @@
     padding: 5px;
     vertical-align: middle;
     line-height:35px;
+    display: flex;
 }
     

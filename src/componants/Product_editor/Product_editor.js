@@ -5,14 +5,17 @@ import { useNavigate } from "react-router-dom";
 
 function Product_editor({ data }) {
   let navigate = useNavigate();
-    // Localstroage 
+
+    // Localstroage USER
     useEffect(() => {
       if(localStorage.getItem("user")){
        setUser(JSON.parse(localStorage.getItem("user")))
       }
     }, [])
     //
-  
+
+
+
 // Notification
     const [user, setUser] = useState([]);
   const openNotification = (type) => {
@@ -29,17 +32,19 @@ function Product_editor({ data }) {
     }
   };
   const openNotifUpdate = (type) => {
-    if (type === "error") {
-      notification[type]({
-        message: "error",
-        duration: 3,
-      });
-    } else {
-      notification[type]({
-        message: "Updated",
-        duration: 3,
-      });
-    }
+    setTimeout(() => {
+      if (type === "error") {
+        notification[type]({
+          message: "error",
+          duration: 3,
+        });
+      } else {
+        notification[type]({
+          message: "Updated",
+          duration: 3,
+        });
+      }
+    }, 2000);
   };
 //
 
@@ -65,12 +70,12 @@ function Product_editor({ data }) {
       .then((response) => response.json())
       .then(async(result) => {
         if (result.success === true) {
+          await navigate('/')
           await openNotifUpdate("success");
-          
         } else {
           openNotifUpdate("error");
         }
-      })
+      } )
       .catch((error) => console.log("error", error));
   }
 //

@@ -1,7 +1,8 @@
-import React, {useState} from 'react'
-import { Button, Input, Form, Checkbox, Divider, message} from 'antd';
+import React, {useState,} from 'react'
+import { Button, Input, Form, Checkbox, Divider, message, Select} from 'antd';
 import { UserAddOutlined } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
+
 function User_editor({data}) {
 
 //
@@ -9,12 +10,14 @@ let navigate = useNavigate();
 //
   //Checkbox
   const CheckboxGroup = Checkbox.Group;
-const plainOptions = ['Мэдээ / Урамшуулал', 'Ажлын зар', 'Шилэн данс', 'Шинэ захиалга'];
+const plainOptions = ['Мэдээ / Урамшуулал', 'Ажлын зар', 'Шинэ захиалга'];
 const defaultCheckedList = ['Мэдээ / Урамшуулал'];
 
   const [checkedList, setCheckedList] = useState(defaultCheckedList);
   const [indeterminate, setIndeterminate] = useState(true);
   const [checkAll, setCheckAll] = useState(false);
+  const [location, setLocation] = useState()
+
   const onChange = (list) => {
     setCheckedList(list);
     setIndeterminate(!!list.length && list.length < plainOptions.length);
@@ -27,14 +30,21 @@ const defaultCheckedList = ['Мэдээ / Урамшуулал'];
   };
 //Checkbox/>
 
+//Location 
+const onChangeSelect = (value) => {
+    setLocation(value)
+};
+const onSearch = (value) => {
+  // console.log('search:', value);
+};
+
+//
     const [password,setPassword] = useState(null);
     const [firstName, setFirstName] = useState(data? data.firstName: null);
 
-    // UPDate
+    // UPDate Edit
   const handleEdit = ()=> {
-
-
-        
+  
     var myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
 
@@ -42,6 +52,7 @@ var raw = JSON.stringify({
 "firstName": firstName,
 "password": password,
 "permission": checkedList,
+"location":location,
 "id":data.id,
 });
 
@@ -74,8 +85,9 @@ myHeaders.append("Content-Type", "application/json");
 
 var raw = JSON.stringify({
   "firstName": firstName,
-  "password": password,
-  "permission": checkedList
+  "password": 111111,
+  "permission": checkedList,
+  "location":location
 });
 
 var requestOptions = {
@@ -156,10 +168,114 @@ fetch(`${process.env.REACT_APP_BASE_URL}/users`, requestOptions)
             },
           ]}
         >
-      <Input.Password value={password} id="password" onChange = {(e) => handleInputChange(e)} placeholder="Password"  style={{width: 300}}/>
+        <Select
+        style={{width: "300px"}}
+    showSearch
+    placeholder="Байршилаа"
+    optionFilterProp="children"
+    onChange={onChangeSelect}
+    onSearch={onSearch}
+    filterOption={(input, option) =>
+      (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+    }
+    options={[
+      {
+        value: 'УБ',
+        label: 'Улаанбаатар',
+      },
+      {
+        value: 'Баганхангай',
+        label: 'Баганхангай',
+      },
+      
+      {
+        value: 'Архангай',
+        label: 'Архангай',
+      },
+      {
+        value: 'Баянхонгор',
+        label: 'Баянхонгор',
+      },
+      {
+        value: 'Баян-Өлгий',
+        label: 'Баян-Өлгий',
+      },
+            {
+        value: 'Булган',
+        label: 'Булган',
+      },
+            {
+        value: 'Говь-Алтай',
+        label: 'Говь-Алтай',
+      },
+            {
+        value: 'Говьсүмбэр',
+        label: 'Говьсүмбэр',
+      },
+            {
+        value: 'Дархан-уул',
+        label: 'Дархан-уул',
+      },
+            {
+        value: 'Дорнод',
+        label: 'Дорнод',
+      },
+            {
+        value: 'Дорноговь',
+        label: 'Дорноговь',
+      },
+            {
+        value: 'Дундговь',
+        label: 'Дундговь',
+      },
+            {
+        value: 'Завхан',
+        label: 'Завхан',
+      },
+      {
+        value: 'Орхон',
+        label: 'Завхан',
+      },
+      {
+        value: 'Өвөрхангай',
+        label: 'Завхан',
+      },
+      {
+        value: 'Өмнөговь',
+        label: 'Завхан',
+      },
+      {
+        value: 'Сүхбаатар',
+        label: 'Сүхбаатар',
+      },
+      {
+        value: 'Сэлэнгэ',
+        label: 'Сэлэнгэ',
+      },
+      {
+        value: 'Төв',
+        label: 'Төв',
+      },
+      {
+        value: 'Увс',
+        label: 'Увс',
+      },
+      {
+        value: 'Ховд',
+        label: 'Ховд',
+      },
+      {
+        value: 'Хөвсгөл',
+        label: 'Хөвсгөл',
+      },
+      {
+        value: 'Хэнтий',
+        label: 'Хэнтий',
+      },
+    ]}
+  />
         </Form.Item>
-  
-  
+
       </Form>
   
   </div>
@@ -194,7 +310,7 @@ fetch(`${process.env.REACT_APP_BASE_URL}/users`, requestOptions)
           >
       <Input  value={firstName} id="firstName" onChange = {(e) => handleInputChange(e)} placeholder="Name"  style={{width: 300}}/>
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             name="password"
             rules={[
               {
@@ -204,14 +320,118 @@ fetch(`${process.env.REACT_APP_BASE_URL}/users`, requestOptions)
             ]}
           >
         <Input.Password  value={password} id="password" onChange = {(e) => handleInputChange(e)} placeholder="Password"  style={{width: 300}}/>
-          </Form.Item>
+          </Form.Item> */}
     
-    
+      
+        <Select
+        style={{width: "300px"}}
+    showSearch
+    placeholder="Байршилаа"
+    optionFilterProp="children"
+    onChange={onChangeSelect}
+    onSearch={onSearch}
+    filterOption={(input, option) =>
+      (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+    }
+    options={[
+      {
+        value: 'УБ',
+        label: 'Улаанбаатар',
+      },
+      {
+        value: 'Баганхангай',
+        label: 'Баганхангай',
+      },
+      
+      {
+        value: 'Архангай',
+        label: 'Архангай',
+      },
+      {
+        value: 'Баянхонгор',
+        label: 'Баянхонгор',
+      },
+      {
+        value: 'Баян-Өлгий',
+        label: 'Баян-Өлгий',
+      },
+            {
+        value: 'Булган',
+        label: 'Булган',
+      },
+            {
+        value: 'Говь-Алтай',
+        label: 'Говь-Алтай',
+      },
+            {
+        value: 'Говьсүмбэр',
+        label: 'Говьсүмбэр',
+      },
+            {
+        value: 'Дархан-уул',
+        label: 'Дархан-уул',
+      },
+            {
+        value: 'Дорнод',
+        label: 'Дорнод',
+      },
+            {
+        value: 'Дорноговь',
+        label: 'Дорноговь',
+      },
+            {
+        value: 'Дундговь',
+        label: 'Дундговь',
+      },
+            {
+        value: 'Завхан',
+        label: 'Завхан',
+      },
+      {
+        value: 'Орхон',
+        label: 'Завхан',
+      },
+      {
+        value: 'Өвөрхангай',
+        label: 'Завхан',
+      },
+      {
+        value: 'Өмнөговь',
+        label: 'Завхан',
+      },
+      {
+        value: 'Сүхбаатар',
+        label: 'Сүхбаатар',
+      },
+      {
+        value: 'Сэлэнгэ',
+        label: 'Сэлэнгэ',
+      },
+      {
+        value: 'Төв',
+        label: 'Төв',
+      },
+      {
+        value: 'Увс',
+        label: 'Увс',
+      },
+      {
+        value: 'Ховд',
+        label: 'Ховд',
+      },
+      {
+        value: 'Хөвсгөл',
+        label: 'Хөвсгөл',
+      },
+      {
+        value: 'Хэнтий',
+        label: 'Хэнтий',
+      },
+    ]}
+  />
         </Form>
-    
     </div>
-    <Button htmlType="submit" style={{marginTop: 10}} onClick={()=>handleSubmit()} type="primary" icon={<UserAddOutlined/>}  >  Create
-    </Button>
+    <Button htmlType="submit" style={{marginTop: 10}} onClick={()=>handleSubmit()} type="primary" icon={<UserAddOutlined/>}  >  Create    </Button>
         </div>
   )
 }

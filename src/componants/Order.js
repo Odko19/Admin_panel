@@ -8,6 +8,8 @@ function Order() {
     const [page, setPage] = useState();
     const [user, setUser] = useState([]);
     const [modaldata, setModaldata] = useState([]);
+
+
 //SWITCH
 const [checkValue, setCheckValue] = useState();
 const [checkState, setCheckState] = useState();
@@ -37,7 +39,6 @@ useEffect(() => {
     setModaldata(record);
     setIsModalVisible(true);
     };
-
     const handleOk = (record) => {
  
                       var myHeaders = new Headers();
@@ -72,46 +73,49 @@ useEffect(() => {
     //
     //
 
-    useEffect(() => {
-        fetch(`${process.env.REACT_APP_BASE_URL}/order?page=1&limit=5`)
-        .then((response) => response.json())
-        .then((result) => 
-        {
-          setData ( 
-            result.data.map((row, i) => ({
-            FIRST_NAME: row.FIRST_NAME,
-            LAST_NAME: row.LAST_NAME,
-            CUST_TYPE: row.CUST_TYPE,
-            MOBILE: row.MOBILE,
-            EMAIL: row.EMAIL,
-            CITY: row.CITY,
-            DISTRICT: row.DISTRICT,
-            KHOROO: row.KHOROO,
-            APARTMENT: row.APARTMENT,
-            DOOR: row.DOOR,
-            ENTRANCE: row.ENTRANCE,
-            REGISTER: row.REGISTER,
-            RESULT: row.RESULT,
-            SERVICE: row.SERVICE,
-            ID: row.ID,
-            OPERATOR_ID: row.OPERATOR_ID,
-            OPERATOR_STATUS: row.OPERATOR_STATUS,
-            ADDITIONAL: row.ADDITIONAL,
-            key: i,
-          }))
-          )
-            setPage(result);
-           
-          })
-          .catch((error) => console.log("error", error));
-      }, [modaldata]);
 
-      //
+   // GET
+  useEffect(() => {
+    if (user?.location !== undefined) {
+      fetch(
+        `${process.env.REACT_APP_BASE_URL}/order?page=1&limit=5&location=${user?.location}`
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          setData(
+            result.data.map((row, i) => ({
+              FIRST_NAME: row.FIRST_NAME,
+              LAST_NAME: row.LAST_NAME,
+              CUST_TYPE: row.CUST_TYPE,
+              MOBILE: row.MOBILE,
+              EMAIL: row.EMAIL,
+              CITY: row.CITY,
+              DISTRICT: row.DISTRICT,
+              KHOROO: row.KHOROO,
+              APARTMENT: row.APARTMENT,
+              DOOR: row.DOOR,
+              ENTRANCE: row.ENTRANCE,
+              REGISTER: row.REGISTER,
+              RESULT: row.RESULT,
+              SERVICE: row.SERVICE,
+              ID: row.ID,
+              OPERATOR_ID: row.OPERATOR_ID,
+              OPERATOR_STATUS: row.OPERATOR_STATUS,
+              ADDITIONAL: row.ADDITIONAL,
+              key: i,
+            }))
+          );
+          setPage(result);
+        })
+        .catch((error) => console.log("error", error));
+    }
+  }, [modaldata, user]);
+
+      // Pagination
 
      function handlePageChange(page) 
     {
-
-         fetch(`${process.env.REACT_APP_BASE_URL}/order?page=${page}&limit=5`)
+         fetch(`${process.env.REACT_APP_BASE_URL}/order?page=${page}&limit=5&location=${user?.location}`)
       .then((response) => response.json())
       .then((result) => {
        
@@ -138,7 +142,7 @@ useEffect(() => {
         key: i,
       }))
       )
-     
+      setPage(result);
      
     })
     .catch((error) => console.log("error", error));
@@ -223,18 +227,18 @@ const columns = [
         onCancel={handleCancel}
       >
         <div className='pt'>
-        <div className='p1'>Овог : {modaldata.LAST_NAME}</div>
-        <div className='p2'>Нэр : {modaldata.FIRST_NAME}</div>
-        <div className='p1'>Утас : {modaldata.MOBILE}</div>
-        <div className='p2'>Регистр : {modaldata.REGISTER}</div>
-        <div className='p1'>Хот/Аймаг: {modaldata.CITY}</div>
-        <div className='p2'>Дүүрэг / Сум : {modaldata.DISTRICT}</div>
-        <div className='p1'>Байр : {modaldata.APARTMENT}</div>
-        <div className='p2'>Орц :  {modaldata.ENTRANCE}</div>
-        <div className='p1'>Тоот :  {modaldata.DOOR}</div>
-        <div className='p2'>Хувь хүн / Байгууллага : {modaldata.CUST_TYPE}</div>
-        <div className='p1'>Email : {modaldata.EMAIL}</div>
-        <div className='p1'>Нэмэлт тайлбар: {modaldata.ADDITIONAL}</div>
+        <div className='p1'><div style={{width: "160px"}}>Овог : </div>{modaldata.LAST_NAME}</div>
+        <div className='p2'><div style={{width: "160px"}}>Нэр : </div>{modaldata.FIRST_NAME}</div>
+        <div className='p1'><div style={{width: "160px"}}>Утас : </div>{modaldata.MOBILE}</div>
+        <div className='p2'><div style={{width: "160px"}}>Регистр : </div>{modaldata.REGISTER}</div>
+        <div className='p1'><div style={{width: "160px"}}>Хот/Аймаг: </div>{modaldata.CITY}</div>
+        <div className='p2'><div style={{width: "160px"}}>Дүүрэг / Сум : </div>{modaldata.DISTRICT}</div>
+        <div className='p1'><div style={{width: "160px"}}>Байр : </div>{modaldata.APARTMENT}</div>
+        <div className='p2'><div style={{width: "160px"}}>Орц :  </div>{modaldata.ENTRANCE}</div>
+        <div className='p1'><div style={{width: "160px"}}>Тоот :  </div>{modaldata.DOOR}</div>
+        <div className='p2'><div style={{width: "160px"}}>Хувь хүн / Байгууллага : </div>{modaldata.CUST_TYPE}</div>
+        <div className='p1'><div style={{width: "160px"}}>Email : </div>{modaldata.EMAIL}</div>
+        <div style={{height: "65px"}} className='p2'>Нэмэлт тайлбар: {modaldata.ADDITIONAL}</div>
 
         <p>
                 <>
@@ -278,11 +282,11 @@ const columns = [
         <Table 
 style={{ height: '450px' }}
         dataSource={data} columns={columns} 
-        pagination={false} 
-          />
+  pagination={false}
+          /> 
             <Pagination
           pageSize={1}
-          current={page?.currentPageSize}
+          current={page?.currentPage}
           total={page?.totalPages}
          onChange={(page)=>handlePageChange(page)}
           style={{
@@ -290,6 +294,7 @@ style={{ height: '450px' }}
             marginTop: "20px",
           }}
         />
+       
     </div>
   )
 }

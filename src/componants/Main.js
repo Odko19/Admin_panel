@@ -28,6 +28,8 @@ const handleClickAgain3=() => {
   window.location.href='/login'
 }
 //
+
+
 // Open new tab
 const openInNewTab = url => {
   window.open(url, '_blank', 'noopener,noreferrer');
@@ -64,7 +66,9 @@ function Main() {
     }
   }, [])
 //
-  
+
+
+// const arr =['Мэдээ / Урамшуулал', 'Ажлын зар', 'Шинэ захиалга']
 
   return (
     <ConfigProvider
@@ -110,7 +114,10 @@ theme={{
           }}
           defaultSelectedKeys={"/"}
           onClick={onSelectMenu}
-          items={[
+          items={
+      
+            [
+              
             {
               key: "/",
               icon: <FileTextOutlined />,
@@ -171,7 +178,8 @@ theme={{
               icon: <ChromeOutlined />,
               label: <a  href="/" onClick={() => openInNewTab(`${process.env.REACT_APP_PUSH_URL}`)} >Вэб хуудас</a>
             },
-          ]}
+          ]
+        }
         />
       </Sider>
       <Layout
@@ -224,7 +232,7 @@ theme={{
             <Route path="/shareholders" element={<Shareholders />} />
             <Route path="/product" element={<Product />}></Route>
             <Route path="/editor" element={<EditorCreate />} />
-            <Route path="/product/create" element={<EditorProduct />} />
+            <Route path="/product/create/" element={<EditorProduct />} />
             <Route path="/user" element={<User />} />
             <Route path="/user/create" element={<EditorUser />} />
             <Route path="/numberOrderList" element={<ResNumber />} />

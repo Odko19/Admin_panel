@@ -304,8 +304,7 @@ function ResnumFilter() {
       </table>
       <div>
         <Pagination
-          pageSize={1}
-          current={page?.currentPageSize}
+          current={page?.currentPage}
           total={page?.totalPages}
           onChange={handleChange}
           style={{
