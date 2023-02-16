@@ -7,10 +7,12 @@ import moment from "moment";
 
 function EditorUpdate({ data, type }) {
   const [placement, SetPlacement] = useState(data.type);
-  const placementChange = (e) => { return SetPlacement(e.target.value);
+  const placementChange = (e) => {
+    return SetPlacement(e.target.value);
   };
   const [userchoise, SetUserchoise] = useState(data.customer_type);
-  const userchoiseChange = (e) => { return SetUserchoise(e.target.value);
+  const userchoiseChange = (e) => {
+    return SetUserchoise(e.target.value);
   };
   const [body, setBody] = useState();
   const editorRef = useRef(null);
@@ -34,37 +36,36 @@ function EditorUpdate({ data, type }) {
     }
   };
 
-
   function handleBtnEdit(e) {
-      e.preventDefault();
-      var formdata = new FormData();
-      formdata.append("id", data.id);
-      formdata.append("title", e.target.title.value);
-      formdata.append("body", body);
-      formdata.append("created_by", 1);
-      formdata.append("cover_img", e.target.image.files[0]);
-      if (type === "news") {
-        formdata.append("type", placement);
-        formdata.append("customer_type", userchoise);
-        if (placement === "bonus") {
-          formdata.append("expires_at", e.target.expire.value);
-        }
+    e.preventDefault();
+    var formdata = new FormData();
+    formdata.append("id", data.id);
+    formdata.append("title", e.target.title.value);
+    formdata.append("body", body);
+    formdata.append("created_by", 1);
+    formdata.append("cover_img", e.target.image.files[0]);
+    if (type === "news") {
+      formdata.append("type", placement);
+      formdata.append("customer_type", userchoise);
+      if (placement === "bonus") {
+        formdata.append("expires_at", e.target.expire.value);
       }
-      var requestOptions = {
-        method: "PUT",
-        body: formdata,
-        redirect: "follow",
-      };
-      fetch(`${process.env.REACT_APP_BASE_URL}/${type}`, requestOptions)
-        .then((response) => response.json())
-      .then((result) => { 
-         if (result.success === true) {
-           openNotification("success");
+    }
+    var requestOptions = {
+      method: "PUT",
+      body: formdata,
+      redirect: "follow",
+    };
+    fetch(`${process.env.REACT_APP_BASE_URL}/${type}`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.success === true) {
+          openNotification("success");
         } else {
           openNotification("error");
         }
       })
-        .catch((error) => console.log("error", error));
+      .catch((error) => console.log("error", error));
   }
   return (
     <div className="news">
@@ -75,7 +76,7 @@ function EditorUpdate({ data, type }) {
               <div className="input_div_in">
                 <label className="input_label">Гарчиг</label>
                 <Input
-                style={{height:"32px", width: "70%", marginLeft:"15%"}}
+                  style={{ height: "32px", width: "70%", marginLeft: "15%" }}
                   type="text"
                   name="title"
                   className="input"
@@ -94,32 +95,53 @@ function EditorUpdate({ data, type }) {
               </div>
             </div>
             {type === "news" ? (
-             <div>
-               <div className="input_div">
-                <div className="input_div_in">
-                  <label>Төрөл</label>
-          <Radio.Group  value={placement} onChange={placementChange} style={{ width: "70%",marginLeft: "15%"}}>
-            <Radio.Button style={{width:"50%"}} value="news">Мэдээлэл</Radio.Button>
-            <Radio.Button style={{width:"50%"}}value="bonus">Урамшуулал</Radio.Button>
-          </Radio.Group>
-                </div>
-                {placement === "bonus" ? (
+              <div>
+                <div className="input_div">
                   <div className="input_div_in">
-                    <label className="input_label m_left">Дуусах хугацаа</label>
-                    <DatePicker  className="input" type="date" name="expire"  defaultValue={moment(data.expires_at)}/>
+                    <label>Төрөл</label>
+                    <Radio.Group
+                      value={placement}
+                      onChange={placementChange}
+                      style={{ width: "70%", marginLeft: "15%" }}
+                    >
+                      <Radio.Button style={{ width: "50%" }} value="news">
+                        Мэдээлэл
+                      </Radio.Button>
+                      <Radio.Button style={{ width: "50%" }} value="bonus">
+                        Урамшуулал
+                      </Radio.Button>
+                    </Radio.Group>
                   </div>
-                  
-                ) : (
-                  ""
-                )}
-                
+                  {placement === "bonus" ? (
+                    <div className="input_div_in">
+                      <label className="input_label m_left">
+                        Дуусах хугацаа
+                      </label>
+                      <DatePicker
+                        className="input"
+                        type="date"
+                        name="expire"
+                        defaultValue={moment(data.expires_at)}
+                      />
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+                <label> Төрөл</label>
+                <Radio.Group
+                  value={userchoise}
+                  onChange={userchoiseChange}
+                  style={{ width: "35%", marginLeft: "7.5%", marginBottom: 20 }}
+                >
+                  <Radio.Button style={{ width: "50%" }} value="business">
+                    Байгууллага
+                  </Radio.Button>
+                  <Radio.Button style={{ width: "50%" }} value="resident">
+                    Хувь хүн
+                  </Radio.Button>
+                </Radio.Group>
               </div>
-              <label> Төрөл</label>
-          <Radio.Group value={userchoise} onChange={userchoiseChange} style={{ width: "35%", marginLeft: "7.5%", marginBottom: 20}} >
-                <Radio.Button style={{width:"50%"}} value="business">Байгууллага</Radio.Button>
-                <Radio.Button style={{width:"50%"}} value="resident">Хувь хүн</Radio.Button>
-           </Radio.Group> 
-             </div>
             ) : (
               ""
             )}
@@ -181,8 +203,11 @@ function EditorUpdate({ data, type }) {
                       let data = new FormData();
                       data.append("file", blobInfo.blob());
                       axios
-                        .post(`${process.env.REACT_APP_BASE_URL}/image/file`, data)
-                        
+                        .post(
+                          `${process.env.REACT_APP_BASE_URL}/image/file`,
+                          data
+                        )
+
                         .then(function (res) {
                           res.data.file.map((file) => {
                             return cb(
@@ -202,7 +227,7 @@ function EditorUpdate({ data, type }) {
                   // var input = document.createElement("input");
                   input.setAttribute("type", "file");
                   input.setAttribute("accept", "image/*");
-                  
+
                   input.onchange = function () {
                     var file = this.files[0];
                     var reader = new FileReader();
@@ -221,7 +246,7 @@ function EditorUpdate({ data, type }) {
                         .post(`${process.env.REACT_APP_BASE_URL}/image`, data)
                         .then(function (res) {
                           res.data.images.map((image) => {
-                            return  cb(
+                            return cb(
                               ` ${process.env.REACT_APP_API_URL}/uploads/${image}`
                             );
                           });
@@ -238,7 +263,10 @@ function EditorUpdate({ data, type }) {
             }}
           />
         </div>
-        <button type="submit" onClick={log} className="btn_submit">   Submit  </button>
+        <button type="submit" onClick={log} className="btn_submit">
+          {" "}
+          Submit{" "}
+        </button>
       </form>
     </div>
   );

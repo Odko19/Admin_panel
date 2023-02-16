@@ -1,23 +1,29 @@
-import React, { useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/product.css";
-import {   notification} from 'antd';
-import { useNavigate } from "react-router-dom";
+import { notification } from "antd";
+import { useNavigate, useParams } from "react-router-dom";
 
-function Product_editor({ data }) {
+function Product_editor() {
+  const [data, setData] = useState();
+  const [user, setUser] = useState([]);
   let navigate = useNavigate();
+  const { id } = useParams();
 
-    // Localstroage USER
-    useEffect(() => {
-      if(localStorage.getItem("user")){
-       setUser(JSON.parse(localStorage.getItem("user")))
-      }
-    }, [])
-    //
+  // Localstroage USER
+  useEffect(() => {
+    if (localStorage.getItem("user")) {
+      setUser(JSON.parse(localStorage.getItem("user")));
+    }
+    fetch(`${process.env.REACT_APP_BASE_URL}/product/?id=${id}`)
+      .then((response) => response.json())
+      .then((result) => {
+        setData(result);
+      })
+      .catch((error) => console.log("error", error));
+  }, []);
+  //
 
-
-
-// Notification
-    const [user, setUser] = useState([]);
+  // Notification
   const openNotification = (type) => {
     if (type === "error") {
       notification[type]({
@@ -32,23 +38,21 @@ function Product_editor({ data }) {
     }
   };
   const openNotifUpdate = (type) => {
-    setTimeout(() => {
-      if (type === "error") {
-        notification[type]({
-          message: "error",
-          duration: 3,
-        });
-      } else {
-        notification[type]({
-          message: "Updated",
-          duration: 3,
-        });
-      }
-    }, 2000);
+    if (type === "error") {
+      notification[type]({
+        message: "error",
+        duration: 3,
+      });
+    } else {
+      notification[type]({
+        message: "Updated",
+        duration: 3,
+      });
+    }
   };
-//
+  //
 
-// Update
+  // Update
   function handleBtnUpdate(e) {
     e.preventDefault();
     var formdata = new FormData();
@@ -68,19 +72,19 @@ function Product_editor({ data }) {
 
     fetch(`${process.env.REACT_APP_BASE_URL}/product`, requestOptions)
       .then((response) => response.json())
-      .then(async(result) => {
+      .then((result) => {
         if (result.success === true) {
-          await navigate('/')
-          await openNotifUpdate("success");
+          openNotifUpdate("success");
+          navigate("/product");
         } else {
           openNotifUpdate("error");
         }
-      } )
+      })
       .catch((error) => console.log("error", error));
   }
-//
+  //
 
-// Create (post)
+  // Create (post)
   function handleBtnCreate(e) {
     e.preventDefault();
     var formdata = new FormData();
@@ -99,21 +103,20 @@ function Product_editor({ data }) {
 
     fetch(`${process.env.REACT_APP_BASE_URL}/product`, requestOptions)
       .then((response) => response.json())
-      .then(async(result) => { 
+      .then((result) => {
         if (result.success === true) {
-        await openNotification("success");
-        await navigate('/product')
-       } else {
-         openNotification("error");
-       }
-     })
+          openNotification("success");
+        } else {
+          openNotification("error");
+        }
+      })
       .catch((error) => console.log("error", error));
   }
-//
+  //
 
   return (
     <div className="product">
-      {data ? (
+      {id && data ? (
         <form onSubmit={handleBtnUpdate} className="content">
           <div>
             <div className="input_div_in_pro">
@@ -151,7 +154,7 @@ function Product_editor({ data }) {
                 selected
                 defaultValue={data.product_type}
               >
-              <option value="Telephone">Суурин утас</option>
+                <option value="Telephone">Суурин утас</option>
                 <option value="Modem">Модем</option>
                 <option value="Wife router">Wife router</option>
                 <option value="Grand stream">Grand stream</option>
@@ -194,7 +197,7 @@ function Product_editor({ data }) {
               <label className="input_label_pro">Төрөл</label>
 
               <select className="input_pro" name="select" selected>
-              <option value="Telephone">Суурин утас</option>
+                <option value="Telephone">Суурин утас</option>
                 <option value="Modem">Модем</option>
                 <option value="Wife router">Wife router</option>
                 <option value="Grand stream">Grand stream</option>
@@ -209,7 +212,9 @@ function Product_editor({ data }) {
             </div>
           </div>
 
-          <button type="submit"  className="btn_submit">   Submit  </button>
+          <button type="submit" className="btn_submit">
+            Submit
+          </button>
         </form>
       )}
     </div>

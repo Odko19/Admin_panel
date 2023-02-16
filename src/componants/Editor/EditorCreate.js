@@ -1,9 +1,9 @@
-import React, {  useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { useLocation } from "react-router";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { notification, Radio, Input, DatePicker} from "antd";
+import { notification, Radio, Input, DatePicker } from "antd";
 import "../../styles/editor.css";
 
 function EditorCreate() {
@@ -11,21 +11,19 @@ function EditorCreate() {
 
   const [user, setUser] = useState([]);
   const [placement, SetPlacement] = useState();
-  const placementChange = (e) => { return SetPlacement(e.target.value);
-
+  const placementChange = (e) => {
+    return SetPlacement(e.target.value);
   };
   const [userchoise, SetUserchoise] = useState();
-  const userchoiseChange = (e) => { return SetUserchoise(e.target.value);
-
+  const userchoiseChange = (e) => {
+    return SetUserchoise(e.target.value);
   };
 
-
   useEffect(() => {
-    if(localStorage.getItem("user")){
-     setUser(JSON.parse(localStorage.getItem("user")))
+    if (localStorage.getItem("user")) {
+      setUser(JSON.parse(localStorage.getItem("user")));
     }
-  }, [])
-
+  }, []);
 
   const { state } = useLocation();
 
@@ -74,10 +72,10 @@ function EditorCreate() {
 
     fetch(`${process.env.REACT_APP_BASE_URL}/${state}`, requestOptions)
       .then((response) => response.json())
-      .then(async(result) => { 
-         if (result.success === true) {
-         await openNotification("success");
-         await navigate('/')
+      .then((result) => {
+        if (result.success === true) {
+          openNotification("success");
+          navigate("/");
         } else {
           openNotification("error");
         }
@@ -89,11 +87,16 @@ function EditorCreate() {
     <div className="news">
       <form onSubmit={handleBtnCreate} className="content">
         <div>
-          <div >
+          <div>
             <div className="input_div">
               <div className="input_div_in">
                 <label>Гарчиг</label>
-                <Input style={{height:"32px", width: "70%", marginLeft:"15%"}} type="text" name="title" className="input" />
+                <Input
+                  style={{ height: "32px", width: "70%", marginLeft: "15%" }}
+                  type="text"
+                  name="title"
+                  className="input"
+                />
               </div>
               <div className="input_div_in">
                 <label className="input_label m_left">Нүүр зураг </label>
@@ -106,48 +109,61 @@ function EditorCreate() {
               </div>
             </div>
             {state === "news" ? (
-            <>
-              <div className="input_div">
-                <div className="input_div_in">
-                  <label >Төрөл</label>
-                  <Radio.Group value={placement} onChange={placementChange} style={{ width: "70%",marginLeft: "15%"}}>
-                    <Radio.Button value="news" style={{width:"50%", }}>Мэдээлэл</Radio.Button>
-                    <Radio.Button value="bonus" style={{width:"50%", }}>Урамшуулал</Radio.Button>
-                  </Radio.Group> 
-
-                </div>
-               
-          
-                {placement === "bonus" ? (
+              <>
+                <div className="input_div">
                   <div className="input_div_in">
-                    <label className="input_label m_left">Дуусах хугацаа</label>
-                    <DatePicker className="input" type="date" name="expire"/>
+                    <label>Төрөл</label>
+                    <Radio.Group
+                      value={placement}
+                      onChange={placementChange}
+                      style={{ width: "70%", marginLeft: "15%" }}
+                    >
+                      <Radio.Button value="news" style={{ width: "50%" }}>
+                        Мэдээлэл
+                      </Radio.Button>
+                      <Radio.Button value="bonus" style={{ width: "50%" }}>
+                        Урамшуулал
+                      </Radio.Button>
+                    </Radio.Group>
                   </div>
-                ) : (
-                  ""
-                )}
-              </div>
 
-< label>Төрөл</label>
-<Radio.Group value={userchoise} onChange={userchoiseChange} style={{ width: "35%", marginLeft: "7.5%", marginBottom: 20}}>
-  <Radio.Button style={{width:"50%"}} value="business">Байгууллага</Radio.Button>
-  <Radio.Button style={{width:"50%"}} value="resident">Хувь хүн</Radio.Button>
-</Radio.Group> 
-            </>
+                  {placement === "bonus" ? (
+                    <div className="input_div_in">
+                      <label className="input_label m_left">
+                        Дуусах хугацаа
+                      </label>
+                      <DatePicker className="input" type="date" name="expire" />
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+
+                <label>Төрөл</label>
+                <Radio.Group
+                  value={userchoise}
+                  onChange={userchoiseChange}
+                  style={{ width: "35%", marginLeft: "7.5%", marginBottom: 20 }}
+                >
+                  <Radio.Button style={{ width: "50%" }} value="business">
+                    Байгууллага
+                  </Radio.Button>
+                  <Radio.Button style={{ width: "50%" }} value="resident">
+                    Хувь хүн
+                  </Radio.Button>
+                </Radio.Group>
+              </>
             ) : (
               ""
             )}
           </div>
 
-         
-
           <Editor
-          
             onInit={(evt, editor) => (editorRef.current = editor)}
             init={{
-             height: "55vh",
+              height: "55vh",
               menubar: true,
-             
+
               plugins: [
                 "a11ychecker",
                 "advlist",
@@ -188,7 +204,6 @@ function EditorCreate() {
               file_picker_callback: function (cb, value, meta) {
                 var input = document.createElement("input");
                 if (meta.filetype === "file") {
-
                   input.setAttribute("type", "file");
                   input.onchange = function () {
                     var file = this.files[0];
@@ -224,7 +239,7 @@ function EditorCreate() {
                   // var input = document.createElement("input");
                   input.setAttribute("type", "file");
                   input.setAttribute("accept", "image/*");
-                  
+
                   input.onchange = function () {
                     var file = this.files[0];
                     var reader = new FileReader();
@@ -243,7 +258,7 @@ function EditorCreate() {
                         .post(`${process.env.REACT_APP_BASE_URL}/image`, data)
                         .then(function (res) {
                           res.data.images.map((image) => {
-                            return  cb(
+                            return cb(
                               ` ${process.env.REACT_APP_API_URL}/uploads/${image}`
                             );
                           });
@@ -260,8 +275,10 @@ function EditorCreate() {
             }}
           />
         </div>
-        <button type="submit" onClick={log} className="btn_submit">   Submit  </button>
-
+        <button type="submit" onClick={log} className="btn_submit">
+          {" "}
+          Submit{" "}
+        </button>
       </form>
     </div>
   );
