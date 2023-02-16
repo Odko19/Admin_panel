@@ -17,7 +17,6 @@ function Feedback() {
         fetch(`${process.env.REACT_APP_BASE_URL}/feedback?page=1&limit=6`)
           .then((response) => response.json())
           .then((result) => {
-            console.log(result)
             setData(
               result.data.map((row, i) => ({
                 count:row.count,

@@ -90,6 +90,7 @@ function User_editor({ data }) {
           to: "/user",
         });
       }
+      return arr2
     });
   }
 

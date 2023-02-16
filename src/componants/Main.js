@@ -22,7 +22,7 @@ import Product from "./Product";
 import News from "./News";
 import User from "./User";
 import "../styles/mainbody.css";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import { MenuFoldOutlined, MenuUnfoldOutlined, BoxPlotOutlined, StockOutlined, PhoneOutlined, CheckCircleOutlined, DollarCircleOutlined, IssuesCloseOutlined, UserAddOutlined, FileTextOutlined, FileAddOutlined } from "@ant-design/icons";
 import ResNumber from "./ResNumber";
 import Addjob from "./Addjob";
 import Order from "./Order";
@@ -38,7 +38,6 @@ const handleClickAgain3 = () => {
 };
 //
 function icongiver(icon){
-  console.log(icon);
   if(icon === 'BoxPlotOutlined'){
     return <BoxPlotOutlined/>
   }else if(icon === 'StockOutlined'){
@@ -146,7 +145,7 @@ function Main() {
                 ? user?.permission.map((e) => {
                     return {
                       key: e.to,
-                      // icon: e.icon,
+                      icon: icongiver(e.icon),
                       label: e.name,
                     };
                   })

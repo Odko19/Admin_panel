@@ -20,7 +20,7 @@ function Product_editor() {
         setData(result);
       })
       .catch((error) => console.log("error", error));
-  }, []);
+  }, [id]);
   //
 
   // Notification
