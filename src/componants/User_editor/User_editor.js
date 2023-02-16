@@ -38,7 +38,7 @@ function handlerArr(arr) {
     if (e === "Мэдээ / Урамшуулал") {
       arr2.push({ name: "Мэдээ / Урамшуулал",icon:"FileTextOutlined", to: "/" });
     } else if (e === "Ажлын зар") {
-       arr2.push({ name: "Ажлын зар",icon:"FileTextOutlined", to: "/job" });
+       arr2.push({ name: "Ажлын зар",icon:"FileAddOutlined", to: "/job" });
     } else if(e==="Бүтээгдэхүүн"){
       arr2.push({ name: "Бүтээгдэхүүн",icon:"BoxPlotOutlined", to: "/product" });
     } else if(e==="Хувьцаа эзэмшигч"){

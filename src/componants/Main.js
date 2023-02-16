@@ -34,11 +34,30 @@ const openInNewTab = url => {
   window.open(url, '_blank', 'noopener,noreferrer');
 };
 //
+function icongiver(icon){
+  console.log(icon);
+  if(icon === 'BoxPlotOutlined'){
+    return <BoxPlotOutlined/>
+  }else if(icon === 'StockOutlined'){
+    return <StockOutlined/>
+  }else if(icon ===  'PhoneOutlined'){
+    return <PhoneOutlined/>;
+  }else if(icon ===  'CheckCircleOutlined'){
+    return <CheckCircleOutlined/>;
+  }else if(icon ===  'DollarCircleOutlined'){
+    return <DollarCircleOutlined/>;
+  }else if(icon ===  'IssuesCloseOutlined'){
+    return <IssuesCloseOutlined/>;
+  }else if(icon ===  'UserAddOutlined'){
+    return <UserAddOutlined/>;
+  }else if(icon ===  'FileTextOutlined'){
+    return <FileTextOutlined/>;
+  }else if(icon ===  'FileAddOutlined'){
+    return <FileAddOutlined/>;
+  }
 
+}
 function Main() {
-
-
-
 
   // Dark Theme
   const [currentTheme, setCurrentTheme] = useState("light");
@@ -124,8 +143,8 @@ theme={{
           items={
            Object.values(user).length >0 ?  user?.permission.map((e)=>{
             return {
-              key: e.to,  
-              // icon: e.icon,
+              key: e.to,
+              icon: icongiver(e.icon),
               label: e.name,
             }
           }) :false
