@@ -1,23 +1,25 @@
 import React, {useState,} from 'react'
 import { Button, Input, Form, Checkbox, Divider, message, Select} from 'antd';
-import { UserAddOutlined } from '@ant-design/icons';
+
 import { useNavigate } from "react-router-dom";
+import {  MenuFoldOutlined,  MenuUnfoldOutlined, FileTextOutlined, StockOutlined,
+  UserAddOutlined, FileAddOutlined, BoxPlotOutlined, PhoneOutlined, CheckCircleOutlined, DollarCircleOutlined , IssuesCloseOutlined} from "@ant-design/icons";
 
 function User_editor({data}) {
+  console.log(data)
 
 //
 let navigate = useNavigate();
 //
   //Checkbox
   const CheckboxGroup = Checkbox.Group;
-const plainOptions = ['Мэдээ / Урамшуулал', 'Ажлын зар', 'Шинэ захиалга'];
+const plainOptions = ['Мэдээ / Урамшуулал', 'Ажлын зар', 'Админ нэмэх', 'Санал хүсэлт', 'Төлбөр төлөлт', 'Захиалга', 'Дугаарын мэдээлэл', 'Хувьцаа эзэмшигч', 'Бүтээгдэхүүн'];
 const defaultCheckedList = ['Мэдээ / Урамшуулал'];
 
   const [checkedList, setCheckedList] = useState(defaultCheckedList);
   const [indeterminate, setIndeterminate] = useState(true);
   const [checkAll, setCheckAll] = useState(false);
   const [location, setLocation] = useState()
-
   const onChange = (list) => {
     setCheckedList(list);
     setIndeterminate(!!list.length && list.length < plainOptions.length);
@@ -29,6 +31,36 @@ const defaultCheckedList = ['Мэдээ / Урамшуулал'];
     setCheckAll(e.target.checked);
   };
 //Checkbox/>
+
+const arr2=[];
+function handlerArr(arr) {
+  arr.map((e) => {
+    if (e === "Мэдээ / Урамшуулал") {
+      arr2.push({ name: "Мэдээ / Урамшуулал",icon:"FileTextOutlined", to: "/" });
+    } else if (e === "Ажлын зар") {
+       arr2.push({ name: "Ажлын зар",icon:"FileTextOutlined", to: "/job" });
+    } else if(e==="Бүтээгдэхүүн"){
+      arr2.push({ name: "Бүтээгдэхүүн",icon:"BoxPlotOutlined", to: "/product" });
+    } else if(e==="Хувьцаа эзэмшигч"){
+          arr2.push({ name: "Хувьцаа эзэмшигч",icon:"StockOutlined", to: "/shareholders" });
+    } else if(e==="Дугаарын мэдээлэл"){
+          arr2.push({ name: "Дугаарын мэдээлэл",icon:"PhoneOutlined", to: "/numberorderlist" });
+    } else if(e==="Захиалга"){
+          arr2.push({ name: "Захиалга",icon:"CheckCircleOutlined", to: "/order" });
+    } else if(e==="Төлбөр төлөлт"){
+          arr2.push({ name: "Төлбөр төлөлт",icon:"DollarCircleOutlined", to: "/Payment" });
+    } else if(e==="Санал хүсэлт"){
+          arr2.push({ name: "Санал хүсэлт",icon:"IssuesCloseOutlined", to: "/feedback" });
+    } else if(e==="Админ нэмэх"){
+          arr2.push({ name: "Админ нэмэх",icon:"UserAddOutlined", to: "/user" });
+    } 
+    
+  });
+
+}
+
+handlerArr(checkedList)
+
 
 //Location 
 const onChangeSelect = (value) => {
@@ -51,10 +83,11 @@ myHeaders.append("Content-Type", "application/json");
 var raw = JSON.stringify({
 "firstName": firstName,
 "password": password,
-"permission": checkedList,
+"permission": arr2,
 "location":location,
 "id":data.id,
 });
+
 
 var requestOptions = {
 method: 'PUT',
@@ -86,7 +119,7 @@ myHeaders.append("Content-Type", "application/json");
 var raw = JSON.stringify({
   "firstName": firstName,
   "password": 111111,
-  "permission": checkedList,
+  "permission":arr2,
   "location":location
 });
 

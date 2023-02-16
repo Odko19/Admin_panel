@@ -31,8 +31,9 @@ function User() {
   let navigate = useNavigate();
   function handleBtnEdit(record) {
     setSelect(record);
+    console.log(record)
   }
-
+  
   function handleBtnCreate() {
     navigate("/user/create");
   }
@@ -50,7 +51,9 @@ function User() {
       key: "key",
       width: "45%",
       render: (record) => {
-        return <Tag color="magenta" key={record}>{record}</Tag>;
+    return record.map((e)=>{
+         return <Tag color="magenta" key={e.name}>{e.name}</Tag>;
+    })
       },
     },
     {

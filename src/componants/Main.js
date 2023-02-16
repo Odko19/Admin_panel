@@ -29,7 +29,6 @@ const handleClickAgain3=() => {
 }
 //
 
-
 // Open new tab
 const openInNewTab = url => {
   window.open(url, '_blank', 'noopener,noreferrer');
@@ -37,6 +36,9 @@ const openInNewTab = url => {
 //
 
 function Main() {
+
+
+
 
   // Dark Theme
   const [currentTheme, setCurrentTheme] = useState("light");
@@ -52,7 +54,7 @@ function Main() {
         colorPrimaryHover: "#40a9ff",
     }
 
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState({});
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const onSelectMenu = (item) => {
@@ -62,13 +64,18 @@ function Main() {
 // LocalStroage
   useEffect(() => {
     if(localStorage.getItem("user")){
+      if(window.location.pathname !== JSON.parse(localStorage.getItem("user"))['permission'][0]['to']){
+        window.location.href=JSON.parse(localStorage.getItem("user"))['permission'][0]['to'];
+      }
      setUser(JSON.parse(localStorage.getItem("user")))
     }
   }, [])
+ 
 //
 
+// const arr2 =  [{name:'Мэдээ / Урамшуулал', to:"/"}, {name:'Ажлын зар', to:"job"}, {name:'Шинэ захиалга', to:"/order"}];
 
-// const arr =['Мэдээ / Урамшуулал', 'Ажлын зар', 'Шинэ захиалга']
+
 
   return (
     <ConfigProvider
@@ -115,70 +122,14 @@ theme={{
           defaultSelectedKeys={"/"}
           onClick={onSelectMenu}
           items={
-      
-            [
-              
-            {
-              key: "/",
-              icon: <FileTextOutlined />,
-              label: "Мэдээ / Урамшуулал",
-            },
-            // {
-            //   key: "/account",
-            //   icon: <DollarCircleOutlined />,
-            //   label: "Шилэн данс",
-            // },
-            
-            {
-              key: "/product",
-              icon: <BoxPlotOutlined />,
-              label: "Бүтээгдэхүүн",
-            },
+           Object.values(user).length >0 ?  user?.permission.map((e)=>{
+            return {
+              key: e.to,  
+              // icon: e.icon,
+              label: e.name,
+            }
+          }) :false
   
-
-            {
-              key: "/shareholders",
-              icon: <StockOutlined />,
-              label: "Хувьцаа эзэмшигч",
-            },
-            {
-              key: "/numberorderlist",
-              icon: <PhoneOutlined />,
-              label: "Дугаарын мэдээлэл",
-            },
-
-            {
-              key: "/order",
-              icon: <CheckCircleOutlined />,
-              label: "Захиалга",
-
-            },
-            {
-              key: "/job",
-              icon: <FileAddOutlined />,
-              label: "Ажлын зар",
-            },
-            {
-              key: "/Payment",
-              icon: <DollarCircleOutlined />,
-              label: "Төлбөр төлөлт",
-            },
-            {
-              key: "/feedback",
-              icon: <IssuesCloseOutlined />,
-              label: "Санал хүсэлт",
-            },
-            {
-              key: "/user",
-              icon: <UserAddOutlined />,
-              label: "Админ нэмэх",
-            },
-            {
-              key:"/Web",
-              icon: <ChromeOutlined />,
-              label: <a  href="/" onClick={() => openInNewTab(`${process.env.REACT_APP_PUSH_URL}`)} >Вэб хуудас</a>
-            },
-          ]
         }
         />
       </Sider>

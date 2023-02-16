@@ -27,7 +27,6 @@ function Payment() {
         fetch(`${process.env.REACT_APP_BASE_URL}/payment?page=1&limit=6`)
           .then((response) => response.json())
           .then((result) => {
-            console.log(result)
             setData(
               result.data.map((row, i) => ({
                 
