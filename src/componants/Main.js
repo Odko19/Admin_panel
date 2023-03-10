@@ -22,13 +22,15 @@ import Product from "./Product";
 import News from "./News";
 import User from "./User";
 import "../styles/mainbody.css";
-import { MenuFoldOutlined, MenuUnfoldOutlined, BoxPlotOutlined, StockOutlined, PhoneOutlined, CheckCircleOutlined, DollarCircleOutlined, IssuesCloseOutlined, UserAddOutlined, FileTextOutlined, FileAddOutlined } from "@ant-design/icons";
+import { MenuFoldOutlined, MenuUnfoldOutlined, BoxPlotOutlined, StockOutlined, PhoneOutlined, CheckCircleOutlined, DollarCircleOutlined, IssuesCloseOutlined, UserAddOutlined, FileTextOutlined, FileAddOutlined, FileImageOutlined } from "@ant-design/icons";
 import ResNumber from "./ResNumber";
 import Addjob from "./Addjob";
 import Order from "./Order";
 import Joblist from "./Joblist";
 import Feedback from "./Feedback";
 import Payment from "./Payment";
+import FaceCover from "./FaceCover";
+import UploadCover from "./UploadCover";
 
 //  Logout
 const { Header, Sider, Content } = Layout;
@@ -37,6 +39,7 @@ const handleClickAgain3 = () => {
   window.location.href = "/login";
 };
 //
+
 function icongiver(icon){
   if(icon === 'BoxPlotOutlined'){
     return <BoxPlotOutlined/>
@@ -56,6 +59,8 @@ function icongiver(icon){
     return <FileTextOutlined/>;
   }else if(icon ===  'FileAddOutlined'){
     return <FileAddOutlined/>;
+  }else if(icon ===  'FileImageOutlined'){
+    return <FileImageOutlined />;
   }
 
 }
@@ -92,7 +97,6 @@ function Main() {
       setUser(JSON.parse(localStorage.getItem("user")));
     }
   }, []);
-
   return (
     <ConfigProvider
       theme={{
@@ -224,6 +228,9 @@ function Main() {
                 <Route path="/order" element={<Order />} />
                 <Route path="/feedback" element={<Feedback />} />
                 <Route path="/Payment" element={<Payment />} />
+                <Route path="/cover" element={<FaceCover />} />
+                <Route path="/cover/upload" element={<UploadCover />} />
+
               </Routes>
             </div>
           </Content>

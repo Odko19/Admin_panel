@@ -51,8 +51,8 @@ function User() {
       key: "key",
       width: "45%",
       render: (record) => {
-    return record.map((e)=>{
-         return <Tag color="magenta" key={e.name}>{e.name}</Tag>;
+    return record.map((e, i)=>{
+         return <Tag  color="magenta" key={i}>{e.name}</Tag>;
     })
       },
     },

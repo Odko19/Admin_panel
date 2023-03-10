@@ -62,9 +62,8 @@ useEffect(() => {
                         .then(response => response.text())
                         .then(result => console.log(result))
                         .catch(error => console.log('error', error));
-                          
+                     
     setIsModalVisible(false);
-
     };
 
     const handleCancel = () => {
@@ -239,7 +238,6 @@ const columns = [
         <div className='p2'><div style={{width: "160px"}}>Хувь хүн / Байгууллага : </div>{modaldata.CUST_TYPE}</div>
         <div className='p1'><div style={{width: "160px"}}>Email : </div>{modaldata.EMAIL}</div>
         <div style={{height: "65px"}} className='p2'>Нэмэлт тайлбар: {modaldata.ADDITIONAL}</div>
-
         <p>
                 <>
             {modaldata.OPERATOR_STATUS === null ? (

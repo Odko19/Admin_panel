@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import {SmileTwoTone, MehTwoTone, FrownTwoTone } from "@ant-design/icons";
 import { Table,} from 'antd';
 import "../styles/feedback.css";
 import moment from "moment";
@@ -83,26 +82,24 @@ function handlePageChange(page) {
 
              <div style={{display: "flex",}}>
               
-             <div  className='smilebox1' style={{backgroundColor : "#5ced73"}}>
-              <SmileTwoTone style={{ fontSize: '220%', marginLeft: 10}}/><div  className="countstar">{page?.count.five}</div> 
+             <div  className='smilebox1' style={{backgroundColor : "whitesmoke"}}><span style={{ fontSize: '180%', marginLeft: 10,  margin:"auto"}}>😀</span>
+             <div  className="countstar">{page?.count.five}</div> 
               </div> 
            
-             <div  className='smilebox1' style={{backgroundColor : "#ACDF87"}}>
-              <SmileTwoTone style={{ fontSize: '220%', marginLeft: 10}}/><div  className="countstar">{page?.count.four}</div>
+             <div  className='smilebox1' style={{backgroundColor : "whitesmoke"}}>
+             <span style={{ fontSize: '180%', marginLeft: 10,  margin:"auto"}}>😀</span><div  className="countstar">{page?.count.four}</div>
               </div> 
               
-              <div className='smilebox1' style={{backgroundColor : "#FEFF9E"}}>
-              <MehTwoTone style={{ fontSize: '220%',  marginLeft: 10}}/><div  className="countstar" >{page?.count.three}</div>
+              <div className='smilebox1' style={{backgroundColor : "whitesmoke"}}>
+              <span style={{ fontSize: '180%', marginLeft: 10,  margin:"auto"}}>🫤</span><div  className="countstar" >{page?.count.three}</div>
               </div>
-              <div className='smilebox1' style={{backgroundColor : "#FF9D5C"}}>
-              <FrownTwoTone style={{ fontSize: '220%',  marginLeft: 10}}/> <span   className="countstar">{page?.count.two}</span>
+              <div className='smilebox1' style={{backgroundColor : "whitesmoke"}}>
+              <span style={{ fontSize: '180%', marginLeft: 10, margin:"auto"}}>🙁</span> <span   className="countstar">{page?.count.two}</span>
               </div>
-              <div className='smilebox1' style={{backgroundColor : "#ff8b3d"}}>
-              <FrownTwoTone style={{ fontSize: '220%',  marginLeft: 10}}/><span   className="countstar"> {page?.count.one}</span>
+              <div className='smilebox1' style={{backgroundColor : "whitesmoke"}}>
+              <span style={{ fontSize: '180%', marginLeft: 10,  margin:"auto"}}>🙁</span><span   className="countstar"> {page?.count.one}</span>
               </div>
             </div>
-      
-      
         <Table  
          dataSource={data} style={{marginTop: "20px"}} columns={columns}
           pagination={{

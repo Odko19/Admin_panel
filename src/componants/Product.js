@@ -154,7 +154,7 @@ function Product() {
       dataIndex: "product_type",
       key: "product_type",
     },
-
+ 
     {
       title: "Засах",
       key: "edit",

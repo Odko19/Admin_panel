@@ -17,10 +17,11 @@ function User_editor({ data }) {
     "Дугаарын мэдээлэл",
     "Хувьцаа эзэмшигч",
     "Бүтээгдэхүүн",
+    "Cover зураг"
   ];
   const defaultCheckedList = ["Мэдээ / Урамшуулал"];
-
   const [checkedList, setCheckedList] = useState(defaultCheckedList);
+
   const [indeterminate, setIndeterminate] = useState(true);
   const [checkAll, setCheckAll] = useState(false);
   const [location, setLocation] = useState();
@@ -89,11 +90,17 @@ function User_editor({ data }) {
           icon: "UserAddOutlined",
           to: "/user",
         });
+      }   else if (e === "Cover зураг") {
+        arr2.push({ 
+          name: "Cover зураг",
+          icon: "FileImageOutlined",
+          to: "/cover",
+        });
       }
       return arr2
     });
   }
-
+  console.log(arr2)
   handlerArr(checkedList);
 
   //Location
