@@ -148,7 +148,7 @@ const handleCancel = () => {
 
   //GET
 useEffect(() => {
-    fetch(`http://10.0.10.55:8083/v1/coverimg/?type=business`)
+    fetch(`${process.env.REACT_APP_BASE_URL}/coverimg/?type=business`)
       .then((response) => response.json())
       .then((result) => {
         setBusiness(
@@ -161,7 +161,7 @@ useEffect(() => {
         ); 
       })
       .catch((error) => console.log("error", error));
-      fetch(`http://10.0.10.55:8083/v1/coverimg/?type=resident`)
+      fetch(`${process.env.REACT_APP_BASE_URL}/coverimg/?type=resident`)
       .then((response) => response.json())
       .then((result) => {
         setResident(
@@ -181,7 +181,7 @@ useEffect(() => {
       title: "Хувь хүн",
       dataIndex: "image",
       width:"70%",
-      render:  (record) => <img  className="coverimg" src={`http://10.0.10.55:8083/v1/uploads/${record}`} alt={`http://10.0.10.55:8083/v1/uploads/${record}`} />,
+      render:  (record) => <img  className="coverimg" src={`${process.env.REACT_APP_BASE_URL}/uploads/${record}`} alt={`${process.env.REACT_APP_BASE_URL}/uploads/${record}`} />,
     
       key: "item.id",
     },
@@ -216,7 +216,7 @@ useEffect(() => {
       dataIndex: "image",
       key: "product_name",
       width:"70%",
-      render:  (record) => <img className="coverimg" src={`http://10.0.10.55:8083/v1/uploads/${record}`} alt={`http://10.0.10.55:8083/v1/uploads/${record}`} />,
+      render:  (record) => <img className="coverimg" src={`${process.env.REACT_APP_BASE_URL}/uploads/${record}`} alt={`${process.env.REACT_APP_BASE_URL}/uploads/${record}`} />,
       
     },
     {
