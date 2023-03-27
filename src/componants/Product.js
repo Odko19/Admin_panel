@@ -189,7 +189,7 @@ function Product() {
             style={{ width: "20%" }}
             onClick={handleBtnCreate}
           >
-            Бүтээгдэхүүн нэмэх
+            Төхөөрөмж нэмэх
           </Button>
           <Input
             onChange={(e) => {

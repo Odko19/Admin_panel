@@ -1,6 +1,7 @@
 import React, { useEffect, useState} from 'react'
-import { Table, Modal, Button,Pagination, Checkbox, Input} from 'antd';
+import { Table, Modal, Button, Pagination, Checkbox, Input, Space, DatePicker,} from 'antd';
 import "../styles/ordercss.css";
+import moment from "moment";
 import { SearchOutlined} from "@ant-design/icons";
 
 function Order() {
@@ -8,8 +9,9 @@ function Order() {
     const [page, setPage] = useState();
     const [user, setUser] = useState([]);
     const [modaldata, setModaldata] = useState([]);
-
-
+    const [dates, setDates] = useState();
+    const { Search } = Input;
+    const { RangePicker } = DatePicker;
 //SWITCH
 const [checkValue, setCheckValue] = useState();
 const [checkState, setCheckState] = useState();
@@ -27,6 +29,44 @@ useEffect(() => {
 }, [])
 //
 
+const onSearch = (value) => {  
+  if (value) {
+    if (dates && value) {
+      fetch(
+        `${process.env.REACT_APP_BASE_URL}/order?begin=${dates[0]}&end=${dates[1]}&mobile=${value}`
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          setData(result.data);
+          
+        })
+        .catch((error) => console.log("error", error));
+    }
+
+    if (value) {
+      fetch(
+        `${process.env.REACT_APP_BASE_URL}/order?mobile=${value}`
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          setData(result.data);
+          console.log(result)
+        })
+        .catch((error) => console.log("error", error));
+    }
+  } else {
+    if (dates) {
+      fetch(
+        `${process.env.REACT_APP_BASE_URL}/order?begin=${dates[0]}&end=${dates[1]}`
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          setData(result.data);
+        })
+        .catch((error) => console.log("error", error));
+    }
+  }
+};
 
   
 //
@@ -101,6 +141,7 @@ useEffect(() => {
               OPERATOR_ID: row.OPERATOR_ID,
               OPERATOR_STATUS: row.OPERATOR_STATUS,
               ADDITIONAL: row.ADDITIONAL,
+              CREATED_AT: moment(row.CREATED_AT).format("L"),
               key: i,
             }))
           );
@@ -138,6 +179,7 @@ useEffect(() => {
         OPERATOR_ID: row.OPERATOR_ID,
         OPERATOR_STATUS: row.OPERATOR_STATUS,
         ADDITIONAL: row.ADDITIONAL,
+        CREATED_AT: moment(row.CREATED_AT).format("L"),
         key: i,
       }))
       )
@@ -151,14 +193,14 @@ useEffect(() => {
 const columns = [
     {
         title: 'Овог',
-        width: "13%",
+        width: "16%",
         dataIndex: 'LAST_NAME',
         key: 'LAST_NAME',
         
       },
       {
         title: 'Нэр',
-        width: "13%",
+        width: "16%",
         dataIndex: 'FIRST_NAME',
         key: 'FIRST_NAME',
       },
@@ -170,26 +212,25 @@ const columns = [
       },
       {
         title: 'РД',
-        width: "12%",
+        width: "11%",
         dataIndex: 'REGISTER',
         key: 'REGISTER',
       },
-
-    {
-      title: 'Email',
-      width: "14%",
-      dataIndex: 'EMAIL',
-      key: 'EMAIL',
-    },
     {
         title: 'Хаяг',
-        width: "32%",
+        width: "15%",
         dataIndex: ['CITY', 'DISTRICT'],
         key: 'address',
         render: (text,row) => <span  style={{color: "black"}}>{row["CITY"]} {row["DISTRICT"]} 
         {/* {row["KHOROO"]} {row["APARTMENT"]} {row["ENTRANCE" ]} орц {row["DOOR"]} тоот */}
          </span>,
         },
+        {
+          title: 'Огноо',
+          width: "12%",
+          dataIndex: 'CREATED_AT',
+          key: 'address',
+          },
         {
           title: 'Үзсэн',
           width: "13%",
@@ -257,10 +298,18 @@ const columns = [
             </p>
         </div>
 
-    
-
       </Modal>
-      <Input
+      
+      <div style={{ display: "flex", marginBottom:"20px"}}>
+      <Space direction="vertical" size={12}>
+          <RangePicker
+            style={{ width: "95%" }}
+            onChange={(values) => {
+              setDates(values && values.map((item) => moment(item.$d).format("YYYY-MM-DD")));
+            }}
+          />
+        </Space>
+      {/* <Input
                         onChange={e => {
                           if(e.target.value.length > 0 ){
                             const filteredData = data.filter(entry =>
@@ -276,12 +325,14 @@ const columns = [
               placeholder=" Утасны дугаараар хайна уу"
               style={{marginBottom: "20px"}}
               suffix={<SearchOutlined />}
-            />
+            /> */}
+                    <Search  placeholder="Утасны дугаарыг оруулна уу" onSearch={onSearch}/>
+                    </div>
         <Table 
-style={{ height: '450px' }}
+style={{ height: '470px' }}
         dataSource={data} columns={columns} 
   pagination={false}
-          /> 
+          />
             <Pagination
           pageSize={1}
           current={page?.currentPage}

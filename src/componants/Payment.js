@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table, Modal, Button} from 'antd'
+import { Table, Modal, Button,  Input, Space, DatePicker} from 'antd'
 import moment from "moment";
 import "../styles/ordercss.css";
 
@@ -7,6 +7,51 @@ function Payment() {
 
     const [data, setData] = useState();
     const [page, setPage] = useState();
+    const [dates, setDates] = useState();
+    const { Search } = Input;
+    const { RangePicker } = DatePicker;
+    //
+    const onSearch = (value) => {  
+      // console.log(dates)
+      // console.log(value)
+      if (value) {
+        if (dates && value) {
+          fetch(
+            `${process.env.REACT_APP_BASE_URL}/payment?begin=${dates[0]}&end=${dates[1]}&invoice=${value}`
+          )
+            .then((response) => response.json())
+            .then((result) => {
+              // setData(result.data);
+              console.log(result)
+              
+            })
+            .catch((error) => console.log("error", error));
+        }
+    
+        if (value) {
+          fetch(
+            `${process.env.REACT_APP_BASE_URL}/payment?invoice=${value}`
+          )
+            .then((response) => response.json())
+            .then((result) => {
+              setData(result.data);
+            })
+            .catch((error) => console.log("error", error));
+        }
+      } else {
+        if (dates) {
+          fetch(
+            `${process.env.REACT_APP_BASE_URL}/payment?begin=${dates[0]}&end=${dates[1]}`
+          )
+            .then((response) => response.json())
+            .then((result) => {
+              setData(result.data);
+            })
+            .catch((error) => console.log("error", error));
+        }
+      }
+    };
+    //
     //Modal Onclick
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [modaldata, setModaldata] = useState([]);
@@ -20,6 +65,7 @@ function Payment() {
             setIsModalVisible(false);
             };
      
+
     //
     // GET REQUEST
 
@@ -54,11 +100,10 @@ function Payment() {
           })
           .catch((error) => console.log("error", error));
       }, []);
-    
     //
     //Pagination
     function handlePageChange(page) {
-        fetch(`${process.env.REACT_APP_BASE_URL}/payment?page=${page}&limit=7`)
+        fetch(`${process.env.REACT_APP_BASE_URL}/payment?page=${page}&limit=6`)
           .then((response) => response.json())
           .then((result) => {
             setData(
@@ -157,7 +202,7 @@ function Payment() {
         <div className='p2'><div style={{width: "160px"}}>Үнийн дүн: </div>{modaldata.AMOUNT}</div>
         <div className='p1'><div style={{width: "160px"}}>Банк : </div>{modaldata.PAYMENT_WALLET}</div>
         <div className='p2'><div style={{width: "160px"}}> Валют : </div>{modaldata.PAYMENT_CURRENCY}</div>
-        <div className='p1'><div style={{width: "160px"}}>Гүйлгээний утга : </div>{modaldata.ACCOUNT_NUMBER}</div>
+        <div className='p1'><div style={{width: "160px"}}>Данс : </div>{modaldata.ACCOUNT_NUMBER}</div>
         <div className='p2'><div style={{width: "160px"}}>Статус : </div>{modaldata.STATUS}</div>
         <div className='p1'><div style={{width: "160px"}}>LINKEG_ID : </div>{modaldata.LINKEG_ID}</div>
         <div className='p2'><div style={{width: "160px"}}>И-Баримт Статус : </div>{modaldata.EBARIMT_STATUS}</div>
@@ -166,6 +211,19 @@ function Payment() {
         <div className='p1'><div style={{width: "160px"}}>Email : </div>{modaldata.EMAIL}</div>
 </div>
         </Modal>
+        <div style={{ display: "flex", marginBottom:"20px"}}>
+        <Space direction="vertical" size={12}>
+          <RangePicker
+            style={{ width: "95%", }}
+            onChange={(values) => {
+              setDates(values && values.map((item, i) => moment(item.$d).format("YYYY-MM-DD")));
+            }}
+          />
+        </Space>
+        <Search style={{width: "100%"}} placeholder="Гүйлгээний утгаар хайна уу"
+        onSearch={onSearch}
+        />
+        </div>
           <Table
             style={{ height: '450px' }}
             columns={columns}
@@ -174,7 +232,7 @@ function Payment() {
               position: ["bottomCenter"],
               pageSize: page?.currentPageSize,
               current: page?.currentPage,
-              total: page?.totalDatas,
+              total: page?.totalPages,
               onChange: (page) => handlePageChange(page),
             }}
           />

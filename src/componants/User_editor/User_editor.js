@@ -16,7 +16,7 @@ function User_editor({ data }) {
     "Захиалга",
     "Дугаарын мэдээлэл",
     "Хувьцаа эзэмшигч",
-    "Бүтээгдэхүүн",
+    "Төхөөрөмж",
     "Cover зураг"
   ];
   const defaultCheckedList = ["Мэдээ / Урамшуулал"];
@@ -48,9 +48,9 @@ function User_editor({ data }) {
         });
       } else if (e === "Ажлын зар") {
         arr2.push({ name: "Ажлын зар", icon: "FileTextOutlined", to: "/job" });
-      } else if (e === "Бүтээгдэхүүн") {
+      } else if (e === "Төхөөрөмж") {
         arr2.push({
-          name: "Бүтээгдэхүүн",
+          name: "Төхөөрөмж",
           icon: "BoxPlotOutlined",
           to: "/product",
         });
