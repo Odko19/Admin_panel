@@ -10,10 +10,11 @@ function Payment() {
     const [dates, setDates] = useState();
     const { Search } = Input;
     const { RangePicker } = DatePicker;
-    //
+
+    // Search
+
     const onSearch = (value) => {  
-      // console.log(dates)
-      // console.log(value)
+
       if (value) {
         if (dates && value) {
           fetch(
@@ -21,9 +22,28 @@ function Payment() {
           )
             .then((response) => response.json())
             .then((result) => {
-              // setData(result.data);
-              console.log(result)
-              
+              setData(
+                result.data.map((row, i) => ({       
+                  INVOICE_DESC: row.INVOICE_DESC,
+                  PAYMENT_WALLET:row.PAYMENT_WALLET,
+                  TRANS_ID: row.TRANS_ID,
+                  AMOUNT:row.AMOUNT,
+                  EMAIL:row.EMAIL,
+                  ACCOUNT_NUMBER: row.ACCOUNT_NUMBER,
+                  CREATED_DATE: moment(row.CREATED_DATE).format("YYYY-MM-DD"),
+                  PAYMENT_STATUS: row.PAYMENT_STATUS,
+                  EBARIMT_STATUS:row.EBARIMT_STATUS,
+                  SETTLEMENTS_STATUS:row.SETTLEMENTS_STATUS,
+                  LINKEG_ID:row.LINKEG_ID,
+                  STATUS:row.STATUS,
+                  CARD_TYPE:row.CARD_TYPE,
+                  ID:row.ID,
+                  ACCOUNT_BANK_NAME:row.ACCOUNT_BANK_NAME,
+                  PAYMENT_TYPE:row.PAYMENT_TYPE,
+                  PAYMENT_CURRENCY:row.PAYMENT_CURRENCY,
+                  key: i,
+                }))
+              );
             })
             .catch((error) => console.log("error", error));
         }
@@ -34,7 +54,29 @@ function Payment() {
           )
             .then((response) => response.json())
             .then((result) => {
-              setData(result.data);
+              setData(
+                result.data.map((row, i) => ({
+                  
+                  INVOICE_DESC: row.INVOICE_DESC,
+                  PAYMENT_WALLET:row.PAYMENT_WALLET,
+                  TRANS_ID: row.TRANS_ID,
+                  AMOUNT:row.AMOUNT,
+                  EMAIL:row.EMAIL,
+                  ACCOUNT_NUMBER: row.ACCOUNT_NUMBER,
+                  CREATED_DATE: moment(row.CREATED_DATE).format("YYYY-MM-DD"),
+                  PAYMENT_STATUS: row.PAYMENT_STATUS,
+                  EBARIMT_STATUS:row.EBARIMT_STATUS,
+                  SETTLEMENTS_STATUS:row.SETTLEMENTS_STATUS,
+                  LINKEG_ID:row.LINKEG_ID,
+                  STATUS:row.STATUS,
+                  CARD_TYPE:row.CARD_TYPE,
+                  ID:row.ID,
+                  ACCOUNT_BANK_NAME:row.ACCOUNT_BANK_NAME,
+                  PAYMENT_TYPE:row.PAYMENT_TYPE,
+                  PAYMENT_CURRENCY:row.PAYMENT_CURRENCY,
+                  key: i,
+                }))
+              );
             })
             .catch((error) => console.log("error", error));
         }
@@ -45,7 +87,29 @@ function Payment() {
           )
             .then((response) => response.json())
             .then((result) => {
-              setData(result.data);
+              setData(
+                result.data.map((row, i) => ({
+                  
+                  INVOICE_DESC: row.INVOICE_DESC,
+                  PAYMENT_WALLET:row.PAYMENT_WALLET,
+                  TRANS_ID: row.TRANS_ID,
+                  AMOUNT:row.AMOUNT,
+                  EMAIL:row.EMAIL,
+                  ACCOUNT_NUMBER: row.ACCOUNT_NUMBER,
+                  CREATED_DATE: moment(row.CREATED_DATE).format("YYYY-MM-DD"),
+                  PAYMENT_STATUS: row.PAYMENT_STATUS,
+                  EBARIMT_STATUS:row.EBARIMT_STATUS,
+                  SETTLEMENTS_STATUS:row.SETTLEMENTS_STATUS,
+                  LINKEG_ID:row.LINKEG_ID,
+                  STATUS:row.STATUS,
+                  CARD_TYPE:row.CARD_TYPE,
+                  ID:row.ID,
+                  ACCOUNT_BANK_NAME:row.ACCOUNT_BANK_NAME,
+                  PAYMENT_TYPE:row.PAYMENT_TYPE,
+                  PAYMENT_CURRENCY:row.PAYMENT_CURRENCY,
+                  key: i,
+                }))
+              );
             })
             .catch((error) => console.log("error", error));
         }
@@ -82,7 +146,7 @@ function Payment() {
                 AMOUNT:row.AMOUNT,
                 EMAIL:row.EMAIL,
                 ACCOUNT_NUMBER: row.ACCOUNT_NUMBER,
-                CREATED_DATE: moment(row.CREATED_DATE).format("L"),
+                CREATED_DATE: moment(row.CREATED_DATE).format("YYYY-MM-DD"),
                 PAYMENT_STATUS: row.PAYMENT_STATUS,
                 EBARIMT_STATUS:row.EBARIMT_STATUS,
                 SETTLEMENTS_STATUS:row.SETTLEMENTS_STATUS,
@@ -114,7 +178,7 @@ function Payment() {
                 AMOUNT:row.AMOUNT,
                 EMAIL:row.EMAIL,
                 ACCOUNT_NUMBER: row.ACCOUNT_NUMBER,
-                CREATED_DATE: moment(row.CREATED_DATE).format("L"),
+                CREATED_DATE: moment(row.CREATED_DATE).format("YYYY-MM-DD"),
                 PAYMENT_STATUS: row.PAYMENT_STATUS,
                 EBARIMT_STATUS:row.EBARIMT_STATUS,
                 SETTLEMENTS_STATUS:row.SETTLEMENTS_STATUS,
@@ -216,7 +280,7 @@ function Payment() {
           <RangePicker
             style={{ width: "95%", }}
             onChange={(values) => {
-              setDates(values && values.map((item, i) => moment(item.$d).format("YYYY-MM-DD")));
+              setDates(values && values.map((item) => moment(item.$d).format("YYYY-MM-DD")));
             }}
           />
         </Space>
@@ -233,6 +297,7 @@ function Payment() {
               pageSize: page?.currentPageSize,
               current: page?.currentPage,
               total: page?.totalPages,
+              showSizeChanger: true,
               onChange: (page) => handlePageChange(page),
             }}
           />

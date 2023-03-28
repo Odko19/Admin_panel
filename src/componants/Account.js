@@ -100,12 +100,12 @@ function Account() {
     {
       title: "Гарчиг",
       dataIndex: "title",
-      key: "key",
+      key: "title",
     },
     {
       title: "Огноо",
       dataIndex: "created_at",
-      key: "key",
+      key: "created_at",
       width: "15%"
     },
     {

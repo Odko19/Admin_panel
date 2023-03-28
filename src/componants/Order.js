@@ -2,7 +2,6 @@ import React, { useEffect, useState} from 'react'
 import { Table, Modal, Button, Pagination, Checkbox, Input, Space, DatePicker,} from 'antd';
 import "../styles/ordercss.css";
 import moment from "moment";
-import { SearchOutlined} from "@ant-design/icons";
 
 function Order() {
     const [data, setData] = useState();
@@ -37,7 +36,30 @@ const onSearch = (value) => {
       )
         .then((response) => response.json())
         .then((result) => {
-          setData(result.data);
+          setData(
+            result.data.map((row, i) => ({
+              FIRST_NAME: row.FIRST_NAME,
+              LAST_NAME: row.LAST_NAME,
+              CUST_TYPE: row.CUST_TYPE,
+              MOBILE: row.MOBILE,
+              EMAIL: row.EMAIL,
+              CITY: row.CITY,
+              DISTRICT: row.DISTRICT,
+              KHOROO: row.KHOROO,
+              APARTMENT: row.APARTMENT,
+              DOOR: row.DOOR,
+              ENTRANCE: row.ENTRANCE,
+              REGISTER: row.REGISTER,
+              RESULT: row.RESULT,
+              SERVICE: row.SERVICE,
+              ID: row.ID,
+              OPERATOR_ID: row.OPERATOR_ID,
+              OPERATOR_STATUS: row.OPERATOR_STATUS,
+              ADDITIONAL: row.ADDITIONAL,
+              CREATED_AT: moment(row.CREATED_AT).format("L"),
+              key: i,
+            }))
+          );
           
         })
         .catch((error) => console.log("error", error));
@@ -49,8 +71,30 @@ const onSearch = (value) => {
       )
         .then((response) => response.json())
         .then((result) => {
-          setData(result.data);
-          console.log(result)
+          setData(
+            result.data.map((row, i) => ({
+              FIRST_NAME: row.FIRST_NAME,
+              LAST_NAME: row.LAST_NAME,
+              CUST_TYPE: row.CUST_TYPE,
+              MOBILE: row.MOBILE,
+              EMAIL: row.EMAIL,
+              CITY: row.CITY,
+              DISTRICT: row.DISTRICT,
+              KHOROO: row.KHOROO,
+              APARTMENT: row.APARTMENT,
+              DOOR: row.DOOR,
+              ENTRANCE: row.ENTRANCE,
+              REGISTER: row.REGISTER,
+              RESULT: row.RESULT,
+              SERVICE: row.SERVICE,
+              ID: row.ID,
+              OPERATOR_ID: row.OPERATOR_ID,
+              OPERATOR_STATUS: row.OPERATOR_STATUS,
+              ADDITIONAL: row.ADDITIONAL,
+              CREATED_AT: moment(row.CREATED_AT).format("L"),
+              key: i,
+            }))
+          );
         })
         .catch((error) => console.log("error", error));
     }
@@ -61,7 +105,30 @@ const onSearch = (value) => {
       )
         .then((response) => response.json())
         .then((result) => {
-          setData(result.data);
+          setData(
+            result.data.map((row, i) => ({
+              FIRST_NAME: row.FIRST_NAME,
+              LAST_NAME: row.LAST_NAME,
+              CUST_TYPE: row.CUST_TYPE,
+              MOBILE: row.MOBILE,
+              EMAIL: row.EMAIL,
+              CITY: row.CITY,
+              DISTRICT: row.DISTRICT,
+              KHOROO: row.KHOROO,
+              APARTMENT: row.APARTMENT,
+              DOOR: row.DOOR,
+              ENTRANCE: row.ENTRANCE,
+              REGISTER: row.REGISTER,
+              RESULT: row.RESULT,
+              SERVICE: row.SERVICE,
+              ID: row.ID,
+              OPERATOR_ID: row.OPERATOR_ID,
+              OPERATOR_STATUS: row.OPERATOR_STATUS,
+              ADDITIONAL: row.ADDITIONAL,
+              CREATED_AT: moment(row.CREATED_AT).format("L"),
+              key: i,
+            }))
+          );
         })
         .catch((error) => console.log("error", error));
     }
