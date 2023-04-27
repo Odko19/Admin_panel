@@ -211,7 +211,7 @@ function EditorUpdate({ data, type }) {
                         .then(function (res) {
                           res.data.file.map((file) => {
                             return cb(
-                              `${process.env.REACT_APP_BASE_URL}/uploads/${file}`
+                              `https://api2.telecommongolia.mn/v1/uploads/${file}`
                             );
                           });
                         })
