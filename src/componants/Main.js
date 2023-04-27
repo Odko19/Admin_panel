@@ -230,7 +230,6 @@ function Main() {
                 <Route path="/Payment" element={<Payment />} />
                 <Route path="/cover" element={<FaceCover />} />
                 <Route path="/cover/upload" element={<UploadCover />} />
-
               </Routes>
             </div>
           </Content>
