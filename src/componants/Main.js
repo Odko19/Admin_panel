@@ -22,7 +22,20 @@ import Product from "./Product";
 import News from "./News";
 import User from "./User";
 import "../styles/mainbody.css";
-import { MenuFoldOutlined, MenuUnfoldOutlined, BoxPlotOutlined, StockOutlined, PhoneOutlined, CheckCircleOutlined, DollarCircleOutlined, IssuesCloseOutlined, UserAddOutlined, FileTextOutlined, FileAddOutlined, FileImageOutlined } from "@ant-design/icons";
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  BoxPlotOutlined,
+  StockOutlined,
+  PhoneOutlined,
+  CheckCircleOutlined,
+  DollarCircleOutlined,
+  IssuesCloseOutlined,
+  UserAddOutlined,
+  FileTextOutlined,
+  FileAddOutlined,
+  FileImageOutlined,
+} from "@ant-design/icons";
 import ResNumber from "./ResNumber";
 import Addjob from "./Addjob";
 import Order from "./Order";
@@ -40,29 +53,28 @@ const handleClickAgain3 = () => {
 };
 //
 
-function icongiver(icon){
-  if(icon === 'BoxPlotOutlined'){
-    return <BoxPlotOutlined/>
-  }else if(icon === 'StockOutlined'){
-    return <StockOutlined/>
-  }else if(icon ===  'PhoneOutlined'){
-    return <PhoneOutlined/>;
-  }else if(icon ===  'CheckCircleOutlined'){
-    return <CheckCircleOutlined/>;
-  }else if(icon ===  'DollarCircleOutlined'){
-    return <DollarCircleOutlined/>;
-  }else if(icon ===  'IssuesCloseOutlined'){
-    return <IssuesCloseOutlined/>;
-  }else if(icon ===  'UserAddOutlined'){
-    return <UserAddOutlined/>;
-  }else if(icon ===  'FileTextOutlined'){
-    return <FileTextOutlined/>;
-  }else if(icon ===  'FileAddOutlined'){
-    return <FileAddOutlined/>;
-  }else if(icon ===  'FileImageOutlined'){
+function icongiver(icon) {
+  if (icon === "BoxPlotOutlined") {
+    return <BoxPlotOutlined />;
+  } else if (icon === "StockOutlined") {
+    return <StockOutlined />;
+  } else if (icon === "PhoneOutlined") {
+    return <PhoneOutlined />;
+  } else if (icon === "CheckCircleOutlined") {
+    return <CheckCircleOutlined />;
+  } else if (icon === "DollarCircleOutlined") {
+    return <DollarCircleOutlined />;
+  } else if (icon === "IssuesCloseOutlined") {
+    return <IssuesCloseOutlined />;
+  } else if (icon === "UserAddOutlined") {
+    return <UserAddOutlined />;
+  } else if (icon === "FileTextOutlined") {
+    return <FileTextOutlined />;
+  } else if (icon === "FileAddOutlined") {
+    return <FileAddOutlined />;
+  } else if (icon === "FileImageOutlined") {
     return <FileImageOutlined />;
   }
-
 }
 function Main() {
   // Dark Theme
@@ -114,7 +126,7 @@ function Main() {
           trigger={null}
           collapsible
           collapsed={collapsed}
-          width="14%"
+          width="18%"
           style={{
             backgroundColor: currentTheme === "light" ? "#194569" : "black",
             color: "white",
