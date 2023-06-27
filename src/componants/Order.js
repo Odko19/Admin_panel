@@ -437,12 +437,7 @@ function Order() {
             /> */}
         <Search placeholder="Утасны дугаарыг оруулна уу" onSearch={onSearch} />
       </div>
-      <Table
-        style={{ height: "470px" }}
-        dataSource={data}
-        columns={columns}
-        pagination={false}
-      />
+      <Table dataSource={data} columns={columns} pagination={false} />
       <Pagination
         pageSize={1}
         current={page?.currentPage}
