@@ -183,7 +183,8 @@ function FaceCover() {
     {
       title: "Хувь хүн",
       dataIndex: "image",
-      width: "30%",
+      width: "60%",
+      height: "20%",
       render: (record) => (
         <img
           className="coverimg"
@@ -220,7 +221,8 @@ function FaceCover() {
       title: "Байгууллага",
       dataIndex: "image",
       key: "product_name",
-      width: "30%",
+      width: "60%",
+      height: "20%",
       render: (record) => (
         <img
           className="coverimg"
