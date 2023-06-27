@@ -188,7 +188,6 @@ function FaceCover() {
       render: (record) => (
         <img
           className="coverimg"
-          style={{ wid }}
           src={`${process.env.REACT_APP_BASE_URL}/uploads/${record}`}
           alt={`${process.env.REACT_APP_BASE_URL}/uploads/${record}`}
         />
