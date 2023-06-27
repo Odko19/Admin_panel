@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Tag, Table, Modal, notification, Radio } from "antd";
 import { useNavigate } from "react-router-dom";
-import { DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import "../styles/cover.css";
 
 function FaceCover() {
@@ -183,7 +183,7 @@ function FaceCover() {
     {
       title: "Хувь хүн",
       dataIndex: "image",
-      width: "70%",
+      width: "60%",
       render: (record) => (
         <img
           className="coverimg"
@@ -199,8 +199,8 @@ function FaceCover() {
       dataIndex: "type",
       key: "item.type",
       render: (text, record) => (
-        <Button type="primary" onClick={() => showModal(record)}>
-          Засах
+        <Button className="btnEdit" onClick={() => showModal(record)}>
+          <EditOutlined />
         </Button>
       ),
     },
@@ -220,7 +220,7 @@ function FaceCover() {
       title: "Байгууллага",
       dataIndex: "image",
       key: "product_name",
-      width: "70%",
+      width: "60%",
       render: (record) => (
         <img
           className="coverimg"
@@ -234,8 +234,8 @@ function FaceCover() {
       dataIndex: "type",
       key: "product_price",
       render: (text, record) => (
-        <Button type="primary" onClick={() => showModal(record)}>
-          Засах
+        <Button className="btnEdit" onClick={() => showModal(record)}>
+          <EditOutlined />
         </Button>
       ),
     },
@@ -263,20 +263,18 @@ function FaceCover() {
       <Tag style={{ marginLeft: "20px" }} color="orange">
         Зургийн хэмжээ 1900px / 680px байна
       </Tag>
-      <div style={{ display: "flex" }}>
+      <div>
         <Table
-          style={{ marginTop: "20px", width: "50%", height: "100%" }}
-          scroll={{ y: 500, x: 500 }}
           columns={columns}
           dataSource={resident}
           pagination={false}
+          style={{ marginTop: "20px" }}
         />
         <Table
-          style={{ marginTop: "20px", width: "50%", height: "100%" }}
-          scroll={{ y: 500, x: 500 }}
           columns={columns1}
           dataSource={business}
           pagination={false}
+          style={{ marginTop: "20px" }}
         />
       </div>
       <Modal

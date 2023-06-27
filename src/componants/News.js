@@ -43,9 +43,12 @@ function Content() {
           result.data.map((row, i) => ({
             title: row.title,
             created_by: row.created_by,
-            created_at: moment(row.created_at).format("L"),
+            created_at: moment(row.created_at).format("YYYY/MM/DD"),
             cover_img: row.cover_img,
-            expires_at: moment(row.expires_at).format("L"),
+            expires_at:
+              row.expires_at === null
+                ? "-"
+                : moment(row.expires_at).format("YYYY/MM/DD"),
             customer_type: row.customer_type,
             type: row.type,
             id: row.id,
@@ -77,9 +80,12 @@ function Content() {
           result.data.map((row, i) => ({
             title: row.title,
             created_by: row.created_by,
-            created_at: moment(row.created_at).format("L"),
+            created_at: moment(row.created_at).format("YYYY/MM/DD"),
             cover_img: row.cover_img,
-            expires_at: moment(row.expires_at).format("L"),
+            expires_at:
+              row.expires_at === null
+                ? "-"
+                : moment(row.expires_at).format("YYYY/MM/DD"),
             customer_type: row.customer_type,
             type: row.type,
             id: row.id,
@@ -111,9 +117,9 @@ function Content() {
                 result.data.map((row, i) => ({
                   title: row.title,
                   created_by: row.created_by,
-                  created_at: moment(row.created_at).format("L"),
+                  created_at: moment(row.created_at).format("YYYY/MM/DD"),
                   cover_img: row.cover_img,
-                  expires_at: moment(row.expires_at).format("L"),
+                  expires_at: moment(row.expires_at).format("YYYY/MM/DD"),
                   customer_type: row.customer_type,
                   type: row.type,
                   id: row.id,
@@ -136,7 +142,7 @@ function Content() {
       title: "Гарчиг",
       dataIndex: "title",
       key: "title",
-      width: "60%",
+      width: "50%",
       render: (text, record) =>
         record.type === "bonus" ? (
           <a
