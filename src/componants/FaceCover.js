@@ -268,7 +268,12 @@ function FaceCover() {
           dataSource={resident}
           pagination={false}
         />
-        <Table columns={columns1} dataSource={business} pagination={false} />
+        <Table
+          style={{ width: "50%" }}
+          columns={columns1}
+          dataSource={business}
+          pagination={false}
+        />
       </div>
       <Modal
         destroyOnClose={true}
