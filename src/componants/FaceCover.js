@@ -261,7 +261,7 @@ function FaceCover() {
       <Tag style={{ marginLeft: "20px" }} color="orange">
         Зургийн хэмжээ 1900px / 680px байна
       </Tag>
-      <div style={{ marginTop: "20px", display: "flex", width: "80%" }}>
+      <div style={{ marginTop: "20px", display: "flex", width: "100%" }}>
         <Table
           style={{ width: "50%" }}
           columns={columns}
