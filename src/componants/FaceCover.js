@@ -183,8 +183,6 @@ function FaceCover() {
     {
       title: "Хувь хүн",
       dataIndex: "image",
-      width: "60%",
-
       render: (record) => (
         <img
           className="coverimg"
@@ -221,8 +219,6 @@ function FaceCover() {
       title: "Байгууллага",
       dataIndex: "image",
       key: "product_name",
-      width: "60%",
-
       render: (record) => (
         <img
           className="coverimg"
@@ -265,19 +261,14 @@ function FaceCover() {
       <Tag style={{ marginLeft: "20px" }} color="orange">
         Зургийн хэмжээ 1900px / 680px байна
       </Tag>
-      <div>
+      <div style={{ marginTop: "20px", display: "flex", width: "80%" }}>
         <Table
+          style={{ width: "50%" }}
           columns={columns}
           dataSource={resident}
           pagination={false}
-          style={{ marginTop: "20px" }}
         />
-        <Table
-          columns={columns1}
-          dataSource={business}
-          pagination={false}
-          style={{ marginTop: "20px" }}
-        />
+        <Table columns={columns1} dataSource={business} pagination={false} />
       </div>
       <Modal
         destroyOnClose={true}
