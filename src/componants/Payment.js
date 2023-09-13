@@ -9,105 +9,59 @@ function Payment() {
   const [dates, setDates] = useState();
   const { Search } = Input;
   const { RangePicker } = DatePicker;
+  const [url, setUrl] = useState();
 
   // Search
 
-  const onSearch = (value) => {
-    if (value) {
-      if (dates && value) {
-        fetch(
-          `${process.env.REACT_APP_BASE_URL}/payment?begin=${dates[0]}&end=${dates[1]}&invoice=${value}`
-        )
-          .then((response) => response.json())
-          .then((result) => {
-            setData(
-              result.data.map((row, i) => ({
-                INVOICE_DESC: row.INVOICE_DESC,
-                PAYMENT_WALLET: row.PAYMENT_WALLET,
-                TRANS_ID: row.TRANS_ID,
-                AMOUNT: row.AMOUNT,
-                EMAIL: row.EMAIL,
-                ACCOUNT_NUMBER: row.ACCOUNT_NUMBER,
-                CREATED_DATE: moment(row.CREATED_DATE).format("YYYY/MM/DD"),
-                PAYMENT_STATUS: row.PAYMENT_STATUS,
-                EBARIMT_STATUS: row.EBARIMT_STATUS,
-                SETTLEMENTS_STATUS: row.SETTLEMENTS_STATUS,
-                LINKEG_ID: row.LINKEG_ID,
-                STATUS: row.STATUS,
-                CARD_TYPE: row.CARD_TYPE,
-                ID: row.ID,
-                ACCOUNT_BANK_NAME: row.ACCOUNT_BANK_NAME,
-                PAYMENT_TYPE: row.PAYMENT_TYPE,
-                PAYMENT_CURRENCY: row.PAYMENT_CURRENCY,
-                key: i,
-              }))
-            );
-          })
-          .catch((error) => console.log("error", error));
-      }
+  const onSearch = (value, page, limit) => {
+    page = 1;
+    limit = 7;
+    let url = `${process.env.REACT_APP_BASE_URL}/payment`;
+    const queryParams = [];
 
-      if (value) {
-        fetch(`${process.env.REACT_APP_BASE_URL}/payment?invoice=${value}`)
-          .then((response) => response.json())
-          .then((result) => {
-            setData(
-              result.data.map((row, i) => ({
-                INVOICE_DESC: row.INVOICE_DESC,
-                PAYMENT_WALLET: row.PAYMENT_WALLET,
-                TRANS_ID: row.TRANS_ID,
-                AMOUNT: row.AMOUNT,
-                EMAIL: row.EMAIL,
-                ACCOUNT_NUMBER: row.ACCOUNT_NUMBER,
-                CREATED_DATE: moment(row.CREATED_DATE).format("YYYY/MM/DD"),
-                PAYMENT_STATUS: row.PAYMENT_STATUS,
-                EBARIMT_STATUS: row.EBARIMT_STATUS,
-                SETTLEMENTS_STATUS: row.SETTLEMENTS_STATUS,
-                LINKEG_ID: row.LINKEG_ID,
-                STATUS: row.STATUS,
-                CARD_TYPE: row.CARD_TYPE,
-                ID: row.ID,
-                ACCOUNT_BANK_NAME: row.ACCOUNT_BANK_NAME,
-                PAYMENT_TYPE: row.PAYMENT_TYPE,
-                PAYMENT_CURRENCY: row.PAYMENT_CURRENCY,
-                key: i,
-              }))
-            );
-          })
-          .catch((error) => console.log("error", error));
-      }
-    } else {
-      if (dates) {
-        fetch(
-          `${process.env.REACT_APP_BASE_URL}/payment?begin=${dates[0]}&end=${dates[1]}`
-        )
-          .then((response) => response.json())
-          .then((result) => {
-            setData(
-              result.data.map((row, i) => ({
-                INVOICE_DESC: row.INVOICE_DESC,
-                PAYMENT_WALLET: row.PAYMENT_WALLET,
-                TRANS_ID: row.TRANS_ID,
-                AMOUNT: row.AMOUNT,
-                EMAIL: row.EMAIL,
-                ACCOUNT_NUMBER: row.ACCOUNT_NUMBER,
-                CREATED_DATE: moment(row.CREATED_DATE).format("YYYY/MM/DD"),
-                PAYMENT_STATUS: row.PAYMENT_STATUS,
-                EBARIMT_STATUS: row.EBARIMT_STATUS,
-                SETTLEMENTS_STATUS: row.SETTLEMENTS_STATUS,
-                LINKEG_ID: row.LINKEG_ID,
-                STATUS: row.STATUS,
-                CARD_TYPE: row.CARD_TYPE,
-                ID: row.ID,
-                ACCOUNT_BANK_NAME: row.ACCOUNT_BANK_NAME,
-                PAYMENT_TYPE: row.PAYMENT_TYPE,
-                PAYMENT_CURRENCY: row.PAYMENT_CURRENCY,
-                key: i,
-              }))
-            );
-          })
-          .catch((error) => console.log("error", error));
-      }
+    if (value) {
+      queryParams.push(`invoice=${value}`);
     }
+    if (dates && dates.length === 2) {
+      queryParams.push(`begin=${dates[0]}`, `end=${dates[1]}`);
+    }
+
+    if (page && limit) {
+      queryParams.push(`page=${page}`, `limit=${limit}`);
+    }
+
+    if (queryParams.length > 0) {
+      url += `?${queryParams.join("&")}`;
+    }
+    setUrl(queryParams);
+    fetch(url)
+      .then((response) => response.json())
+      .then((result) => {
+        setData(
+          result.data?.map((row, i) => ({
+            INVOICE_DESC: row.INVOICE_DESC,
+            PAYMENT_WALLET: row.PAYMENT_WALLET,
+            TRANS_ID: row.TRANS_ID,
+            AMOUNT: row.AMOUNT,
+            EMAIL: row.EMAIL,
+            ACCOUNT_NUMBER: row.ACCOUNT_NUMBER,
+            CREATED_DATE: moment(row.CREATED_DATE).format("YYYY/MM/DD"),
+            PAYMENT_STATUS: row.PAYMENT_STATUS,
+            EBARIMT_STATUS: row.EBARIMT_STATUS,
+            SETTLEMENTS_STATUS: row.SETTLEMENTS_STATUS,
+            LINKEG_ID: row.LINKEG_ID,
+            STATUS: row.STATUS,
+            CARD_TYPE: row.CARD_TYPE,
+            ID: row.ID,
+            ACCOUNT_BANK_NAME: row.ACCOUNT_BANK_NAME,
+            PAYMENT_TYPE: row.PAYMENT_TYPE,
+            PAYMENT_CURRENCY: row.PAYMENT_CURRENCY,
+            key: i,
+          }))
+        );
+        setPage(result);
+      })
+      .catch((error) => console.log("error", error));
   };
   //
   //Modal Onclick
@@ -126,7 +80,7 @@ function Payment() {
   // GET REQUEST
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_BASE_URL}/payment?page=1&limit=6`)
+    fetch(`${process.env.REACT_APP_BASE_URL}/payment?page=1&limit=7`)
       .then((response) => response.json())
       .then((result) => {
         setData(
@@ -158,34 +112,76 @@ function Payment() {
   //
   //Pagination
   function handlePageChange(page) {
-    fetch(`${process.env.REACT_APP_BASE_URL}/payment?page=${page}&limit=6`)
-      .then((response) => response.json())
-      .then((result) => {
-        setData(
-          result.data.map((row, i) => ({
-            INVOICE_DESC: row.INVOICE_DESC,
-            PAYMENT_WALLET: row.PAYMENT_WALLET,
-            TRANS_ID: row.TRANS_ID,
-            AMOUNT: row.AMOUNT,
-            EMAIL: row.EMAIL,
-            ACCOUNT_NUMBER: row.ACCOUNT_NUMBER,
-            CREATED_DATE: moment(row.CREATED_DATE).format("YYYY/MM/DD"),
-            PAYMENT_STATUS: row.PAYMENT_STATUS,
-            EBARIMT_STATUS: row.EBARIMT_STATUS,
-            SETTLEMENTS_STATUS: row.SETTLEMENTS_STATUS,
-            LINKEG_ID: row.LINKEG_ID,
-            STATUS: row.STATUS,
-            CARD_TYPE: row.CARD_TYPE,
-            ID: row.ID,
-            ACCOUNT_BANK_NAME: row.ACCOUNT_BANK_NAME,
-            PAYMENT_TYPE: row.PAYMENT_TYPE,
-            PAYMENT_CURRENCY: row.PAYMENT_CURRENCY,
-            key: i,
-          }))
-        );
-        setPage(result);
-      })
-      .catch((error) => console.log("error", error));
+    if (url) {
+      const jsonObject = {};
+      for (const item of url) {
+        const [key, value] = item.split("=");
+        jsonObject[key] = value;
+      }
+
+      jsonObject.page = page;
+      const queryString = Object.entries(jsonObject)
+        .map(([key, value]) => `${key}=${value}`)
+        .join("&");
+
+      fetch(`${process.env.REACT_APP_BASE_URL}/payment?${queryString}`)
+        .then((response) => response.json())
+        .then((result) => {
+          setData(
+            result.data?.map((row, i) => ({
+              INVOICE_DESC: row.INVOICE_DESC,
+              PAYMENT_WALLET: row.PAYMENT_WALLET,
+              TRANS_ID: row.TRANS_ID,
+              AMOUNT: row.AMOUNT,
+              EMAIL: row.EMAIL,
+              ACCOUNT_NUMBER: row.ACCOUNT_NUMBER,
+              CREATED_DATE: moment(row.CREATED_DATE).format("YYYY/MM/DD"),
+              PAYMENT_STATUS: row.PAYMENT_STATUS,
+              EBARIMT_STATUS: row.EBARIMT_STATUS,
+              SETTLEMENTS_STATUS: row.SETTLEMENTS_STATUS,
+              LINKEG_ID: row.LINKEG_ID,
+              STATUS: row.STATUS,
+              CARD_TYPE: row.CARD_TYPE,
+              ID: row.ID,
+              ACCOUNT_BANK_NAME: row.ACCOUNT_BANK_NAME,
+              PAYMENT_TYPE: row.PAYMENT_TYPE,
+              PAYMENT_CURRENCY: row.PAYMENT_CURRENCY,
+              key: i,
+            }))
+          );
+          setPage(result);
+        })
+        .catch((error) => console.log("error", error));
+    } else {
+      fetch(`${process.env.REACT_APP_BASE_URL}/payment?page=${page}&limit=6`)
+        .then((response) => response.json())
+        .then((result) => {
+          setData(
+            result.data.map((row, i) => ({
+              INVOICE_DESC: row.INVOICE_DESC,
+              PAYMENT_WALLET: row.PAYMENT_WALLET,
+              TRANS_ID: row.TRANS_ID,
+              AMOUNT: row.AMOUNT,
+              EMAIL: row.EMAIL,
+              ACCOUNT_NUMBER: row.ACCOUNT_NUMBER,
+              CREATED_DATE: moment(row.CREATED_DATE).format("YYYY/MM/DD"),
+              PAYMENT_STATUS: row.PAYMENT_STATUS,
+              EBARIMT_STATUS: row.EBARIMT_STATUS,
+              SETTLEMENTS_STATUS: row.SETTLEMENTS_STATUS,
+              LINKEG_ID: row.LINKEG_ID,
+              STATUS: row.STATUS,
+              CARD_TYPE: row.CARD_TYPE,
+              ID: row.ID,
+              ACCOUNT_BANK_NAME: row.ACCOUNT_BANK_NAME,
+              PAYMENT_TYPE: row.PAYMENT_TYPE,
+              PAYMENT_CURRENCY: row.PAYMENT_CURRENCY,
+              key: i,
+            }))
+          );
+          setPage(result);
+        })
+        .catch((error) => console.log("error", error));
+    }
   }
   //
 

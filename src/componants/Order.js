@@ -173,7 +173,7 @@ function Order() {
       .then((response) => response.json())
       .then((result) => {
         setData(
-          result.data?.map((row, i) => ({
+          result.data.map((row, i) => ({
             FIRST_NAME: row.FIRST_NAME,
             LAST_NAME: row.LAST_NAME,
             CUST_TYPE: row.CUST_TYPE,
