@@ -153,7 +153,7 @@ function Payment() {
         })
         .catch((error) => console.log("error", error));
     } else {
-      fetch(`${process.env.REACT_APP_BASE_URL}/payment?page=${page}&limit=6`)
+      fetch(`${process.env.REACT_APP_BASE_URL}/payment?page=${page}&limit=7`)
         .then((response) => response.json())
         .then((result) => {
           setData(
