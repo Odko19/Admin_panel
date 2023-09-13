@@ -8,6 +8,7 @@ import {
   Input,
   Space,
   DatePicker,
+  Select,
 } from "antd";
 import "../styles/ordercss.css";
 import moment from "moment";
@@ -18,11 +19,13 @@ function Order() {
   const [user, setUser] = useState([]);
   const [modaldata, setModaldata] = useState([]);
   const [dates, setDates] = useState();
+  const [choiceTwo, setChoiceTwo] = useState();
   const { Search } = Input;
   const { RangePicker } = DatePicker;
   //SWITCH
   const [checkValue, setCheckValue] = useState();
   const [checkState, setCheckState] = useState();
+  const [url, setUrl] = useState();
 
   const onChange = (e) => {
     setCheckValue(e.target.value);
@@ -37,111 +40,166 @@ function Order() {
   }, []);
   //
 
-  const onSearch = (value) => {
+  // const onSearch = (value) => {
+  //   console.log(dates);
+  //   console.log(value);
+  //   console.log(choiceTwo);
+
+  //   if (value) {
+  //     if (dates && value) {
+  //       fetch(
+  //         `${process.env.REACT_APP_BASE_URL}/order?begin=${dates[0]}&end=${dates[1]}&mobile=${value}`
+  //       )
+  //         .then((response) => response.json())
+  //         .then((result) => {
+  //           setData(
+  //             result.data.map((row, i) => ({
+  //               FIRST_NAME: row.FIRST_NAME,
+  //               LAST_NAME: row.LAST_NAME,
+  //               CUST_TYPE: row.CUST_TYPE,
+  //               MOBILE: row.MOBILE,
+  //               EMAIL: row.EMAIL,
+  //               CITY: row.CITY,
+  //               DISTRICT: row.DISTRICT,
+  //               KHOROO: row.KHOROO,
+  //               APARTMENT: row.APARTMENT,
+  //               DOOR: row.DOOR,
+  //               ENTRANCE: row.ENTRANCE,
+  //               REGISTER: row.REGISTER,
+  //               RESULT: row.RESULT,
+  //               SERVICE: row.SERVICE,
+  //               ID: row.ID,
+  //               OPERATOR_ID: row.OPERATOR_ID,
+  //               OPERATOR_STATUS: row.OPERATOR_STATUS,
+  //               ADDITIONAL: row.ADDITIONAL,
+  //               CREATED_AT: moment(row.CREATED_AT).format("L"),
+  //               key: i,
+  //             }))
+  //           );
+  //         })
+  //         .catch((error) => console.log("error", error));
+  //     }
+
+  //     if (value) {
+  //       fetch(`${process.env.REACT_APP_BASE_URL}/order?mobile=${value}`)
+  //         .then((response) => response.json())
+  //         .then((result) => {
+  //           setData(
+  //             result.data.map((row, i) => ({
+  //               FIRST_NAME: row.FIRST_NAME,
+  //               LAST_NAME: row.LAST_NAME,
+  //               CUST_TYPE: row.CUST_TYPE,
+  //               MOBILE: row.MOBILE,
+  //               EMAIL: row.EMAIL,
+  //               CITY: row.CITY,
+  //               DISTRICT: row.DISTRICT,
+  //               KHOROO: row.KHOROO,
+  //               APARTMENT: row.APARTMENT,
+  //               DOOR: row.DOOR,
+  //               ENTRANCE: row.ENTRANCE,
+  //               REGISTER: row.REGISTER,
+  //               RESULT: row.RESULT,
+  //               SERVICE: row.SERVICE,
+  //               ID: row.ID,
+  //               OPERATOR_ID: row.OPERATOR_ID,
+  //               OPERATOR_STATUS: row.OPERATOR_STATUS,
+  //               ADDITIONAL: row.ADDITIONAL,
+  //               CREATED_AT: moment(row.CREATED_AT).format("L"),
+  //               key: i,
+  //             }))
+  //           );
+  //         })
+  //         .catch((error) => console.log("error", error));
+  //     }
+  //   } else {
+  //     if (dates) {
+  //       fetch(
+  //         `${process.env.REACT_APP_BASE_URL}/order?begin=${dates[0]}&end=${dates[1]}`
+  //       )
+  //         .then((response) => response.json())
+  //         .then((result) => {
+  //           setData(
+  //             result.data.map((row, i) => ({
+  //               FIRST_NAME: row.FIRST_NAME,
+  //               LAST_NAME: row.LAST_NAME,
+  //               CUST_TYPE: row.CUST_TYPE,
+  //               MOBILE: row.MOBILE,
+  //               EMAIL: row.EMAIL,
+  //               CITY: row.CITY,
+  //               DISTRICT: row.DISTRICT,
+  //               KHOROO: row.KHOROO,
+  //               APARTMENT: row.APARTMENT,
+  //               DOOR: row.DOOR,
+  //               ENTRANCE: row.ENTRANCE,
+  //               REGISTER: row.REGISTER,
+  //               RESULT: row.RESULT,
+  //               SERVICE: row.SERVICE,
+  //               ID: row.ID,
+  //               OPERATOR_ID: row.OPERATOR_ID,
+  //               OPERATOR_STATUS: row.OPERATOR_STATUS,
+  //               ADDITIONAL: row.ADDITIONAL,
+  //               CREATED_AT: moment(row.CREATED_AT).format("L"),
+  //               key: i,
+  //             }))
+  //           );
+  //         })
+  //         .catch((error) => console.log("error", error));
+  //     }
+  //   }
+  // };
+
+  const onSearch = (value, page, limit) => {
+    page = 1;
+    limit = 7;
+    let url = `${process.env.REACT_APP_BASE_URL}/order`;
+    const queryParams = [];
+
     if (value) {
-      if (dates && value) {
-        fetch(
-          `${process.env.REACT_APP_BASE_URL}/order?begin=${dates[0]}&end=${dates[1]}&mobile=${value}`
-        )
-          .then((response) => response.json())
-          .then((result) => {
-            setData(
-              result.data.map((row, i) => ({
-                FIRST_NAME: row.FIRST_NAME,
-                LAST_NAME: row.LAST_NAME,
-                CUST_TYPE: row.CUST_TYPE,
-                MOBILE: row.MOBILE,
-                EMAIL: row.EMAIL,
-                CITY: row.CITY,
-                DISTRICT: row.DISTRICT,
-                KHOROO: row.KHOROO,
-                APARTMENT: row.APARTMENT,
-                DOOR: row.DOOR,
-                ENTRANCE: row.ENTRANCE,
-                REGISTER: row.REGISTER,
-                RESULT: row.RESULT,
-                SERVICE: row.SERVICE,
-                ID: row.ID,
-                OPERATOR_ID: row.OPERATOR_ID,
-                OPERATOR_STATUS: row.OPERATOR_STATUS,
-                ADDITIONAL: row.ADDITIONAL,
-                CREATED_AT: moment(row.CREATED_AT).format("L"),
-                key: i,
-              }))
-            );
-          })
-          .catch((error) => console.log("error", error));
-      }
-
-      if (value) {
-        fetch(`${process.env.REACT_APP_BASE_URL}/order?mobile=${value}`)
-          .then((response) => response.json())
-          .then((result) => {
-            setData(
-              result.data.map((row, i) => ({
-                FIRST_NAME: row.FIRST_NAME,
-                LAST_NAME: row.LAST_NAME,
-                CUST_TYPE: row.CUST_TYPE,
-                MOBILE: row.MOBILE,
-                EMAIL: row.EMAIL,
-                CITY: row.CITY,
-                DISTRICT: row.DISTRICT,
-                KHOROO: row.KHOROO,
-                APARTMENT: row.APARTMENT,
-                DOOR: row.DOOR,
-                ENTRANCE: row.ENTRANCE,
-                REGISTER: row.REGISTER,
-                RESULT: row.RESULT,
-                SERVICE: row.SERVICE,
-                ID: row.ID,
-                OPERATOR_ID: row.OPERATOR_ID,
-                OPERATOR_STATUS: row.OPERATOR_STATUS,
-                ADDITIONAL: row.ADDITIONAL,
-                CREATED_AT: moment(row.CREATED_AT).format("L"),
-                key: i,
-              }))
-            );
-          })
-          .catch((error) => console.log("error", error));
-      }
-    } else {
-      if (dates) {
-        fetch(
-          `${process.env.REACT_APP_BASE_URL}/order?begin=${dates[0]}&end=${dates[1]}`
-        )
-          .then((response) => response.json())
-          .then((result) => {
-            setData(
-              result.data.map((row, i) => ({
-                FIRST_NAME: row.FIRST_NAME,
-                LAST_NAME: row.LAST_NAME,
-                CUST_TYPE: row.CUST_TYPE,
-                MOBILE: row.MOBILE,
-                EMAIL: row.EMAIL,
-                CITY: row.CITY,
-                DISTRICT: row.DISTRICT,
-                KHOROO: row.KHOROO,
-                APARTMENT: row.APARTMENT,
-                DOOR: row.DOOR,
-                ENTRANCE: row.ENTRANCE,
-                REGISTER: row.REGISTER,
-                RESULT: row.RESULT,
-                SERVICE: row.SERVICE,
-                ID: row.ID,
-                OPERATOR_ID: row.OPERATOR_ID,
-                OPERATOR_STATUS: row.OPERATOR_STATUS,
-                ADDITIONAL: row.ADDITIONAL,
-                CREATED_AT: moment(row.CREATED_AT).format("L"),
-                key: i,
-              }))
-            );
-          })
-          .catch((error) => console.log("error", error));
-      }
+      queryParams.push(`${choiceTwo}=${value}`);
     }
-  };
+    if (dates && dates.length === 2) {
+      queryParams.push(`begin=${dates[0]}`, `end=${dates[1]}`);
+    }
 
-  //
+    if (page && limit) {
+      queryParams.push(`page=${page}`, `limit=${limit}`);
+    }
+
+    if (queryParams.length > 0) {
+      url += `?${queryParams.join("&")}`;
+    }
+    setUrl(queryParams);
+    fetch(url)
+      .then((response) => response.json())
+      .then((result) => {
+        setData(
+          result.data?.map((row, i) => ({
+            FIRST_NAME: row.FIRST_NAME,
+            LAST_NAME: row.LAST_NAME,
+            CUST_TYPE: row.CUST_TYPE,
+            MOBILE: row.MOBILE,
+            EMAIL: row.EMAIL,
+            CITY: row.CITY,
+            DISTRICT: row.DISTRICT,
+            KHOROO: row.KHOROO,
+            APARTMENT: row.APARTMENT,
+            DOOR: row.DOOR,
+            ENTRANCE: row.ENTRANCE,
+            REGISTER: row.REGISTER,
+            RESULT: row.RESULT,
+            SERVICE: row.SERVICE,
+            ID: row.ID,
+            OPERATOR_ID: row.OPERATOR_ID,
+            OPERATOR_STATUS: row.OPERATOR_STATUS,
+            ADDITIONAL: row.ADDITIONAL,
+            CREATED_AT: moment(row.CREATED_AT).format("L"),
+            key: i,
+          }))
+        );
+        setPage(result);
+      })
+      .catch((error) => console.log("error", error));
+  };
 
   // ONCLICK MODAL
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -184,7 +242,7 @@ function Order() {
   useEffect(() => {
     if (user?.location !== undefined) {
       fetch(
-        `${process.env.REACT_APP_BASE_URL}/order?page=1&limit=5&location=${user?.location}`
+        `${process.env.REACT_APP_BASE_URL}/order?page=1&limit=7&location=${user?.location}`
       )
         .then((response) => response.json())
         .then((result) => {
@@ -221,38 +279,83 @@ function Order() {
   // Pagination
 
   function handlePageChange(page) {
-    fetch(
-      `${process.env.REACT_APP_BASE_URL}/order?page=${page}&limit=5&location=${user?.location}`
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        setData(
-          result.data.map((row, i) => ({
-            FIRST_NAME: row.FIRST_NAME,
-            LAST_NAME: row.LAST_NAME,
-            CUST_TYPE: row.CUST_TYPE,
-            MOBILE: row.MOBILE,
-            EMAIL: row.EMAIL,
-            CITY: row.CITY,
-            DISTRICT: row.DISTRICT,
-            KHOROO: row.KHOROO,
-            APARTMENT: row.APARTMENT,
-            DOOR: row.DOOR,
-            ENTRANCE: row.ENTRANCE,
-            REGISTER: row.REGISTER,
-            RESULT: row.RESULT,
-            SERVICE: row.SERVICE,
-            ID: row.ID,
-            OPERATOR_ID: row.OPERATOR_ID,
-            OPERATOR_STATUS: row.OPERATOR_STATUS,
-            ADDITIONAL: row.ADDITIONAL,
-            CREATED_AT: moment(row.CREATED_AT).format("L"),
-            key: i,
-          }))
-        );
-        setPage(result);
-      })
-      .catch((error) => console.log("error", error));
+    if (url) {
+      const jsonObject = {};
+
+      for (const item of url) {
+        const [key, value] = item.split("=");
+        jsonObject[key] = value;
+      }
+
+      jsonObject.page = page;
+      const queryString = Object.entries(jsonObject)
+        .map(([key, value]) => `${key}=${value}`)
+        .join("&");
+
+      fetch(`${process.env.REACT_APP_BASE_URL}/order?${queryString}`)
+        .then((response) => response.json())
+        .then((result) => {
+          setData(
+            result.data.map((row, i) => ({
+              FIRST_NAME: row.FIRST_NAME,
+              LAST_NAME: row.LAST_NAME,
+              CUST_TYPE: row.CUST_TYPE,
+              MOBILE: row.MOBILE,
+              EMAIL: row.EMAIL,
+              CITY: row.CITY,
+              DISTRICT: row.DISTRICT,
+              KHOROO: row.KHOROO,
+              APARTMENT: row.APARTMENT,
+              DOOR: row.DOOR,
+              ENTRANCE: row.ENTRANCE,
+              REGISTER: row.REGISTER,
+              RESULT: row.RESULT,
+              SERVICE: row.SERVICE,
+              ID: row.ID,
+              OPERATOR_ID: row.OPERATOR_ID,
+              OPERATOR_STATUS: row.OPERATOR_STATUS,
+              ADDITIONAL: row.ADDITIONAL,
+              CREATED_AT: moment(row.CREATED_AT).format("L"),
+              key: i,
+            }))
+          );
+          setPage(result);
+        })
+        .catch((error) => console.log("error", error));
+    } else {
+      fetch(
+        `${process.env.REACT_APP_BASE_URL}/order?page=${page}&limit=7&location=${user?.location}`
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          setData(
+            result.data.map((row, i) => ({
+              FIRST_NAME: row.FIRST_NAME,
+              LAST_NAME: row.LAST_NAME,
+              CUST_TYPE: row.CUST_TYPE,
+              MOBILE: row.MOBILE,
+              EMAIL: row.EMAIL,
+              CITY: row.CITY,
+              DISTRICT: row.DISTRICT,
+              KHOROO: row.KHOROO,
+              APARTMENT: row.APARTMENT,
+              DOOR: row.DOOR,
+              ENTRANCE: row.ENTRANCE,
+              REGISTER: row.REGISTER,
+              RESULT: row.RESULT,
+              SERVICE: row.SERVICE,
+              ID: row.ID,
+              OPERATOR_ID: row.OPERATOR_ID,
+              OPERATOR_STATUS: row.OPERATOR_STATUS,
+              ADDITIONAL: row.ADDITIONAL,
+              CREATED_AT: moment(row.CREATED_AT).format("L"),
+              key: i,
+            }))
+          );
+          setPage(result);
+        })
+        .catch((error) => console.log("error", error));
+    }
   }
 
   const columns = [
@@ -325,6 +428,11 @@ function Order() {
       ),
     },
   ];
+
+  const handlerBtnTwo = (value) => {
+    setChoiceTwo(value);
+  };
+
   return (
     <div>
       <Modal
@@ -435,9 +543,33 @@ function Order() {
               style={{marginBottom: "20px"}}
               suffix={<SearchOutlined />}
             /> */}
+
+        <Select
+          style={{
+            width: 200,
+            margin: "0 5px 0 5px",
+          }}
+          placeholder="Хайлт төрөл"
+          onChange={handlerBtnTwo}
+          options={[
+            {
+              value: "mobile",
+              label: "Утасны дугаар",
+            },
+            {
+              value: "register",
+              label: "Регистерийн дугаар",
+            },
+            {
+              value: "city",
+              label: "хаягаар",
+            },
+          ]}
+        />
         <Search placeholder="Утасны дугаарыг оруулна уу" onSearch={onSearch} />
       </div>
       <Table dataSource={data} columns={columns} pagination={false} />
+
       <Pagination
         pageSize={1}
         current={page?.currentPage}
