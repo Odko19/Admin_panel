@@ -40,114 +40,6 @@ function Order() {
   }, []);
   //
 
-  // const onSearch = (value) => {
-  //   console.log(dates);
-  //   console.log(value);
-  //   console.log(choiceTwo);
-
-  //   if (value) {
-  //     if (dates && value) {
-  //       fetch(
-  //         `${process.env.REACT_APP_BASE_URL}/order?begin=${dates[0]}&end=${dates[1]}&mobile=${value}`
-  //       )
-  //         .then((response) => response.json())
-  //         .then((result) => {
-  //           setData(
-  //             result.data.map((row, i) => ({
-  //               FIRST_NAME: row.FIRST_NAME,
-  //               LAST_NAME: row.LAST_NAME,
-  //               CUST_TYPE: row.CUST_TYPE,
-  //               MOBILE: row.MOBILE,
-  //               EMAIL: row.EMAIL,
-  //               CITY: row.CITY,
-  //               DISTRICT: row.DISTRICT,
-  //               KHOROO: row.KHOROO,
-  //               APARTMENT: row.APARTMENT,
-  //               DOOR: row.DOOR,
-  //               ENTRANCE: row.ENTRANCE,
-  //               REGISTER: row.REGISTER,
-  //               RESULT: row.RESULT,
-  //               SERVICE: row.SERVICE,
-  //               ID: row.ID,
-  //               OPERATOR_ID: row.OPERATOR_ID,
-  //               OPERATOR_STATUS: row.OPERATOR_STATUS,
-  //               ADDITIONAL: row.ADDITIONAL,
-  //               CREATED_AT: moment(row.CREATED_AT).format("L"),
-  //               key: i,
-  //             }))
-  //           );
-  //         })
-  //         .catch((error) => console.log("error", error));
-  //     }
-
-  //     if (value) {
-  //       fetch(`${process.env.REACT_APP_BASE_URL}/order?mobile=${value}`)
-  //         .then((response) => response.json())
-  //         .then((result) => {
-  //           setData(
-  //             result.data.map((row, i) => ({
-  //               FIRST_NAME: row.FIRST_NAME,
-  //               LAST_NAME: row.LAST_NAME,
-  //               CUST_TYPE: row.CUST_TYPE,
-  //               MOBILE: row.MOBILE,
-  //               EMAIL: row.EMAIL,
-  //               CITY: row.CITY,
-  //               DISTRICT: row.DISTRICT,
-  //               KHOROO: row.KHOROO,
-  //               APARTMENT: row.APARTMENT,
-  //               DOOR: row.DOOR,
-  //               ENTRANCE: row.ENTRANCE,
-  //               REGISTER: row.REGISTER,
-  //               RESULT: row.RESULT,
-  //               SERVICE: row.SERVICE,
-  //               ID: row.ID,
-  //               OPERATOR_ID: row.OPERATOR_ID,
-  //               OPERATOR_STATUS: row.OPERATOR_STATUS,
-  //               ADDITIONAL: row.ADDITIONAL,
-  //               CREATED_AT: moment(row.CREATED_AT).format("L"),
-  //               key: i,
-  //             }))
-  //           );
-  //         })
-  //         .catch((error) => console.log("error", error));
-  //     }
-  //   } else {
-  //     if (dates) {
-  //       fetch(
-  //         `${process.env.REACT_APP_BASE_URL}/order?begin=${dates[0]}&end=${dates[1]}`
-  //       )
-  //         .then((response) => response.json())
-  //         .then((result) => {
-  //           setData(
-  //             result.data.map((row, i) => ({
-  //               FIRST_NAME: row.FIRST_NAME,
-  //               LAST_NAME: row.LAST_NAME,
-  //               CUST_TYPE: row.CUST_TYPE,
-  //               MOBILE: row.MOBILE,
-  //               EMAIL: row.EMAIL,
-  //               CITY: row.CITY,
-  //               DISTRICT: row.DISTRICT,
-  //               KHOROO: row.KHOROO,
-  //               APARTMENT: row.APARTMENT,
-  //               DOOR: row.DOOR,
-  //               ENTRANCE: row.ENTRANCE,
-  //               REGISTER: row.REGISTER,
-  //               RESULT: row.RESULT,
-  //               SERVICE: row.SERVICE,
-  //               ID: row.ID,
-  //               OPERATOR_ID: row.OPERATOR_ID,
-  //               OPERATOR_STATUS: row.OPERATOR_STATUS,
-  //               ADDITIONAL: row.ADDITIONAL,
-  //               CREATED_AT: moment(row.CREATED_AT).format("L"),
-  //               key: i,
-  //             }))
-  //           );
-  //         })
-  //         .catch((error) => console.log("error", error));
-  //     }
-  //   }
-  // };
-
   const onSearch = (value, page, limit) => {
     page = 1;
     limit = 7;
@@ -238,6 +130,8 @@ function Order() {
   //
   //
 
+  const regexPattern = /"([^"]+)"/g;
+
   // GET
   useEffect(() => {
     if (user?.location !== undefined) {
@@ -258,11 +152,10 @@ function Order() {
               KHOROO: row.KHOROO,
               APARTMENT: row.APARTMENT,
               DOOR: row.DOOR,
-              ENTRANCE: row.ENTRANCE,
+              ENTRACE: row.ENTRACE,
               REGISTER: row.REGISTER,
               RESULT: row.RESULT,
               SERVICE: row.SERVICE,
-              ID: row.ID,
               OPERATOR_ID: row.OPERATOR_ID,
               OPERATOR_STATUS: row.OPERATOR_STATUS,
               ADDITIONAL: row.ADDITIONAL,
@@ -307,7 +200,7 @@ function Order() {
               KHOROO: row.KHOROO,
               APARTMENT: row.APARTMENT,
               DOOR: row.DOOR,
-              ENTRANCE: row.ENTRANCE,
+              ENTRACE: row.ENTRACE,
               REGISTER: row.REGISTER,
               RESULT: row.RESULT,
               SERVICE: row.SERVICE,
@@ -340,7 +233,7 @@ function Order() {
               KHOROO: row.KHOROO,
               APARTMENT: row.APARTMENT,
               DOOR: row.DOOR,
-              ENTRANCE: row.ENTRANCE,
+              ENTRACE: row.ENTRACE,
               REGISTER: row.REGISTER,
               RESULT: row.RESULT,
               SERVICE: row.SERVICE,
@@ -441,6 +334,7 @@ function Order() {
         open={isModalVisible}
         onOk={() => handleOk(modaldata.ID)}
         onCancel={handleCancel}
+        width={700}
       >
         <div className="pt">
           <div className="p1">
@@ -477,7 +371,7 @@ function Order() {
           </div>
           <div className="p1">
             <div style={{ width: "160px" }}>Орц : </div>
-            {modaldata.ENTRANCE}
+            {modaldata.ENTRACE}
           </div>
           <div className="p2">
             <div style={{ width: "160px" }}>Тоот : </div>
@@ -486,6 +380,10 @@ function Order() {
           <div className="p1">
             <div style={{ width: "160px" }}>Хувь хүн / Байгууллага : </div>
             {modaldata.CUST_TYPE}
+          </div>
+          <div className="p1">
+            <div style={{ width: "160px" }}>Үйлчилгээ</div>
+            {modaldata.SERVICE}
           </div>
           <div className="p2">
             <div style={{ width: "160px" }}>Email : </div>
