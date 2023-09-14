@@ -562,7 +562,7 @@ function Order() {
             },
             {
               value: "city",
-              label: "хаягаар",
+              label: "Хаяг",
             },
           ]}
         />
