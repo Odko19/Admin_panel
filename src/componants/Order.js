@@ -365,7 +365,7 @@ function Order() {
               ? "Байгууллага"
               : "Бизнес"}
           </div>
-          {modaldata.CUST_TYPE === "GOV" ? (
+          {modaldata.CUST_TYPE === "GOV" || modaldata.CUST_TYPE === "BUS" ? (
             <div className="p2">
               <div style={{ width: "160px" }}>Байгууллагын нэр : </div>
               {modaldata.CUST_NAME}
@@ -373,7 +373,7 @@ function Order() {
           ) : (
             ""
           )}
-          {modaldata.CUST_TYPE === "GOV" ? (
+          {modaldata.CUST_TYPE === "GOV" || modaldata.CUST_TYPE === "BUS" ? (
             <div className="p2">
               <div style={{ width: "160px" }}>Байгууллагын Регистр : </div>
               {modaldata.TAX_ID}
