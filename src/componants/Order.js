@@ -140,11 +140,11 @@ function Order() {
       )
         .then((response) => response.json())
         .then((result) => {
+          console.log(result);
           setData(
             result.data.map((row, i) => ({
               FIRST_NAME: row.FIRST_NAME,
               LAST_NAME: row.LAST_NAME,
-              CUST_TYPE: row.CUST_TYPE,
               MOBILE: row.MOBILE,
               EMAIL: row.EMAIL,
               CITY: row.CITY,
@@ -158,6 +158,8 @@ function Order() {
               SERVICE: row.SERVICE,
               OPERATOR_ID: row.OPERATOR_ID,
               OPERATOR_STATUS: row.OPERATOR_STATUS,
+              CUST_NAME: row.CUST_NAME,
+              CUST_TYPE: row.CUST_TYPE,
               ADDITIONAL: row.ADDITIONAL,
               CREATED_AT: moment(row.CREATED_AT).format("L"),
               key: i,
@@ -353,6 +355,23 @@ function Order() {
             <div style={{ width: "160px" }}>Регистр : </div>
             {modaldata.REGISTER}
           </div>
+
+          <div className="p1">
+            <div style={{ width: "160px" }}>Төрөл</div>
+            {modaldata.CUST_TYPE === "PSN"
+              ? "Хувь хүн"
+              : modaldata.CUST_TYPE === "GOV"
+              ? "Байгууллага"
+              : "Бизнес"}
+          </div>
+          {modaldata.CUST_TYPE === "GOV" ? (
+            <div className="p2">
+              <div style={{ width: "160px" }}>Байгууллагын нэр : </div>
+              {modaldata.CUST_NAME}
+            </div>
+          ) : (
+            ""
+          )}
           <div className="p1">
             <div style={{ width: "160px" }}>Хот/Аймаг: </div>
             {modaldata.CITY}
@@ -377,10 +396,7 @@ function Order() {
             <div style={{ width: "160px" }}>Тоот : </div>
             {modaldata.DOOR}
           </div>
-          <div className="p1">
-            <div style={{ width: "160px" }}>Хувь хүн / Байгууллага : </div>
-            {modaldata.CUST_TYPE}
-          </div>
+
           <div className="p1">
             <div style={{ width: "160px" }}>Үйлчилгээ</div>
             {modaldata.SERVICE}
