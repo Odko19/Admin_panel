@@ -160,6 +160,7 @@ function Order() {
               OPERATOR_STATUS: row.OPERATOR_STATUS,
               CUST_NAME: row.CUST_NAME,
               CUST_TYPE: row.CUST_TYPE,
+              TAX_ID: row.TAX_ID,
               ADDITIONAL: row.ADDITIONAL,
               CREATED_AT: moment(row.CREATED_AT).format("L"),
               key: i,
@@ -368,6 +369,14 @@ function Order() {
             <div className="p2">
               <div style={{ width: "160px" }}>Байгууллагын нэр : </div>
               {modaldata.CUST_NAME}
+            </div>
+          ) : (
+            ""
+          )}
+          {modaldata.CUST_TYPE === "GOV" ? (
+            <div className="p2">
+              <div style={{ width: "160px" }}>Байгууллагын Регистр : </div>
+              {modaldata.TAX_ID}
             </div>
           ) : (
             ""
