@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Table,
   Modal,
@@ -26,6 +27,7 @@ function Order() {
   const [checkValue, setCheckValue] = useState();
   const [checkState, setCheckState] = useState();
   const [url, setUrl] = useState();
+  const navigate = useNavigate();
 
   const onChange = (e) => {
     setCheckValue(e.target.value);
@@ -105,7 +107,7 @@ function Order() {
     myHeaders.append("Content-Type", "application/json");
     var raw = JSON.stringify({
       ID: record,
-      OPERATOR_ID: user.id,
+      OPERATOR_ID: user.firstName,
       OPERATOR_STATUS: 1,
     });
 
@@ -117,8 +119,12 @@ function Order() {
     };
 
     fetch(`${process.env.REACT_APP_BASE_URL}/order`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.success === true) {
+          navigate("/order");
+        }
+      })
       .catch((error) => console.log("error", error));
 
     setIsModalVisible(false);
@@ -140,9 +146,9 @@ function Order() {
       )
         .then((response) => response.json())
         .then((result) => {
-          console.log(result);
           setData(
             result.data.map((row, i) => ({
+              ID: row.ID,
               FIRST_NAME: row.FIRST_NAME,
               LAST_NAME: row.LAST_NAME,
               MOBILE: row.MOBILE,
