@@ -122,7 +122,7 @@ function Order() {
       .then((response) => response.json())
       .then((result) => {
         if (result.success === true) {
-          navigate("/order");
+          window.AbortControllerlocation.reload();
         }
       })
       .catch((error) => console.log("error", error));
