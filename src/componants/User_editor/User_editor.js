@@ -14,10 +14,11 @@ function User_editor({ data }) {
     "Санал хүсэлт",
     "Төлбөр төлөлт",
     "Захиалга",
+    "ИБаримт дугаар",
     "Дугаарын мэдээлэл",
     "Хувьцаа эзэмшигч",
     "Төхөөрөмж",
-    "Cover зураг"
+    "Cover зураг",
   ];
   const defaultCheckedList = ["Мэдээ / Урамшуулал"];
   const [checkedList, setCheckedList] = useState(defaultCheckedList);
@@ -78,6 +79,12 @@ function User_editor({ data }) {
           icon: "DollarCircleOutlined",
           to: "/Payment",
         });
+      } else if (e === "ИБаримт дугаар") {
+        arr2.push({
+          name: "ИБаримт дугаар",
+          icon: "FileSearchOutlined",
+          to: "/ebarimt",
+        });
       } else if (e === "Санал хүсэлт") {
         arr2.push({
           name: "Санал хүсэлт",
@@ -90,17 +97,17 @@ function User_editor({ data }) {
           icon: "UserAddOutlined",
           to: "/user",
         });
-      }   else if (e === "Cover зураг") {
-        arr2.push({ 
+      } else if (e === "Cover зураг") {
+        arr2.push({
           name: "Cover зураг",
           icon: "FileImageOutlined",
           to: "/cover",
         });
       }
-      return arr2
+      return arr2;
     });
   }
-  console.log(arr2)
+  console.log(arr2);
   handlerArr(checkedList);
 
   //Location

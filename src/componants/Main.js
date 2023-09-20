@@ -16,6 +16,7 @@ import EditorNewsUpdate from "./Editor/EditorUpdate";
 import EditorCreate from "./Editor/EditorCreate";
 import ProductEditorUpdate from "./Product_editor/Product_editor";
 import Shareholders from "./Shareholders";
+import EbarimtId from "./EbarimtId";
 import Account from "./Account";
 import Breadcrumbs from "./Breadcrumb";
 import Product from "./Product";
@@ -35,6 +36,7 @@ import {
   FileTextOutlined,
   FileAddOutlined,
   FileImageOutlined,
+  FileSearchOutlined,
 } from "@ant-design/icons";
 import ResNumber from "./ResNumber";
 import Addjob from "./Addjob";
@@ -74,6 +76,8 @@ function icongiver(icon) {
     return <FileAddOutlined />;
   } else if (icon === "FileImageOutlined") {
     return <FileImageOutlined />;
+  } else if (icon === "FileSearchOutlined") {
+    return <FileSearchOutlined />;
   }
 }
 function Main() {
@@ -240,6 +244,7 @@ function Main() {
                 <Route path="/order" element={<Order />} />
                 <Route path="/feedback" element={<Feedback />} />
                 <Route path="/Payment" element={<Payment />} />
+                <Route path="/ebarimt" element={<EbarimtId />} />
                 <Route path="/cover" element={<FaceCover />} />
                 <Route path="/cover/upload" element={<UploadCover />} />
               </Routes>

@@ -14,7 +14,7 @@ import {
 import "../styles/ordercss.css";
 import moment from "moment";
 
-function Order() {
+function EbarimtId() {
   const [data, setData] = useState();
   const [page, setPage] = useState();
   const [user, setUser] = useState([]);
@@ -137,46 +137,32 @@ function Order() {
 
   // GET
   useEffect(() => {
-    if (user?.location !== undefined) {
-      fetch(
-        `${process.env.REACT_APP_BASE_URL}/order?page=1&limit=7&location=${user?.location}`
-      )
-        .then((response) => response.json())
-        .then((result) => {
-          setData(
-            result.data.map((row, i) => ({
-              ID: row.ID,
-              FIRST_NAME: row.FIRST_NAME,
-              LAST_NAME: row.LAST_NAME,
-              MOBILE: row.MOBILE,
-              EMAIL: row.EMAIL,
-              CITY: row.CITY,
-              DISTRICT: row.DISTRICT,
-              KHOROO: row.KHOROO,
-              APARTMENT: row.APARTMENT,
-              DOOR: row.DOOR,
-              ENTRACE: row.ENTRACE,
-              REGISTER: row.REGISTER,
-              RESULT: row.RESULT,
-              SERVICE: row.SERVICE,
-              OPERATOR_ID: row.OPERATOR_ID,
-              OPERATOR_STATUS: row.OPERATOR_STATUS,
-              CUST_NAME: row.CUST_NAME,
-              CUST_TYPE: row.CUST_TYPE,
-              TAX_ID: row.TAX_ID,
-              ADDITIONAL: row.ADDITIONAL,
-              CREATED_AT: moment(row.CREATED_AT).format("L"),
-              key: i,
-            }))
-          );
-          setPage(result);
-        })
-        .catch((error) => console.log("error", error));
-    }
-  }, [modaldata, user]);
+    fetch(`${process.env.REACT_APP_BASE_URL}/ebarimt?page=1&limit=7`)
+      .then((response) => response.json())
+      .then((result) => {
+        setData(
+          result.data.map((row, i) => ({
+            ID: row.ID,
+            CUST_ID: row.CUST_ID,
+            REGNO: row.REGNO,
+            EBARIMT_ID: row.EBARIMT_ID,
+            CREATED_AT: moment(row.CREATED_AT).format("L"),
+            UPDATED_AT: row.UPDATED_AT,
+            ID_CHECK: row.ID_CHECK,
+            STAFF_ID: row.STAFF_ID,
+            MOBILE: row.MOBILE,
+            key: i,
+          }))
+        );
+        console.log(result);
+        setPage(result);
+      })
+      .catch((error) => console.log("error", error));
+  }, [modaldata]);
 
   // Pagination
   function handlePageChange(page) {
+    console.log(page);
     if (url) {
       const jsonObject = {};
 
@@ -184,36 +170,26 @@ function Order() {
         const [key, value] = item.split("=");
         jsonObject[key] = value;
       }
-
+      console.log(url);
       jsonObject.page = page;
       const queryString = Object.entries(jsonObject)
         .map(([key, value]) => `${key}=${value}`)
         .join("&");
 
-      fetch(`${process.env.REACT_APP_BASE_URL}/order?${queryString}`)
+      fetch(`${process.env.REACT_APP_BASE_URL}/ebarimt?${queryString}`)
         .then((response) => response.json())
         .then((result) => {
           setData(
             result.data.map((row, i) => ({
-              FIRST_NAME: row.FIRST_NAME,
-              LAST_NAME: row.LAST_NAME,
-              CUST_TYPE: row.CUST_TYPE,
-              MOBILE: row.MOBILE,
-              EMAIL: row.EMAIL,
-              CITY: row.CITY,
-              DISTRICT: row.DISTRICT,
-              KHOROO: row.KHOROO,
-              APARTMENT: row.APARTMENT,
-              DOOR: row.DOOR,
-              ENTRACE: row.ENTRACE,
-              REGISTER: row.REGISTER,
-              RESULT: row.RESULT,
-              SERVICE: row.SERVICE,
               ID: row.ID,
-              OPERATOR_ID: row.OPERATOR_ID,
-              OPERATOR_STATUS: row.OPERATOR_STATUS,
-              ADDITIONAL: row.ADDITIONAL,
+              CUST_ID: row.CUST_ID,
+              REGNO: row.REGNO,
+              EBARIMT_ID: row.EBARIMT_ID,
               CREATED_AT: moment(row.CREATED_AT).format("L"),
+              UPDATED_AT: row.UPDATED_AT,
+              ID_CHECK: row.ID_CHECK,
+              STAFF_ID: row.STAFF_ID,
+              MOBILE: row.MOBILE,
               key: i,
             }))
           );
@@ -221,32 +197,20 @@ function Order() {
         })
         .catch((error) => console.log("error", error));
     } else {
-      fetch(
-        `${process.env.REACT_APP_BASE_URL}/order?page=${page}&limit=7&location=${user?.location}`
-      )
+      fetch(`${process.env.REACT_APP_BASE_URL}/ebarimt?page=${page}&limit=7`)
         .then((response) => response.json())
         .then((result) => {
           setData(
             result.data.map((row, i) => ({
-              FIRST_NAME: row.FIRST_NAME,
-              LAST_NAME: row.LAST_NAME,
-              CUST_TYPE: row.CUST_TYPE,
-              MOBILE: row.MOBILE,
-              EMAIL: row.EMAIL,
-              CITY: row.CITY,
-              DISTRICT: row.DISTRICT,
-              KHOROO: row.KHOROO,
-              APARTMENT: row.APARTMENT,
-              DOOR: row.DOOR,
-              ENTRACE: row.ENTRACE,
-              REGISTER: row.REGISTER,
-              RESULT: row.RESULT,
-              SERVICE: row.SERVICE,
               ID: row.ID,
-              OPERATOR_ID: row.OPERATOR_ID,
-              OPERATOR_STATUS: row.OPERATOR_STATUS,
-              ADDITIONAL: row.ADDITIONAL,
+              CUST_ID: row.CUST_ID,
+              REGNO: row.REGNO,
+              EBARIMT_ID: row.EBARIMT_ID,
               CREATED_AT: moment(row.CREATED_AT).format("L"),
+              UPDATED_AT: row.UPDATED_AT,
+              ID_CHECK: row.ID_CHECK,
+              STAFF_ID: row.STAFF_ID,
+              MOBILE: row.MOBILE,
               key: i,
             }))
           );
@@ -258,62 +222,37 @@ function Order() {
 
   const columns = [
     {
-      title: "Овог",
-      width: "16%",
-      dataIndex: "LAST_NAME",
-      key: "LAST_NAME",
+      title: "ID",
+      dataIndex: "ID",
+      key: "ID",
     },
     {
-      title: "Нэр",
-      width: "16%",
-      dataIndex: "FIRST_NAME",
-      key: "FIRST_NAME",
+      title: "CUST_ID",
+      dataIndex: "CUST_ID",
+      key: "CUST_ID",
     },
     {
-      title: "Утас",
-      width: "9%",
+      title: "REGNO",
+      dataIndex: "REGNO",
+      key: "REGNO",
+    },
+    {
+      title: "EBARIMT_ID",
+      dataIndex: "EBARIMT_ID",
+      key: "EBARIMT_ID",
+    },
+
+    {
+      title: "CREATED_AT",
+      dataIndex: "CREATED_AT",
+      key: "CREATED_AT",
+    },
+    {
+      title: "MOBILE",
       dataIndex: "MOBILE",
       key: "MOBILE",
     },
-    {
-      title: "РД",
-      width: "11%",
-      dataIndex: "REGISTER",
-      key: "REGISTER",
-    },
-    {
-      title: "Хаяг",
-      width: "15%",
-      dataIndex: ["CITY", "DISTRICT"],
-      key: "address",
-      render: (text, row) => (
-        <span style={{ color: "black" }}>
-          {row["CITY"]} {row["DISTRICT"]}
-          {/* {row["KHOROO"]} {row["APARTMENT"]} {row["ENTRANCE" ]} орц {row["DOOR"]} тоот */}
-        </span>
-      ),
-    },
-    {
-      title: "Огноо",
-      width: "12%",
-      dataIndex: "CREATED_AT",
-      key: "address",
-    },
-    {
-      title: "Үзсэн",
-      width: "13%",
-      dataIndex: "OPERATOR_STATUS",
-      key: "OPERATOR_STATUS",
-      render: (text, row) => (
-        <span style={{ color: "#1890ff" }}>
-          {row["OPERATOR_STATUS"] === 1 ? (
-            "Шивэгдсэн"
-          ) : (
-            <li style={{ color: "#ff675f" }}>Шивэгдээгүй</li>
-          )}
-        </span>
-      ),
-    },
+
     {
       title: "Дэлгэрэнгүй",
       width: "12%",
@@ -509,4 +448,4 @@ function Order() {
   );
 }
 
-export default Order;
+export default EbarimtId;
