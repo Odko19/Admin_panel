@@ -68,10 +68,12 @@ function EbarimtId() {
     fetch(url)
       .then((response) => response.json())
       .then((result) => {
+        console.log(result);
         setData(
           result.data.map((row, i) => ({
             ID: row.ID,
             CUST_ID: row.CUST_ID,
+            CUST_NAME: row.CUST_NAME,
             REGNO: row.REGNO,
             EBARIMT_ID: row.EBARIMT_ID,
             CREATED_AT: moment(row.CREATED_AT).format("L"),
