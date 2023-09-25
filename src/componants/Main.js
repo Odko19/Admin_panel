@@ -17,6 +17,7 @@ import EditorCreate from "./Editor/EditorCreate";
 import ProductEditorUpdate from "./Product_editor/Product_editor";
 import Shareholders from "./Shareholders";
 import EbarimtId from "./EbarimtId";
+import EbarimtIdEdit from "./EbarimtIdEdit";
 import Account from "./Account";
 import Breadcrumbs from "./Breadcrumb";
 import Product from "./Product";
@@ -245,6 +246,7 @@ function Main() {
                 <Route path="/feedback" element={<Feedback />} />
                 <Route path="/Payment" element={<Payment />} />
                 <Route path="/ebarimt" element={<EbarimtId />} />
+                <Route path="/ebarimt/edit" element={<EbarimtIdEdit />} />
                 <Route path="/cover" element={<FaceCover />} />
                 <Route path="/cover/upload" element={<UploadCover />} />
               </Routes>
