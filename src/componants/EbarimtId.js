@@ -128,9 +128,12 @@ function EbarimtId() {
 
   // GET
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_BASE_URL}/ebarimt?page=1&limit=7`)
+    fetch(
+      `${process.env.REACT_APP_BASE_URL}/ebarimt?page=1&limit=7&location=${user?.location}`
+    )
       .then((response) => response.json())
       .then((result) => {
+        console.log(result);
         setData(
           result.data.map((row, i) => ({
             ID: row.ID,
@@ -138,6 +141,7 @@ function EbarimtId() {
             CUST_NAME: row.CUST_NAME,
             REGNO: row.REGNO,
             EBARIMT_ID: row.EBARIMT_ID,
+            LOCATION: `${row.LOCATION}`,
             CREATED_AT: moment(row.CREATED_AT).format("L"),
             UPDATED_AT: row.UPDATED_AT,
             ID_CHECK: row.ID_CHECK,
@@ -150,7 +154,7 @@ function EbarimtId() {
         setPage(result);
       })
       .catch((error) => console.log("error", error));
-  }, [modaldata]);
+  }, [modaldata, user]);
 
   // Pagination
   function handlePageChange(page) {
@@ -176,6 +180,7 @@ function EbarimtId() {
               CUST_NAME: row.CUST_NAME,
               REGNO: row.REGNO,
               EBARIMT_ID: row.EBARIMT_ID,
+              LOCATION: `${row.LOCATION}`,
               CREATED_AT: moment(row.CREATED_AT).format("L"),
               UPDATED_AT: row.UPDATED_AT,
               ID_CHECK: row.ID_CHECK,
@@ -198,6 +203,7 @@ function EbarimtId() {
               CUST_NAME: row.CUST_NAME,
               REGNO: row.REGNO,
               EBARIMT_ID: row.EBARIMT_ID,
+              LOCATION: `${row.LOCATION}`,
               CREATED_AT: moment(row.CREATED_AT).format("L"),
               UPDATED_AT: row.UPDATED_AT,
               ID_CHECK: row.ID_CHECK,
@@ -243,6 +249,11 @@ function EbarimtId() {
       title: "Утас дугаар",
       dataIndex: "MOBILE",
       key: "MOBILE",
+    },
+    {
+      title: "Утас дугаар",
+      dataIndex: "LOCATION",
+      key: "LOCATION",
     },
     {
       title: "Баталгаажуулах",
