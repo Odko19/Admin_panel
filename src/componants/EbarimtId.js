@@ -134,66 +134,66 @@ function EbarimtId() {
 
   // GET
   useEffect(() => {
-    console.log(user?.branch);
-    // user?.branch !== "0"
-    if (Object.values(user).length > 0 && user?.branch !== "0") {
-      fetch(
-        `${process.env.REACT_APP_BASE_URL}/ebarimt?page=1&limit=7&location=${user?.location}&branch=${user?.branch}`
-      )
-        .then((response) => response.json())
-        .then((result) => {
-          console.log(result);
-          setData(
-            result.data.map((row, i) => ({
-              ID: row.ID,
-              CUST_ID: row.CUST_ID,
-              CUST_NAME: row.CUST_NAME,
-              REGNO: row.REGNO,
-              HOROO: row.HOROO,
-              BRANCH: row.BRANCH,
-              EBARIMT_ID: row.EBARIMT_ID,
-              LOCATION: row.LOCATION,
-              CREATED_AT: moment(row.CREATED_AT).format("L"),
-              UPDATED_AT: row.UPDATED_AT,
-              ID_CHECK: row.ID_CHECK,
-              STAFF_ID: row.STAFF_ID,
-              MOBILE: row.MOBILE,
-              key: i,
-            }))
-          );
+    if (Object.values(user).length > 0) {
+      if (user?.branch !== "0") {
+        fetch(
+          `${process.env.REACT_APP_BASE_URL}/ebarimt?page=1&limit=7&location=${user?.location}&branch=${user?.branch}`
+        )
+          .then((response) => response.json())
+          .then((result) => {
+            console.log(result);
+            setData(
+              result.data.map((row, i) => ({
+                ID: row.ID,
+                CUST_ID: row.CUST_ID,
+                CUST_NAME: row.CUST_NAME,
+                REGNO: row.REGNO,
+                HOROO: row.HOROO,
+                BRANCH: row.BRANCH,
+                EBARIMT_ID: row.EBARIMT_ID,
+                LOCATION: row.LOCATION,
+                CREATED_AT: moment(row.CREATED_AT).format("L"),
+                UPDATED_AT: row.UPDATED_AT,
+                ID_CHECK: row.ID_CHECK,
+                STAFF_ID: row.STAFF_ID,
+                MOBILE: row.MOBILE,
+                key: i,
+              }))
+            );
 
-          setPage(result);
-        })
-        .catch((error) => console.log("error", error));
-    } else {
-      fetch(
-        `${process.env.REACT_APP_BASE_URL}/ebarimt?page=1&limit=7&location=${user?.location}`
-      )
-        .then((response) => response.json())
-        .then((result) => {
-          console.log(result);
-          setData(
-            result.data.map((row, i) => ({
-              ID: row.ID,
-              CUST_ID: row.CUST_ID,
-              CUST_NAME: row.CUST_NAME,
-              REGNO: row.REGNO,
-              EBARIMT_ID: row.EBARIMT_ID,
-              LOCATION: `${row.LOCATION}`,
-              HOROO: row.HOROO,
-              BRANCH: row.BRANCH,
-              CREATED_AT: moment(row.CREATED_AT).format("L"),
-              UPDATED_AT: row.UPDATED_AT,
-              ID_CHECK: row.ID_CHECK,
-              STAFF_ID: row.STAFF_ID,
-              MOBILE: row.MOBILE,
-              key: i,
-            }))
-          );
+            setPage(result);
+          })
+          .catch((error) => console.log("error", error));
+      } else {
+        fetch(
+          `${process.env.REACT_APP_BASE_URL}/ebarimt?page=1&limit=7&location=${user?.location}`
+        )
+          .then((response) => response.json())
+          .then((result) => {
+            console.log(result);
+            setData(
+              result.data.map((row, i) => ({
+                ID: row.ID,
+                CUST_ID: row.CUST_ID,
+                CUST_NAME: row.CUST_NAME,
+                REGNO: row.REGNO,
+                EBARIMT_ID: row.EBARIMT_ID,
+                LOCATION: `${row.LOCATION}`,
+                HOROO: row.HOROO,
+                BRANCH: row.BRANCH,
+                CREATED_AT: moment(row.CREATED_AT).format("L"),
+                UPDATED_AT: row.UPDATED_AT,
+                ID_CHECK: row.ID_CHECK,
+                STAFF_ID: row.STAFF_ID,
+                MOBILE: row.MOBILE,
+                key: i,
+              }))
+            );
 
-          setPage(result);
-        })
-        .catch((error) => console.log("error", error));
+            setPage(result);
+          })
+          .catch((error) => console.log("error", error));
+      }
     }
   }, [modaldata, user]);
 
