@@ -47,23 +47,26 @@ function EbarimtId() {
   const onSearch = (value, page, limit) => {
     page = 1;
     limit = 7;
+    const location = user?.location;
+    const branch = user?.branch;
     let url = `${process.env.REACT_APP_BASE_URL}/ebarimt`;
     const queryParams = [];
-
     if (value) {
-      queryParams.push(`${choiceTwo}=${value}`);
+      queryParams.push(`&${choiceTwo}=${value}`);
     }
     if (dates && dates.length === 2) {
       queryParams.push(`begin=${dates[0]}`, `end=${dates[1]}`);
     }
-
     if (page && limit) {
       queryParams.push(`page=${page}`, `limit=${limit}`);
     }
-
+    if (location && branch) {
+      queryParams.push(`location=${location}`, `branch=${branch}`);
+    }
     if (queryParams.length > 0) {
       url += `?${queryParams.join("&")}`;
     }
+    console.log(url);
     setUrl(queryParams);
     fetch(url)
       .then((response) => response.json())
@@ -76,6 +79,9 @@ function EbarimtId() {
             CUST_NAME: row.CUST_NAME,
             REGNO: row.REGNO,
             EBARIMT_ID: row.EBARIMT_ID,
+            LOCATION: row.LOCATION,
+            HOROO: row.HOROO,
+            BRANCH: row.BRANCH,
             CREATED_AT: moment(row.CREATED_AT).format("L"),
             UPDATED_AT: row.UPDATED_AT,
             ID_CHECK: row.ID_CHECK,
@@ -128,32 +134,67 @@ function EbarimtId() {
 
   // GET
   useEffect(() => {
-    fetch(
-      `${process.env.REACT_APP_BASE_URL}/ebarimt?page=1&limit=7&location=${user?.location}`
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-        setData(
-          result.data.map((row, i) => ({
-            ID: row.ID,
-            CUST_ID: row.CUST_ID,
-            CUST_NAME: row.CUST_NAME,
-            REGNO: row.REGNO,
-            EBARIMT_ID: row.EBARIMT_ID,
-            LOCATION: `${row.LOCATION}`,
-            CREATED_AT: moment(row.CREATED_AT).format("L"),
-            UPDATED_AT: row.UPDATED_AT,
-            ID_CHECK: row.ID_CHECK,
-            STAFF_ID: row.STAFF_ID,
-            MOBILE: row.MOBILE,
-            key: i,
-          }))
-        );
+    console.log(user?.branch);
+    // user?.branch !== "0"
+    if (Object.values(user).length > 0 && user?.branch !== "0") {
+      fetch(
+        `${process.env.REACT_APP_BASE_URL}/ebarimt?page=1&limit=7&location=${user?.location}&branch=${user?.branch}`
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result);
+          setData(
+            result.data.map((row, i) => ({
+              ID: row.ID,
+              CUST_ID: row.CUST_ID,
+              CUST_NAME: row.CUST_NAME,
+              REGNO: row.REGNO,
+              HOROO: row.HOROO,
+              BRANCH: row.BRANCH,
+              EBARIMT_ID: row.EBARIMT_ID,
+              LOCATION: row.LOCATION,
+              CREATED_AT: moment(row.CREATED_AT).format("L"),
+              UPDATED_AT: row.UPDATED_AT,
+              ID_CHECK: row.ID_CHECK,
+              STAFF_ID: row.STAFF_ID,
+              MOBILE: row.MOBILE,
+              key: i,
+            }))
+          );
 
-        setPage(result);
-      })
-      .catch((error) => console.log("error", error));
+          setPage(result);
+        })
+        .catch((error) => console.log("error", error));
+    } else {
+      fetch(
+        `${process.env.REACT_APP_BASE_URL}/ebarimt?page=1&limit=7&location=${user?.location}`
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result);
+          setData(
+            result.data.map((row, i) => ({
+              ID: row.ID,
+              CUST_ID: row.CUST_ID,
+              CUST_NAME: row.CUST_NAME,
+              REGNO: row.REGNO,
+              EBARIMT_ID: row.EBARIMT_ID,
+              LOCATION: `${row.LOCATION}`,
+              HOROO: row.HOROO,
+              BRANCH: row.BRANCH,
+              CREATED_AT: moment(row.CREATED_AT).format("L"),
+              UPDATED_AT: row.UPDATED_AT,
+              ID_CHECK: row.ID_CHECK,
+              STAFF_ID: row.STAFF_ID,
+              MOBILE: row.MOBILE,
+              key: i,
+            }))
+          );
+
+          setPage(result);
+        })
+        .catch((error) => console.log("error", error));
+    }
   }, [modaldata, user]);
 
   // Pagination
@@ -181,6 +222,35 @@ function EbarimtId() {
               REGNO: row.REGNO,
               EBARIMT_ID: row.EBARIMT_ID,
               LOCATION: `${row.LOCATION}`,
+              HOROO: row.HOROO,
+              BRANCH: row.BRANCH,
+              CREATED_AT: moment(row.CREATED_AT).format("L"),
+              UPDATED_AT: row.UPDATED_AT,
+              ID_CHECK: row.ID_CHECK,
+              STAFF_ID: row.STAFF_ID,
+              MOBILE: row.MOBILE,
+              key: i,
+            }))
+          );
+          setPage(result);
+        })
+        .catch((error) => console.log("error", error));
+    } else if (Object.values(user).length > 0 && user?.branch !== "0") {
+      fetch(
+        `${process.env.REACT_APP_BASE_URL}/ebarimt?page=${page}&limit=7&location=${user?.location}&branch=${user?.branch}`
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          setData(
+            result.data.map((row, i) => ({
+              ID: row.ID,
+              CUST_ID: row.CUST_ID,
+              CUST_NAME: row.CUST_NAME,
+              REGNO: row.REGNO,
+              EBARIMT_ID: row.EBARIMT_ID,
+              LOCATION: row.LOCATION,
+              HOROO: row.HOROO,
+              BRANCH: row.BRANCH,
               CREATED_AT: moment(row.CREATED_AT).format("L"),
               UPDATED_AT: row.UPDATED_AT,
               ID_CHECK: row.ID_CHECK,
@@ -193,7 +263,9 @@ function EbarimtId() {
         })
         .catch((error) => console.log("error", error));
     } else {
-      fetch(`${process.env.REACT_APP_BASE_URL}/ebarimt?page=${page}&limit=7`)
+      fetch(
+        `${process.env.REACT_APP_BASE_URL}/ebarimt?page=${page}&limit=7&location=${user?.location}`
+      )
         .then((response) => response.json())
         .then((result) => {
           setData(
@@ -203,7 +275,9 @@ function EbarimtId() {
               CUST_NAME: row.CUST_NAME,
               REGNO: row.REGNO,
               EBARIMT_ID: row.EBARIMT_ID,
-              LOCATION: `${row.LOCATION}`,
+              LOCATION: row.LOCATION,
+              HOROO: row.HOROO,
+              BRANCH: row.BRANCH,
               CREATED_AT: moment(row.CREATED_AT).format("L"),
               UPDATED_AT: row.UPDATED_AT,
               ID_CHECK: row.ID_CHECK,
@@ -443,7 +517,7 @@ function EbarimtId() {
             },
             {
               value: "mobile",
-              label: "Утасны дугаар",
+              label: "Гар утас",
             },
             {
               value: "regno",
@@ -452,6 +526,10 @@ function EbarimtId() {
             {
               value: "cust_id",
               label: "Гэрээний дугаар",
+            },
+            {
+              value: "horoo",
+              label: "Хороо",
             },
           ]}
         />

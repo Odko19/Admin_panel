@@ -107,17 +107,36 @@ function User_editor({ data }) {
       return arr2;
     });
   }
-  console.log(arr2);
   handlerArr(checkedList);
 
   //Location
   const onChangeSelect = (value) => {
-    setLocation(value);
+    if (
+      value === "УБ Баруун бүс" ||
+      value === "УБ Төвийн бүс" ||
+      value === "УБ Зүүн бүс"
+    ) {
+      let pattern = /(\S+)\s+(\S+).*\s+(\S+)/;
+      let match = value.match(pattern);
+      if (match) {
+        let firstWord = match[1];
+        let secondWord = match[2];
+        let lastWord = match[3];
+        setLocation({
+          location: firstWord,
+          branch: `${secondWord} ${lastWord}`,
+        });
+      }
+    } else {
+      setLocation({
+        location: value,
+        branch: 0,
+      });
+    }
   };
   const onSearch = (value) => {
     // console.log('search:', value);
   };
-
   //
   const [password, setPassword] = useState(null);
   const [firstName, setFirstName] = useState(data ? data.firstName : null);
@@ -131,7 +150,8 @@ function User_editor({ data }) {
       firstName: firstName,
       password: password,
       permission: arr2,
-      location: location,
+      location: location.location,
+      branch: location.branch,
       id: data.id,
     });
 
@@ -141,7 +161,6 @@ function User_editor({ data }) {
       body: raw,
       redirect: "follow",
     };
-
     fetch(`${process.env.REACT_APP_BASE_URL}/users`, requestOptions)
       .then((response) => response.text())
       .then((result) => {
@@ -159,12 +178,12 @@ function User_editor({ data }) {
   const handleSubmit = () => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-
     var raw = JSON.stringify({
       firstName: firstName,
       password: 111111,
       permission: arr2,
-      location: location,
+      location: location.location,
+      branch: location.branch,
     });
 
     var requestOptions = {
