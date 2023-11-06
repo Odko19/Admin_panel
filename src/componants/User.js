@@ -32,7 +32,6 @@ function User() {
   let navigate = useNavigate();
   function handleBtnEdit(record) {
     setSelect(record);
-    console.log(record);
   }
 
   function handleBtnCreate() {

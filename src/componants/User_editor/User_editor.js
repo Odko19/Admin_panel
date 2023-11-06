@@ -20,7 +20,11 @@ function User_editor({ data }) {
     "Төхөөрөмж",
     "Cover зураг",
   ];
-  const defaultCheckedList = ["Мэдээ / Урамшуулал"];
+  const defaultCheckedList = [
+    ...data?.permission.map((e) => {
+      return e.name;
+    }),
+  ];
   const [checkedList, setCheckedList] = useState(defaultCheckedList);
 
   const [indeterminate, setIndeterminate] = useState(true);

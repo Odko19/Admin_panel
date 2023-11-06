@@ -60,13 +60,13 @@ function EbarimtId() {
     if (page && limit) {
       queryParams.push(`page=${page}`, `limit=${limit}`);
     }
-    if (location && branch) {
-      queryParams.push(`location=${location}`, `branch=${branch}`);
-    }
+    // if (location && branch) {
+    //   queryParams.push(`location=${location}`, `branch=${branch}`);
+    // }
     if (queryParams.length > 0) {
       url += `?${queryParams.join("&")}`;
     }
-    console.log(url);
+
     setUrl(queryParams);
     fetch(url)
       .then((response) => response.json())
@@ -141,7 +141,6 @@ function EbarimtId() {
         )
           .then((response) => response.json())
           .then((result) => {
-            console.log(result);
             setData(
               result.data.map((row, i) => ({
                 ID: row.ID,
@@ -170,7 +169,6 @@ function EbarimtId() {
         )
           .then((response) => response.json())
           .then((result) => {
-            console.log(result);
             setData(
               result.data.map((row, i) => ({
                 ID: row.ID,
@@ -325,9 +323,19 @@ function EbarimtId() {
       key: "MOBILE",
     },
     {
-      title: "Утас дугаар",
-      dataIndex: "LOCATION",
-      key: "LOCATION",
+      title: "Хаяг",
+
+      dataIndex: "",
+      key: "action",
+      render: (record) => (
+        <div>
+          {record.BRANCH === undefined ? (
+            <p>{`${record.LOCATION}  ${record.HOROO}`}</p>
+          ) : (
+            <p>{`${record.LOCATION} ${record.BRANCH} ${record.HOROO}`}</p>
+          )}
+        </div>
+      ),
     },
     {
       title: "Баталгаажуулах",
