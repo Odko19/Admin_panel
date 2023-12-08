@@ -35,6 +35,7 @@ function User() {
   }
 
   function handleBtnCreate() {
+    console.log("hihi");
     navigate("/user/create");
   }
 

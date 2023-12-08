@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { UserAddOutlined } from "@ant-design/icons";
 
 function User_editor({ data }) {
+  console.log(data);
   let navigate = useNavigate();
 
   const CheckboxGroup = Checkbox.Group;
@@ -20,11 +21,15 @@ function User_editor({ data }) {
     "Төхөөрөмж",
     "Cover зураг",
   ];
+  // const defaultCheckedList = [
+  //   ...data?.permission.map((e) => {
+  //     return e.name;
+  //   }),
+  // ];
   const defaultCheckedList = [
-    ...data?.permission.map((e) => {
-      return e.name;
-    }),
+    ...(data?.permission?.map((e) => e.name) || []), // Ensure data.permission is an array
   ];
+
   const [checkedList, setCheckedList] = useState(defaultCheckedList);
 
   const [indeterminate, setIndeterminate] = useState(true);
@@ -229,371 +234,377 @@ function User_editor({ data }) {
   };
   //
 
-  return data ? (
-    <div className="Adduser_container">
-      <>
-        <Checkbox
-          indeterminate={indeterminate}
-          onChange={onCheckAllChange}
-          checked={checkAll}
-        >
-          Check all
-        </Checkbox>
-        <Divider />
-        <CheckboxGroup
-          options={plainOptions}
-          value={checkedList}
-          onChange={onChange}
-        />
-      </>
-
-      {/* Login  */}
-
-      <div style={{ marginTop: "20px" }}>
-        <Form
-          name="basic"
-          wrapperCol={{ span: 16 }}
-          initialValues={{ firstName: data.firstName }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
-          <Form.Item
-            name="firstName"
-            rules={[
-              {
-                required: true,
-                message: "Нэрээ оруулна уу!",
-              },
-            ]}
-          >
-            <Input
-              value={firstName}
-              id="firstName"
-              onChange={(e) => handleInputChange(e)}
-              placeholder="Name"
-              style={{ width: 300 }}
+  return (
+    <>
+      {data ? (
+        <div className="Adduser_container">
+          <>
+            <Checkbox
+              indeterminate={indeterminate}
+              onChange={onCheckAllChange}
+              checked={checkAll}
+            >
+              Check all
+            </Checkbox>
+            <Divider />
+            <CheckboxGroup
+              options={plainOptions}
+              value={checkedList}
+              onChange={onChange}
             />
-          </Form.Item>
-          <Form.Item
-            name="password"
-            rules={[
-              {
-                required: true,
-                message: "Нууц үгээ оруулна уу!",
-              },
-            ]}
+          </>
+
+          {/* Login  */}
+
+          <div style={{ marginTop: "20px" }}>
+            <Form
+              name="basic"
+              wrapperCol={{ span: 16 }}
+              initialValues={{ firstName: data.firstName }}
+              onFinish={onFinish}
+              onFinishFailed={onFinishFailed}
+              autoComplete="off"
+            >
+              <Form.Item
+                name="firstName"
+                rules={[
+                  {
+                    required: true,
+                    message: "Нэрээ оруулна уу!",
+                  },
+                ]}
+              >
+                <Input
+                  value={firstName}
+                  id="firstName"
+                  onChange={(e) => handleInputChange(e)}
+                  placeholder="Name"
+                  style={{ width: 300 }}
+                />
+              </Form.Item>
+              <Form.Item
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: "Нууц үгээ оруулна уу!",
+                  },
+                ]}
+              >
+                <Select
+                  style={{ width: "300px" }}
+                  showSearch
+                  placeholder="Байршилаа"
+                  optionFilterProp="children"
+                  onChange={onChangeSelect}
+                  onSearch={onSearch}
+                  filterOption={(input, option) =>
+                    (option?.label ?? "")
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                  options={[
+                    {
+                      value: "УБ",
+                      label: "Улаанбаатар",
+                    },
+                    {
+                      value: "УБ Баруун бүс",
+                      label: "Улаанбаатар Баруун бүс",
+                    },
+                    {
+                      value: "УБ Төвийн бүс",
+                      label: "Улаанбаатар Төвийн бүс",
+                    },
+                    {
+                      value: "УБ Зүүн бүс",
+                      label: "Улаанбаатар Зүүн бүс",
+                    },
+                    {
+                      value: "Баганхангай",
+                      label: "Баганхангай",
+                    },
+
+                    {
+                      value: "Архангай",
+                      label: "Архангай",
+                    },
+                    {
+                      value: "Баянхонгор",
+                      label: "Баянхонгор",
+                    },
+                    {
+                      value: "Баян-Өлгий",
+                      label: "Баян-Өлгий",
+                    },
+                    {
+                      value: "Булган",
+                      label: "Булган",
+                    },
+                    {
+                      value: "Говь-Алтай",
+                      label: "Говь-Алтай",
+                    },
+                    {
+                      value: "Говьсүмбэр",
+                      label: "Говьсүмбэр",
+                    },
+                    {
+                      value: "Дархан-уул",
+                      label: "Дархан-уул",
+                    },
+                    {
+                      value: "Дорнод",
+                      label: "Дорнод",
+                    },
+                    {
+                      value: "Дорноговь",
+                      label: "Дорноговь",
+                    },
+                    {
+                      value: "Дундговь",
+                      label: "Дундговь",
+                    },
+                    {
+                      value: "Завхан",
+                      label: "Завхан",
+                    },
+                    {
+                      value: "Орхон",
+                      label: "Завхан",
+                    },
+                    {
+                      value: "Өвөрхангай",
+                      label: "Завхан",
+                    },
+                    {
+                      value: "Өмнөговь",
+                      label: "Завхан",
+                    },
+                    {
+                      value: "Сүхбаатар",
+                      label: "Сүхбаатар",
+                    },
+                    {
+                      value: "Сэлэнгэ",
+                      label: "Сэлэнгэ",
+                    },
+                    {
+                      value: "Төв",
+                      label: "Төв",
+                    },
+                    {
+                      value: "Увс",
+                      label: "Увс",
+                    },
+                    {
+                      value: "Ховд",
+                      label: "Ховд",
+                    },
+                    {
+                      value: "Хөвсгөл",
+                      label: "Хөвсгөл",
+                    },
+                    {
+                      value: "Хэнтий",
+                      label: "Хэнтий",
+                    },
+                  ]}
+                />
+              </Form.Item>
+            </Form>
+          </div>
+          <Button
+            htmlType="submit"
+            style={{ marginTop: 10 }}
+            onClick={() => handleEdit()}
+            type="primary"
+            icon={<UserAddOutlined />}
           >
-            <Select
-              style={{ width: "300px" }}
-              showSearch
-              placeholder="Байршилаа"
-              optionFilterProp="children"
-              onChange={onChangeSelect}
-              onSearch={onSearch}
-              filterOption={(input, option) =>
-                (option?.label ?? "")
-                  .toLowerCase()
-                  .includes(input.toLowerCase())
-              }
-              options={[
-                {
-                  value: "УБ",
-                  label: "Улаанбаатар",
-                },
-                {
-                  value: "УБ Баруун бүс",
-                  label: "Улаанбаатар Баруун бүс",
-                },
-                {
-                  value: "УБ Төвийн бүс",
-                  label: "Улаанбаатар Төвийн бүс",
-                },
-                {
-                  value: "УБ Зүүн бүс",
-                  label: "Улаанбаатар Зүүн бүс",
-                },
-                {
-                  value: "Баганхангай",
-                  label: "Баганхангай",
-                },
-
-                {
-                  value: "Архангай",
-                  label: "Архангай",
-                },
-                {
-                  value: "Баянхонгор",
-                  label: "Баянхонгор",
-                },
-                {
-                  value: "Баян-Өлгий",
-                  label: "Баян-Өлгий",
-                },
-                {
-                  value: "Булган",
-                  label: "Булган",
-                },
-                {
-                  value: "Говь-Алтай",
-                  label: "Говь-Алтай",
-                },
-                {
-                  value: "Говьсүмбэр",
-                  label: "Говьсүмбэр",
-                },
-                {
-                  value: "Дархан-уул",
-                  label: "Дархан-уул",
-                },
-                {
-                  value: "Дорнод",
-                  label: "Дорнод",
-                },
-                {
-                  value: "Дорноговь",
-                  label: "Дорноговь",
-                },
-                {
-                  value: "Дундговь",
-                  label: "Дундговь",
-                },
-                {
-                  value: "Завхан",
-                  label: "Завхан",
-                },
-                {
-                  value: "Орхон",
-                  label: "Завхан",
-                },
-                {
-                  value: "Өвөрхангай",
-                  label: "Завхан",
-                },
-                {
-                  value: "Өмнөговь",
-                  label: "Завхан",
-                },
-                {
-                  value: "Сүхбаатар",
-                  label: "Сүхбаатар",
-                },
-                {
-                  value: "Сэлэнгэ",
-                  label: "Сэлэнгэ",
-                },
-                {
-                  value: "Төв",
-                  label: "Төв",
-                },
-                {
-                  value: "Увс",
-                  label: "Увс",
-                },
-                {
-                  value: "Ховд",
-                  label: "Ховд",
-                },
-                {
-                  value: "Хөвсгөл",
-                  label: "Хөвсгөл",
-                },
-                {
-                  value: "Хэнтий",
-                  label: "Хэнтий",
-                },
-              ]}
+            Edit
+          </Button>
+        </div>
+      ) : (
+        <div className="Adduser_container">
+          <>
+            <Checkbox
+              indeterminate={indeterminate}
+              onChange={onCheckAllChange}
+              checked={checkAll}
+            >
+              Check all
+            </Checkbox>
+            <Divider />
+            <CheckboxGroup
+              options={plainOptions}
+              value={checkedList}
+              onChange={onChange}
             />
-          </Form.Item>
-        </Form>
-      </div>
-      <Button
-        htmlType="submit"
-        style={{ marginTop: 10 }}
-        onClick={() => handleEdit()}
-        type="primary"
-        icon={<UserAddOutlined />}
-      >
-        Edit
-      </Button>
-    </div>
-  ) : (
-    <div className="Adduser_container">
-      <>
-        <Checkbox
-          indeterminate={indeterminate}
-          onChange={onCheckAllChange}
-          checked={checkAll}
-        >
-          Check all
-        </Checkbox>
-        <Divider />
-        <CheckboxGroup
-          options={plainOptions}
-          value={checkedList}
-          onChange={onChange}
-        />
-      </>
+          </>
 
-      {/* Login  */}
+          {/* Login  */}
 
-      <div style={{ marginTop: "20px" }}>
-        <Form
-          name="basic"
-          wrapperCol={{ span: 16 }}
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
-          <Form.Item
-            name="username"
-            rules={[
-              {
-                required: true,
-                message: "Нэрээ оруулна уу!",
-              },
-            ]}
+          <div style={{ marginTop: "20px" }}>
+            <Form
+              name="basic"
+              wrapperCol={{ span: 16 }}
+              initialValues={{ remember: true }}
+              onFinish={onFinish}
+              onFinishFailed={onFinishFailed}
+              autoComplete="off"
+            >
+              <Form.Item
+                name="username"
+                rules={[
+                  {
+                    required: true,
+                    message: "Нэрээ оруулна уу!",
+                  },
+                ]}
+              >
+                <Input
+                  value={firstName}
+                  id="firstName"
+                  onChange={(e) => handleInputChange(e)}
+                  placeholder="Name"
+                  style={{ width: 300 }}
+                />
+              </Form.Item>
+
+              <Select
+                style={{ width: "300px" }}
+                showSearch
+                placeholder="Байршилаа"
+                optionFilterProp="children"
+                onChange={onChangeSelect}
+                onSearch={onSearch}
+                filterOption={(input, option) =>
+                  (option?.label ?? "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+                options={[
+                  {
+                    value: "УБ",
+                    label: "Улаанбаатар",
+                  },
+                  {
+                    value: "УБ Баруун бүс",
+                    label: "Улаанбаатар Баруун бүс",
+                  },
+                  {
+                    value: "УБ Төвийн бүс",
+                    label: "Улаанбаатар Төвийн бүс",
+                  },
+                  {
+                    value: "УБ Зүүн бүс",
+                    label: "Улаанбаатар Зүүн бүс",
+                  },
+                  {
+                    value: "Баганхангай",
+                    label: "Баганхангай",
+                  },
+
+                  {
+                    value: "Архангай",
+                    label: "Архангай",
+                  },
+                  {
+                    value: "Баянхонгор",
+                    label: "Баянхонгор",
+                  },
+                  {
+                    value: "Баян-Өлгий",
+                    label: "Баян-Өлгий",
+                  },
+                  {
+                    value: "Булган",
+                    label: "Булган",
+                  },
+                  {
+                    value: "Говь-Алтай",
+                    label: "Говь-Алтай",
+                  },
+                  {
+                    value: "Говьсүмбэр",
+                    label: "Говьсүмбэр",
+                  },
+                  {
+                    value: "Дархан-уул",
+                    label: "Дархан-уул",
+                  },
+                  {
+                    value: "Дорнод",
+                    label: "Дорнод",
+                  },
+                  {
+                    value: "Дорноговь",
+                    label: "Дорноговь",
+                  },
+                  {
+                    value: "Дундговь",
+                    label: "Дундговь",
+                  },
+                  {
+                    value: "Завхан",
+                    label: "Завхан",
+                  },
+                  {
+                    value: "Орхон",
+                    label: "Завхан",
+                  },
+                  {
+                    value: "Өвөрхангай",
+                    label: "Завхан",
+                  },
+                  {
+                    value: "Өмнөговь",
+                    label: "Завхан",
+                  },
+                  {
+                    value: "Сүхбаатар",
+                    label: "Сүхбаатар",
+                  },
+                  {
+                    value: "Сэлэнгэ",
+                    label: "Сэлэнгэ",
+                  },
+                  {
+                    value: "Төв",
+                    label: "Төв",
+                  },
+                  {
+                    value: "Увс",
+                    label: "Увс",
+                  },
+                  {
+                    value: "Ховд",
+                    label: "Ховд",
+                  },
+                  {
+                    value: "Хөвсгөл",
+                    label: "Хөвсгөл",
+                  },
+                  {
+                    value: "Хэнтий",
+                    label: "Хэнтий",
+                  },
+                ]}
+              />
+            </Form>
+          </div>
+          <Button
+            htmlType="submit"
+            style={{ marginTop: 10 }}
+            onClick={() => handleSubmit()}
+            type="primary"
+            icon={<UserAddOutlined />}
           >
-            <Input
-              value={firstName}
-              id="firstName"
-              onChange={(e) => handleInputChange(e)}
-              placeholder="Name"
-              style={{ width: 300 }}
-            />
-          </Form.Item>
-
-          <Select
-            style={{ width: "300px" }}
-            showSearch
-            placeholder="Байршилаа"
-            optionFilterProp="children"
-            onChange={onChangeSelect}
-            onSearch={onSearch}
-            filterOption={(input, option) =>
-              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
-            }
-            options={[
-              {
-                value: "УБ",
-                label: "Улаанбаатар",
-              },
-              {
-                value: "УБ Баруун бүс",
-                label: "Улаанбаатар Баруун бүс",
-              },
-              {
-                value: "УБ Төвийн бүс",
-                label: "Улаанбаатар Төвийн бүс",
-              },
-              {
-                value: "УБ Зүүн бүс",
-                label: "Улаанбаатар Зүүн бүс",
-              },
-              {
-                value: "Баганхангай",
-                label: "Баганхангай",
-              },
-
-              {
-                value: "Архангай",
-                label: "Архангай",
-              },
-              {
-                value: "Баянхонгор",
-                label: "Баянхонгор",
-              },
-              {
-                value: "Баян-Өлгий",
-                label: "Баян-Өлгий",
-              },
-              {
-                value: "Булган",
-                label: "Булган",
-              },
-              {
-                value: "Говь-Алтай",
-                label: "Говь-Алтай",
-              },
-              {
-                value: "Говьсүмбэр",
-                label: "Говьсүмбэр",
-              },
-              {
-                value: "Дархан-уул",
-                label: "Дархан-уул",
-              },
-              {
-                value: "Дорнод",
-                label: "Дорнод",
-              },
-              {
-                value: "Дорноговь",
-                label: "Дорноговь",
-              },
-              {
-                value: "Дундговь",
-                label: "Дундговь",
-              },
-              {
-                value: "Завхан",
-                label: "Завхан",
-              },
-              {
-                value: "Орхон",
-                label: "Завхан",
-              },
-              {
-                value: "Өвөрхангай",
-                label: "Завхан",
-              },
-              {
-                value: "Өмнөговь",
-                label: "Завхан",
-              },
-              {
-                value: "Сүхбаатар",
-                label: "Сүхбаатар",
-              },
-              {
-                value: "Сэлэнгэ",
-                label: "Сэлэнгэ",
-              },
-              {
-                value: "Төв",
-                label: "Төв",
-              },
-              {
-                value: "Увс",
-                label: "Увс",
-              },
-              {
-                value: "Ховд",
-                label: "Ховд",
-              },
-              {
-                value: "Хөвсгөл",
-                label: "Хөвсгөл",
-              },
-              {
-                value: "Хэнтий",
-                label: "Хэнтий",
-              },
-            ]}
-          />
-        </Form>
-      </div>
-      <Button
-        htmlType="submit"
-        style={{ marginTop: 10 }}
-        onClick={() => handleSubmit()}
-        type="primary"
-        icon={<UserAddOutlined />}
-      >
-        Create
-      </Button>
-    </div>
+            Create
+          </Button>
+        </div>
+      )}
+    </>
   );
 }
 export default User_editor;
