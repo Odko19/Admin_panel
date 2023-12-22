@@ -131,11 +131,15 @@ function Main() {
           trigger={null}
           collapsible
           collapsed={collapsed}
-          width="18%"
           style={{
             backgroundColor: currentTheme === "light" ? "#194569" : "black",
             color: "white",
-            height: "100%",
+            overflow: "auto",
+            height: "100vh",
+            position: "fixed",
+            left: 0,
+            top: 0,
+            bottom: 0,
           }}
         >
           <div
@@ -174,7 +178,13 @@ function Main() {
             }
           />
         </Sider>
-        <Layout theme="dark" className="site-layout" style={{}}>
+        <Layout
+          theme="dark"
+          className="site-layout"
+          style={{
+            marginLeft: 200,
+          }}
+        >
           <Header
             style={{
               backgroundColor: currentTheme === "light" ? "#fff" : "#212121",
