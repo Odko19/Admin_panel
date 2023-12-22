@@ -123,7 +123,8 @@ function User_editor({ data }) {
     if (
       value === "УБ Баруун бүс" ||
       value === "УБ Төвийн бүс" ||
-      value === "УБ Зүүн бүс"
+      value === "УБ Зүүн бүс" ||
+      value === "УБ Өмнөд бүс"
     ) {
       let pattern = /(\S+)\s+(\S+).*\s+(\S+)/;
       let match = value.match(pattern);
