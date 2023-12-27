@@ -154,7 +154,7 @@ function Product() {
       dataIndex: "product_type",
       key: "product_type",
     },
- 
+
     {
       title: "Засах",
       key: "edit",
@@ -213,13 +213,13 @@ function Product() {
           style={{ marginTop: "20px" }}
           columns={columns}
           dataSource={data}
-          pagination={{
-            position: ["bottomCenter"],
-            pageSize: page?.currentPageSize,
-            current: page?.currentPage,
-            total: page?.totalDatas,
-            onChange: (page) => handlePageChange(page),
-          }}
+          // pagination={{
+          //   position: ["bottomCenter"],
+          //   pageSize: page?.currentPageSize,
+          //   current: page?.currentPage,
+          //   total: page?.totalDatas,
+          //   onChange: (page) => handlePageChange(page),
+          // }}
         />
       </div>
     </div>

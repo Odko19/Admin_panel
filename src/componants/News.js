@@ -286,13 +286,13 @@ function Content() {
             columns={columns}
             dataSource={data}
             className="news_table"
-            pagination={{
-              position: ["bottomCenter"],
-              pageSize: page?.currentPageSize,
-              current: page?.currentPage,
-              total: page?.totalDatas,
-              onChange: (page) => handlePageChange(page),
-            }}
+            // pagination={{
+            //   position: ["bottomCenter"],
+            //   pageSize: page?.currentPageSize,
+            //   current: page?.currentPage,
+            //   total: page?.totalDatas,
+            //   onChange: (page) => handlePageChange(page),
+            // }}
           />
         </div>
       )}

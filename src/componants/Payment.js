@@ -321,14 +321,14 @@ function Payment() {
         style={{ height: "450px" }}
         columns={columns}
         dataSource={data}
-        pagination={{
-          position: ["bottomCenter"],
-          pageSize: page?.currentPageSize,
-          current: page?.currentPage,
-          total: page?.totalPages,
-          showSizeChanger: true,
-          onChange: (page) => handlePageChange(page),
-        }}
+        // pagination={{
+        //   position: ["bottomCenter"],
+        //   pageSize: page?.currentPageSize,
+        //   current: page?.currentPage,
+        //   total: page?.totalPages,
+        //   showSizeChanger: true,
+        //   onChange: (page) => handlePageChange(page),
+        // }}
       />
     </div>
   );

@@ -130,13 +130,13 @@ function Feedback() {
         dataSource={data}
         style={{ marginTop: "20px" }}
         columns={columns}
-        pagination={{
-          position: ["bottomCenter"],
-          pageSize: page?.currentPageSize,
-          current: page?.currentPage,
-          total: page?.totalDatas,
-          onChange: (page) => handlePageChange(page),
-        }}
+        // pagination={{
+        //   position: ["bottomCenter"],
+        //   pageSize: page?.currentPageSize,
+        //   current: page?.currentPage,
+        //   total: page?.totalDatas,
+        //   onChange: (page) => handlePageChange(page),
+        // }}
       />
     </div>
   );
