@@ -9,7 +9,6 @@ import "../styles/login.css";
 import { LoginOutlined } from "@ant-design/icons";
 
 function handleLogin(e) {
-  //
   const openNotification = (type) => {
     if (type === "success") {
       notification[type]({
@@ -40,6 +39,7 @@ function handleLogin(e) {
   fetch(`${process.env.REACT_APP_BASE_URL}/login`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
+      console.log(result);
       if (result.success === false) {
         openNotification("error");
       } else {

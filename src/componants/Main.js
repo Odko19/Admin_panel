@@ -147,6 +147,8 @@ function Main() {
               padding: "25px",
               // backgroundColor: "#bae7ff",
               color: "#fff",
+              display: "flex",
+              alignItems: "center",
             }}
           >
             <Avatar
