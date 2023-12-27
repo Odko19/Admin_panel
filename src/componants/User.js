@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Input, Table, Tag } from "antd";
 import UserUpdate from "./User_editor/User_editor";
 import { EditOutlined, SearchOutlined } from "@ant-design/icons";
+import moment from "moment";
 import "../styles/news.css";
 
 function User() {
@@ -97,7 +98,29 @@ function User() {
       })
       .catch((error) => console.log("error", error));
   }
-
+  // search
+  function handleBtnSearch(e) {
+    if (e.target.value) {
+      fetch(
+        `${process.env.REACT_APP_BASE_URL}/users/search?page=1&limit=6&value=${e.target.value}`
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          setData(
+            result.data.map((row, i) => ({
+              id: row.id,
+              firstName: row.firstName,
+              permission: row.permission,
+              password: row.password,
+              location: row.location,
+              key: i,
+            }))
+          );
+          setPage(result);
+        })
+        .catch((error) => console.log("error", error));
+    }
+  }
   return (
     <div className="news">
       {select ? (
@@ -113,17 +136,7 @@ function User() {
               Админ нэмэх
             </Button>
             <Input
-              onChange={(e) => {
-                if (e.target.value.length > 0) {
-                  const filteredData = data.filter((entry) =>
-                    entry.firstName.toLowerCase().includes(e.target.value)
-                  );
-                  setData(filteredData);
-                } else {
-                  console.log(e.target.value.length);
-                  window.location.reload(false);
-                }
-              }}
+              onChange={handleBtnSearch}
               placeholder="Нэр"
               className="news_search"
               suffix={<SearchOutlined />}
@@ -133,13 +146,13 @@ function User() {
             columns={columns}
             dataSource={data}
             className="news_table"
-            pagination={{
-              position: ["bottomCenter"],
-              pageSize: page?.currentPageSize,
-              current: page?.currentPage,
-              total: page?.totalDatas,
-              onChange: (page) => handlePageChange(page),
-            }}
+            // pagination={{
+            //   position: ["bottomCenter"],
+            //   pageSize: page?.currentPageSize,
+            //   current: page?.currentPage,
+            //   total: page?.totalPages,
+            //   onChange: (page) => handlePageChange(page),
+            // }}
           />
         </div>
       )}

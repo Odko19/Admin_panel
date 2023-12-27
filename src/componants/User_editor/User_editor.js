@@ -245,7 +245,7 @@ function User_editor({ data }) {
               onChange={onCheckAllChange}
               checked={checkAll}
             >
-              Check all
+              Бүгд
             </Checkbox>
             <Divider />
             <CheckboxGroup
@@ -260,7 +260,7 @@ function User_editor({ data }) {
           <div style={{ marginTop: "20px" }}>
             <Form
               name="basic"
-              wrapperCol={{ span: 16 }}
+              // wrapperCol={{ span: 16 }}
               initialValues={{ firstName: data.firstName }}
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
@@ -279,8 +279,8 @@ function User_editor({ data }) {
                   value={firstName}
                   id="firstName"
                   onChange={(e) => handleInputChange(e)}
-                  placeholder="Name"
-                  style={{ width: 300 }}
+                  placeholder="Хэрэглэгчийн нэр оруулана уу?"
+                  style={{ width: "100%" }}
                 />
               </Form.Item>
               <Form.Item
@@ -293,9 +293,9 @@ function User_editor({ data }) {
                 ]}
               >
                 <Select
-                  style={{ width: "300px" }}
+                  style={{ width: "100%" }}
                   showSearch
-                  placeholder="Байршилаа"
+                  placeholder="Байршил сонгоно уу?"
                   optionFilterProp="children"
                   onChange={onChangeSelect}
                   onSearch={onSearch}
@@ -437,7 +437,7 @@ function User_editor({ data }) {
               onChange={onCheckAllChange}
               checked={checkAll}
             >
-              Check all
+              Бүгд
             </Checkbox>
             <Divider />
             <CheckboxGroup
@@ -452,7 +452,6 @@ function User_editor({ data }) {
           <div style={{ marginTop: "20px" }}>
             <Form
               name="basic"
-              wrapperCol={{ span: 16 }}
               initialValues={{ remember: true }}
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
@@ -471,15 +470,15 @@ function User_editor({ data }) {
                   value={firstName}
                   id="firstName"
                   onChange={(e) => handleInputChange(e)}
-                  placeholder="Name"
-                  style={{ width: 300 }}
+                  placeholder="Хэрэглэгчийн нэр оруулана уу?"
+                  style={{ width: "100%" }}
                 />
               </Form.Item>
 
               <Select
-                style={{ width: "300px" }}
+                style={{ width: "100%" }}
                 showSearch
-                placeholder="Байршилаа"
+                placeholder="Байршил сонгоно уу?"
                 optionFilterProp="children"
                 onChange={onChangeSelect}
                 onSearch={onSearch}
@@ -604,12 +603,12 @@ function User_editor({ data }) {
           </div>
           <Button
             htmlType="submit"
-            style={{ marginTop: 10 }}
+            style={{ marginTop: 20, width: "100%" }}
             onClick={() => handleSubmit()}
             type="primary"
             icon={<UserAddOutlined />}
           >
-            Create
+            Шинэ хэрэглэгч нэмэх
           </Button>
         </div>
       )}

@@ -264,8 +264,7 @@ function EditorUpdate({ data, type }) {
           />
         </div>
         <button type="submit" onClick={log} className="btn_submit">
-          {" "}
-          Submit{" "}
+          Хадгалах
         </button>
       </form>
     </div>

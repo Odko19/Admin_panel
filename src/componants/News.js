@@ -31,8 +31,6 @@ function Content() {
     }
   };
 
-  //
-
   // GET
 
   useEffect(() => {
@@ -165,7 +163,6 @@ function Content() {
             {record.title}
           </a>
         ),
-
       onFilter: (text, record) => {
         return record.title.toLowerCase().includes(text.toLowerCase());
       },
@@ -218,7 +215,37 @@ function Content() {
       ),
     },
   ];
+  // search value
 
+  function handleBtnSearch(e) {
+    if (e.target.value) {
+      fetch(
+        `${process.env.REACT_APP_BASE_URL}/news/search?page=1&limit=6&value=${e.target.value}`
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          setData(
+            result.data.map((row, i) => ({
+              title: row.title,
+              created_by: row.created_by,
+              created_at: moment(row.created_at).format("YYYY/MM/DD"),
+              cover_img: row.cover_img,
+              expires_at:
+                row.expires_at === null
+                  ? "-"
+                  : moment(row.expires_at).format("YYYY/MM/DD"),
+              customer_type: row.customer_type,
+              type: row.type,
+              id: row.id,
+              body: row.body,
+              key: i,
+            }))
+          );
+          setPage(result);
+        })
+        .catch((error) => console.log("error", error));
+    }
+  }
   return (
     <div className="news">
       {select ? (
@@ -233,19 +260,23 @@ function Content() {
             >
               Мэдээ нэмэх
             </Button>
+
             <Input
-              onChange={(e) => {
-                if (e.target.value.length > 0) {
-                  const filteredData = data.filter((entry) =>
-                    entry.title.toLowerCase().includes(e.target.value)
-                  );
-                  setData(filteredData);
-                } else {
-                  console.log(e.target.value.length);
-                  window.location.reload(false);
-                }
-              }}
-              placeholder="Нэрээ оруулна уу"
+              onChange={(e) =>
+                //    {
+                //   if (e.target.value.length > 0) {
+                //     const filteredData = data.filter((entry) =>
+                //       entry.title.toLowerCase().includes(e.target.value)
+                //     );
+                //     setData(filteredData);
+                //   } else {
+                //     console.log(e.target.value.length);
+                //     window.location.reload(false);
+                //   }
+                // }
+                handleBtnSearch(e)
+              }
+              placeholder="Гарчиг оруулна уу"
               className="news_search"
               suffix={<SearchOutlined />}
             />
