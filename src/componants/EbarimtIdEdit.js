@@ -29,6 +29,7 @@ export default function EbarimtIdEdit() {
       STAFF_ID: user.firstName,
       CUST_ID: values.CUST_ID,
       MOBILE: values.MOBILE,
+      EBARIMT_ID: values.EBARIMT_ID,
       REGNO: values.REGNO,
       ID: id,
     });
@@ -44,7 +45,6 @@ export default function EbarimtIdEdit() {
       .then((response) => response.json())
       .then((result) => {
         if (result.success === true) {
-          console.log(result);
           navigate("/ebarimt");
         }
       })
@@ -53,7 +53,6 @@ export default function EbarimtIdEdit() {
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-  console.log(data);
 
   return (
     <div>
@@ -100,7 +99,7 @@ export default function EbarimtIdEdit() {
           <Input />
         </Form.Item>
         <Form.Item label="EBARIMT_ID" name="EBARIMT_ID">
-          <Input disabled />
+          <Input />
         </Form.Item>
         <Form.Item label="MOBILE" name="MOBILE">
           <Input />

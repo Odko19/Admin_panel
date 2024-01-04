@@ -213,7 +213,8 @@ function Main() {
               </Radio.Group>
 
               <Button
-                type="primary"
+                // type="primary"
+                className="bg-[#194569]"
                 icon={<PoweroffOutlined />}
                 onClick={handleClickAgain3}
               >
