@@ -43,6 +43,7 @@ function Payment() {
             PAYMENT_WALLET: row.PAYMENT_WALLET,
             TRANS_ID: row.TRANS_ID,
             AMOUNT: row.AMOUNT,
+            BILL_STATUS: row.BILL_STATUS,
             EMAIL: row.EMAIL,
             ACCOUNT_NUMBER: row.ACCOUNT_NUMBER,
             CREATED_DATE: moment(row.CREATED_DATE).format("YYYY/MM/DD"),
@@ -67,7 +68,6 @@ function Payment() {
   //Modal Onclick
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modaldata, setModaldata] = useState([]);
-
   const showModal = (record) => {
     setModaldata(record);
     setIsModalVisible(true);
@@ -89,6 +89,7 @@ function Payment() {
             PAYMENT_WALLET: row.PAYMENT_WALLET,
             TRANS_ID: row.TRANS_ID,
             AMOUNT: row.AMOUNT,
+            BILL_STATUS: row.BILL_STATUS,
             EMAIL: row.EMAIL,
             ACCOUNT_NUMBER: row.ACCOUNT_NUMBER,
             CREATED_DATE: moment(row.CREATED_DATE).format("YYYY/MM/DD"),
@@ -207,10 +208,24 @@ function Payment() {
       key: "PAYMENT_WALLET",
     },
 
+    // {
+    //   title: "CARD_TYPE",
+    //   dataIndex: "CARD_TYPE",
+    //   key: "product_price",
+    // },
     {
-      title: "CARD_TYPE",
-      dataIndex: "CARD_TYPE",
-      key: "product_price",
+      title: "BILL_STATUS",
+      dataIndex: "BILL_STATUS",
+      key: "BILL_STATUS",
+      render: (text, row) => (
+        <p>
+          {row.BILL_STATUS === "F" ? (
+            <span style={{ color: "red" }}>failure</span>
+          ) : (
+            <span>success</span>
+          )}
+        </p>
+      ),
     },
     {
       title: "P/status",
