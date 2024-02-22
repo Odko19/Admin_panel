@@ -160,11 +160,10 @@ function EditorCreate() {
 
           <Editor
             onInit={(evt, editor) => (editorRef.current = editor)}
-            apiKey="ykxkjlhd2fvg9a7438npciyxbqlml47jlo2izm9flcrbp4jv"
+            apiKey="6l8e13d050ex3ddhtvalhsjhfxb3tyxqqxi5k64vcjw50cxe"
             init={{
               height: "55vh",
               menubar: true,
-
               plugins: [
                 "a11ychecker",
                 "advlist",
