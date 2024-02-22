@@ -147,6 +147,7 @@ function EditorUpdate({ data, type }) {
             )}
           </div>
           <Editor
+            apiKey="ykxkjlhd2fvg9a7438npciyxbqlml47jlo2izm9flcrbp4jv"
             initialValue={data?.body}
             onInit={(evt, editor) => (editorRef.current = editor)}
             init={{
