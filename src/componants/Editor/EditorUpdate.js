@@ -1,10 +1,9 @@
-import React, { useState, useRef } from "react";
-import { Editor } from "@tinymce/tinymce-react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
+import  Jodit  from "jodit-react"
 import axios from "axios";
 import { notification, Radio, Input, DatePicker } from "antd";
 import "../../styles/editor.css";
 import moment from "moment";
-
 function EditorUpdate({ data, type }) {
   const [placement, SetPlacement] = useState(data.type);
   const placementChange = (e) => {
@@ -14,14 +13,106 @@ function EditorUpdate({ data, type }) {
   const userchoiseChange = (e) => {
     return SetUserchoise(e.target.value);
   };
-  const [body, setBody] = useState();
+  const [body, setBody] = useState(data.body);
   const editorRef = useRef(null);
+    useEffect(() => {
+    setBody(data.body);
+  }, [data.body]);
   const log = () => {
     if (editorRef.current) {
       setBody(editorRef.current.getContent());
     }
   };
-
+const config = useMemo(() => ({
+  readonly: false,
+  toolbar: true,
+  spellcheck: true,
+  language: "en",
+  toolbarButtonSize: "medium",
+  toolbarAdaptive: false,
+  showCharsCounter: true,
+  showWordsCounter: true,
+  showXPathInStatusbar: false,
+  askBeforePasteHTML: true,
+  askBeforePasteFromWord: true,
+  uploader: {
+    insertImageAsBase64URI: true,
+    imagesExtensions: ['jpg', 'png', 'jpeg', 'gif'],
+    filesExtensions: ['pdf', 'doc', 'docx', 'xls', 'xlsx'],
+    format: 'json',
+    method: 'POST',
+    withCredentials: false,
+    url: `${process.env.REACT_APP_BASE_URL}/image/file`,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+    queryBuild: function (data) {
+      return JSON.stringify(data);
+    },
+    contentType: function () {
+      return 'application/json';
+    },
+          buildData: function (files) {
+        const formData = new FormData();
+        if (Array.isArray(files) && files.every(file => file instanceof Blob)) {
+          files.forEach((file, index) => {
+            formData.append(`files[${index}]`, file);
+          });
+        } else {
+          console.error("Invalid files object:", files);
+          return null;
+        }
+        return formData;
+      },
+    prepareData: async function (formData) {
+  const file = formData.getAll("files[0]")[0];
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/image/file`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    const fileUrl = response.data.file.map((file) => {
+      return `${process.env.REACT_APP_BASE_URL}/uploads/${file.file}`;
+    });
+    const originalFilename = response.data.file[0].name
+    const decodedFilename = decodeURIComponent(escape(originalFilename));
+    setBody(prevContent => `${prevContent}<a href="${fileUrl[0]}" target="_blank">${decodedFilename}</a>`);
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    return null;
+  }
+},
+    isSuccess: function (resp) {
+      return !resp.error;
+    },
+    getMessage: function (resp) {
+  if (resp && resp.msgs) {
+    return resp.msgs.join("\n");
+  } else {
+    return "Error: No messages found";
+  }
+    },
+    process: function (resp) {
+      console.log(resp);
+      return {
+        files: resp.data.message,
+        path: resp.message,
+        baseurl: resp.message,
+        error: resp.message,
+        message: resp.message
+      };
+    },
+    defaultHandlerSuccess: function (data, resp) {
+      const files = data.files || [];
+      if (files.length) {
+        this.selection.insertImage(files[0], null, 250);
+      }
+    },
+  },
+}), []);
   const openNotification = (type) => {
     if (type === "error") {
       notification[type]({
@@ -35,7 +126,6 @@ function EditorUpdate({ data, type }) {
       });
     }
   };
-
   function handleBtnEdit(e) {
     e.preventDefault();
     var formdata = new FormData();
@@ -83,7 +173,6 @@ function EditorUpdate({ data, type }) {
                   defaultValue={data.title}
                 />
               </div>
-
               <div className="input_div_in">
                 <label className="input_label m_left">Нүүр зураг </label>
                 <input
@@ -146,123 +235,13 @@ function EditorUpdate({ data, type }) {
               ""
             )}
           </div>
-          <Editor
-            apiKey="6l8e13d050ex3ddhtvalhsjhfxb3tyxqqxi5k64vcjw50cxev"
-            initialValue={data?.body}
-            onInit={(evt, editor) => (editorRef.current = editor)}
-            init={{
-              menubar: true,
-              plugins: [
-                "a11ychecker",
-                "advlist",
-                "advcode",
-                "advtable",
-                "autolink",
-                "checklist",
-                "export",
-                "lists",
-                "link",
-                "image",
-                "charmap",
-                "preview",
-                "anchor",
-                "searchreplace",
-                "visualblocks",
-                "powerpaste",
-                "fullscreen",
-                "formatpainter",
-                "insertdatetime",
-                "media",
-                "table",
-                "help",
-                "wordcount",
-              ],
-              toolbar:
-                "undo redo | casechange blocks | bold italic backcolor | " +
-                "alignleft aligncenter alignright alignjustify | " +
-                "bullist numlist checklist outdent indent | removeformat | a11ycheck code table help",
-              selector: "textarea#drive",
-              file_picker_types: "file image media",
-              quickbars_insert_toolbar: "quickimage quicktable ",
-              quickbars_image_toolbar:
-                "alignleft aligncenter alignright alignjustify | bullist numlist outdent indent",
-              quickbars_selection_toolbar:
-                "bold italic alignleft aligncenter alignright alignjustify ",
-              automatic_uploads: true,
-              file_picker_callback: function (cb, value, meta) {
-                var input = document.createElement("input");
-                if (meta.filetype === "file") {
-                  input.setAttribute("type", "file");
-                  input.onchange = function () {
-                    var file = this.files[0];
-                    var reader = new FileReader();
-                    reader.onload = function () {
-                      var id = "blobid" + new Date().getTime();
-                      var blobCache = editorRef.current.editorUpload.blobCache;
-                      var base64 = reader.result.split(",")[1];
-                      var blobInfo = blobCache.create(id, file, base64);
-                      let data = new FormData();
-                      data.append("file", blobInfo.blob());
-                      axios
-                        .post(
-                          `${process.env.REACT_APP_BASE_URL}/image/file`,
-                          data
-                        )
-
-                        .then(function (res) {
-                          res.data.file.map((file) => {
-                            return cb(
-                              `https://api2.telecommongolia.mn/v1/uploads/${file}`
-                            );
-                          });
-                        })
-                        .catch(function (err) {
-                          console.log(err);
-                        });
-                    };
-                    reader.readAsDataURL(file);
-                  };
-                  input.click();
-                }
-                if (meta.filetype === "image") {
-                  // var input = document.createElement("input");
-                  input.setAttribute("type", "file");
-                  input.setAttribute("accept", "image/*");
-
-                  input.onchange = function () {
-                    var file = this.files[0];
-                    var reader = new FileReader();
-                    reader.onload = function () {
-                      var id = "blobid" + new Date().getTime();
-                      var blobCache = editorRef.current.editorUpload.blobCache;
-                      var base64 = reader.result.split(",")[1];
-                      var blobInfo = blobCache.create(id, file, base64);
-                      let data = new FormData();
-                      data.append(
-                        "cover_img",
-                        blobInfo.blob(),
-                        blobInfo.filename()
-                      );
-                      axios
-                        .post(`${process.env.REACT_APP_BASE_URL}/image`, data)
-                        .then(function (res) {
-                          res.data.images.map((image) => {
-                            return cb(
-                              ` ${process.env.REACT_APP_API_URL}/uploads/${image}`
-                            );
-                          });
-                        })
-                        .catch(function (err) {
-                          console.log(err);
-                        });
-                    };
-                    reader.readAsDataURL(file);
-                  };
-                  input.click();
-                }
-              },
-            }}
-          />
+          <Jodit
+            ref={editorRef}
+            value={body}
+            config={config}
+            tabIndex={1}
+            onBlur={(newBody) => setBody(newBody)}
+            />
         </div>
         <button type="submit" onClick={log} className="btn_submit">
           Хадгалах
@@ -271,5 +250,4 @@ function EditorUpdate({ data, type }) {
     </div>
   );
 }
-
 export default EditorUpdate;
