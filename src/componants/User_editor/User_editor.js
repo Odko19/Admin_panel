@@ -120,6 +120,7 @@ function User_editor({ data }) {
 
   //Location
   const onChangeSelect = (value) => {
+    console.log(value)
     if (
       value === "УБ Баруун бүс" ||
       value === "УБ Төвийн бүс" ||
@@ -304,189 +305,6 @@ function User_editor({ data }) {
                       .toLowerCase()
                       .includes(input.toLowerCase())
                   }
-                  options={[
-                    {
-                      value: "УБ",
-                      label: "Улаанбаатар",
-                    },
-                    {
-                      value: "УБ Баруун бүс",
-                      label: "Улаанбаатар Баруун бүс",
-                    },
-                    {
-                      value: "УБ Төвийн бүс",
-                      label: "Улаанбаатар Төвийн бүс",
-                    },
-                    {
-                      value: "УБ Зүүн бүс",
-                      label: "Улаанбаатар Зүүн бүс",
-                    },
-                    {
-                      value: "УБ Өмнөд бүс",
-                      label: "Улаанбаатар Өмнөд бүс",
-                    },
-                    {
-                      value: "Баганхангай",
-                      label: "Баганхангай",
-                    },
-
-                    {
-                      value: "Архангай",
-                      label: "Архангай",
-                    },
-                    {
-                      value: "Баянхонгор",
-                      label: "Баянхонгор",
-                    },
-                    {
-                      value: "Баян-Өлгий",
-                      label: "Баян-Өлгий",
-                    },
-                    {
-                      value: "Булган",
-                      label: "Булган",
-                    },
-                    {
-                      value: "Говь-Алтай",
-                      label: "Говь-Алтай",
-                    },
-                    {
-                      value: "Говьсүмбэр",
-                      label: "Говьсүмбэр",
-                    },
-                    {
-                      value: "Дархан-уул",
-                      label: "Дархан-уул",
-                    },
-                    {
-                      value: "Дорнод",
-                      label: "Дорнод",
-                    },
-                    {
-                      value: "Дорноговь",
-                      label: "Дорноговь",
-                    },
-                    {
-                      value: "Дундговь",
-                      label: "Дундговь",
-                    },
-                    {
-                      value: "Завхан",
-                      label: "Завхан",
-                    },
-                    {
-                      value: "Орхон",
-                      label: "Орхон",
-                    },
-                    {
-                      value: "Өвөрхангай",
-                      label: "Өвөрхангай",
-                    },
-                    {
-                      value: "Өмнөговь",
-                      label: "Өмнөговь",
-                    },
-                    {
-                      value: "Сүхбаатар",
-                      label: "Сүхбаатар",
-                    },
-                    {
-                      value: "Сэлэнгэ",
-                      label: "Сэлэнгэ",
-                    },
-                    {
-                      value: "Төв",
-                      label: "Төв",
-                    },
-                    {
-                      value: "Увс",
-                      label: "Увс",
-                    },
-                    {
-                      value: "Ховд",
-                      label: "Ховд",
-                    },
-                    {
-                      value: "Хөвсгөл",
-                      label: "Хөвсгөл",
-                    },
-                    {
-                      value: "Хэнтий",
-                      label: "Хэнтий",
-                    },
-                  ]}
-                />
-              </Form.Item>
-            </Form>
-          </div>
-          <Button
-            htmlType="submit"
-            style={{ marginTop: 10 }}
-            onClick={() => handleEdit()}
-            type="primary"
-            icon={<UserAddOutlined />}
-          >
-            Edit
-          </Button>
-        </div>
-      ) : (
-        <div className="Adduser_container">
-          <>
-            <Checkbox
-              indeterminate={indeterminate}
-              onChange={onCheckAllChange}
-              checked={checkAll}
-            >
-              Бүгд
-            </Checkbox>
-            <Divider />
-            <CheckboxGroup
-              options={plainOptions}
-              value={checkedList}
-              onChange={onChange}
-            />
-          </>
-
-          {/* Login  */}
-
-          <div style={{ marginTop: "20px" }}>
-            <Form
-              name="basic"
-              initialValues={{ remember: true }}
-              onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
-              autoComplete="off"
-            >
-              <Form.Item
-                name="username"
-                rules={[
-                  {
-                    required: true,
-                    message: "Нэрээ оруулна уу!",
-                  },
-                ]}
-              >
-                <Input
-                  value={firstName}
-                  id="firstName"
-                  onChange={(e) => handleInputChange(e)}
-                  placeholder="Хэрэглэгчийн нэр оруулана уу?"
-                  style={{ width: "100%" }}
-                />
-              </Form.Item>
-
-              <Select
-                style={{ width: "100%" }}
-                showSearch
-                placeholder="Байршил сонгоно уу?"
-                optionFilterProp="children"
-                onChange={onChangeSelect}
-                onSearch={onSearch}
-                filterOption={(input, option) =>
-                  (option?.label ?? "")
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
                 options={[
                   {
                     value: "УБ",
@@ -497,10 +315,6 @@ function User_editor({ data }) {
                     label: "Улаанбаатар Баруун бүс",
                   },
                   {
-                    value: "УБ Төвийн бүс",
-                    label: "Улаанбаатар Төвийн бүс",
-                  },
-                  {
                     value: "УБ Зүүн бүс",
                     label: "Улаанбаатар Зүүн бүс",
                   },
@@ -509,13 +323,20 @@ function User_editor({ data }) {
                     label: "Улаанбаатар Өмнөд бүс",
                   },
                   {
-                    value: "Баганхангай",
-                    label: "Баганхангай",
+                    value: "УБ Төвийн бүс",
+                    label: "Улаанбаатар Төвийн бүс",
                   },
-
                   {
                     value: "Архангай",
                     label: "Архангай",
+                  },
+                  {
+                    value: "Баганхангай",
+                    label: "Баганхангай",
+                  },
+                  {
+                    value: "Багануур",
+                    label: "Багануур",
                   },
                   {
                     value: "Баянхонгор",
@@ -598,6 +419,193 @@ function User_editor({ data }) {
                     label: "Хэнтий",
                   },
                 ]}
+                />
+              </Form.Item>
+            </Form>
+          </div>
+          <Button
+            htmlType="submit"
+            style={{ marginTop: 10 }}
+            onClick={() => handleEdit()}
+            type="primary"
+            icon={<UserAddOutlined />}
+          >
+            Edit
+          </Button>
+        </div>
+      ) : (
+        <div className="Adduser_container">
+          <>
+            <Checkbox
+              indeterminate={indeterminate}
+              onChange={onCheckAllChange}
+              checked={checkAll}
+            >
+              Бүгд
+            </Checkbox>
+            <Divider />
+            <CheckboxGroup
+              options={plainOptions}
+              value={checkedList}
+              onChange={onChange}
+            />
+          </>
+
+          {/* Login  */}
+
+          <div style={{ marginTop: "20px" }}>
+            <Form
+              name="basic"
+              initialValues={{ remember: true }}
+              onFinish={onFinish}
+              onFinishFailed={onFinishFailed}
+              autoComplete="off"
+            >
+              <Form.Item
+                name="username"
+                rules={[
+                  {
+                    required: true,
+                    message: "Нэрээ оруулна уу!",
+                  },
+                ]}
+              >
+                <Input
+                  value={firstName}
+                  id="firstName"
+                  onChange={(e) => handleInputChange(e)}
+                  placeholder="Хэрэглэгчийн нэр оруулана уу?"
+                  style={{ width: "100%" }}
+                />
+              </Form.Item>
+
+              <Select
+                style={{ width: "100%" }}
+                showSearch
+                placeholder="Байршил сонгоно уу?"
+                optionFilterProp="children"
+                onChange={onChangeSelect}
+                onSearch={onSearch}
+                filterOption={(input, option) =>
+                  (option?.label ?? "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+                options={[
+                  {
+                    value: "УБ",
+                    label: "Улаанбаатар",
+                  },
+                  {
+                    value: "УБ Баруун бүс",
+                    label: "Улаанбаатар Баруун бүс",
+                  },
+                  {
+                    value: "УБ Зүүн бүс",
+                    label: "Улаанбаатар Зүүн бүс",
+                  },
+                  {
+                    value: "УБ Өмнөд бүс",
+                    label: "Улаанбаатар Өмнөд бүс",
+                  },
+                  {
+                    value: "УБ Төвийн бүс",
+                    label: "Улаанбаатар Төвийн бүс",
+                  },
+                  {
+                    value: "Архангай",
+                    label: "Архангай",
+                  },
+                  {
+                    value: "Баганхангай",
+                    label: "Баганхангай",
+                  },
+                  {
+                    value: "Багануур",
+                    label: "Багануур",
+                  },
+                  {
+                    value: "Баянхонгор",
+                    label: "Баянхонгор",
+                  },
+                  {
+                    value: "Баян-Өлгий",
+                    label: "Баян-Өлгий",
+                  },
+                  {
+                    value: "Булган",
+                    label: "Булган",
+                  },
+                  {
+                    value: "Говь-Алтай",
+                    label: "Говь-Алтай",
+                  },
+                  {
+                    value: "Говьсүмбэр",
+                    label: "Говьсүмбэр",
+                  },
+                  {
+                    value: "Дархан-уул",
+                    label: "Дархан-уул",
+                  },
+                  {
+                    value: "Дорнод",
+                    label: "Дорнод",
+                  },
+                  {
+                    value: "Дорноговь",
+                    label: "Дорноговь",
+                  },
+                  {
+                    value: "Дундговь",
+                    label: "Дундговь",
+                  },
+                  {
+                    value: "Завхан",
+                    label: "Завхан",
+                  },
+                  {
+                    value: "Орхон",
+                    label: "Орхон",
+                  },
+                  {
+                    value: "Өвөрхангай",
+                    label: "Өвөрхангай",
+                  },
+                  {
+                    value: "Өмнөговь",
+                    label: "Өмнөговь",
+                  },
+                  {
+                    value: "Сүхбаатар",
+                    label: "Сүхбаатар",
+                  },
+                  {
+                    value: "Сэлэнгэ",
+                    label: "Сэлэнгэ",
+                  },
+                  {
+                    value: "Төв",
+                    label: "Төв",
+                  },
+                  {
+                    value: "Увс",
+                    label: "Увс",
+                  },
+                  {
+                    value: "Ховд",
+                    label: "Ховд",
+                  },
+                  {
+                    value: "Хөвсгөл",
+                    label: "Хөвсгөл",
+                  },
+                  {
+                    value: "Хэнтий",
+                    label: "Хэнтий",
+                  },
+                ]}
+
               />
             </Form>
           </div>

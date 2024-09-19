@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import Jodit from "jodit-react"
 import HTMLReactParser from "html-react-parser";
-import { useLocation, useHistory  } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { notification, Radio, Input, DatePicker } from "antd";
@@ -11,7 +11,7 @@ function EditorCreate() {
   let navigate = useNavigate();
 
   const [user, setUser] = useState([]);
-  
+
   const [placement, SetPlacement] = useState();
   const placementChange = (e) => {
     return SetPlacement(e.target.value);
@@ -37,7 +37,7 @@ function EditorCreate() {
     }
   };
 
- const config = useMemo(() => ({
+  const config = useMemo(() => ({
     readonly: false,
     toolbar: true,
     spellcheck: true,
@@ -77,40 +77,40 @@ function EditorCreate() {
         }
         return formData;
       },
-prepareData: async function (formData) {
-  const file = formData.getAll("files[0]")[0];
-  try {
-    const formData = new FormData();
-    formData.append('file', file);
-    const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/image/file`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
+      prepareData: async function (formData) {
+        const file = formData.getAll("files[0]")[0];
+        try {
+          const formData = new FormData();
+          formData.append('file', file);
+          const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/image/file`, formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+          const fileUrl = response.data.file.map((file) => {
+            return `${process.env.REACT_APP_BASE_URL}/uploads/${file.file}`;
+          });
+          const originalFilename = response.data.file[0].name
+          const decodedFilename = decodeURIComponent(escape(originalFilename));
+          setBody(prevContent => `${prevContent}<a href="${fileUrl[0]}" target="_blank">${decodedFilename}</a>`);
+        } catch (error) {
+          console.error('Error uploading file:', error);
+          return null;
+        }
       },
-    });
-    const fileUrl = response.data.file.map((file) => {
-      return `${process.env.REACT_APP_BASE_URL}/uploads/${file.file}`;
-    });
-    const originalFilename = response.data.file[0].name
-    const decodedFilename = decodeURIComponent(escape(originalFilename));
-    setBody(prevContent => `${prevContent}<a href="${fileUrl[0]}" target="_blank">${decodedFilename}</a>`);
-  } catch (error) {
-    console.error('Error uploading file:', error);
-    return null;
-  }
-},
       buildData: function (data) {
         return data;
       },
       isSuccess: function (resp) {
         return !resp.error;
       },
-    getMessage: function (response) {
-  if (response && response.msgs) {
-    return response.msgs.join("\n");
-  } else {
-    return "Error: No messages found";
-  }
-},
+      getMessage: function (response) {
+        if (response && response.msgs) {
+          return response.msgs.join("\n");
+        } else {
+          return "Error: No messages found";
+        }
+      },
       process: function (resp) {
         console.log(resp);
         return {
@@ -131,7 +131,7 @@ prepareData: async function (formData) {
     },
 
 
-  }), );
+  }),);
 
   const openNotification = (type) => {
     if (type === "error") {
@@ -260,7 +260,7 @@ prepareData: async function (formData) {
             tabIndex={1}
             onBlur={(newBody) => setBody(newBody)}
 
-            />
+          />
         </div>
         <button type="submit" onClick={log} className="btn_submit">
           Хадгалах
